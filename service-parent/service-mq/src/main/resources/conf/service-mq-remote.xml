@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:amq="http://activemq.apache.org/schema/core"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd 
+  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+  http://www.springframework.org/schema/context 
+  http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+        default-lazy-init="true" default-destroy-method="destroy">
+
+	<context:annotation-config />
+        
+    <!--  ActiveMQ destinations to use  -->
+    <queue id="FirstQueue" xmlns="http://activemq.apache.org/schema/core" physicalName="org.opoo.jms.destination.local"/>
+
+    <!-- JMS ConnectionFactory to use, configuring the embedded broker using XML -->
+    <connectionFactory id="jmsFactory" xmlns="http://activemq.apache.org/schema/core" brokerURL="${broker.url}"/>
+
+    <bean id="pooledJMSConnectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" ref="jmsFactory"/>
+    </bean>
+
+    <bean id="producerTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="pooledJMSConnectionFactory"/>
+    </bean>
+
+    <bean id="consumerTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="pooledJMSConnectionFactory"/>
+    </bean>
+
+    <!-- 消息消费者 --> 
+    <bean name="jmsConsumer" class="com.pai.service.mq.jms.JmsConsumer">     
+    </bean>
+
+</beans>

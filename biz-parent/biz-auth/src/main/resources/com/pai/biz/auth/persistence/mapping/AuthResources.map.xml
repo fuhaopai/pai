@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pai.biz.auth.persistence.entity.AuthResourcesPo">
+	<resultMap id="AuthResourcesPo" type="com.pai.biz.auth.persistence.entity.AuthResourcesPo">
+		<id property="id" column="id_" jdbcType="VARCHAR"/>
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="type" column="type" jdbcType="NUMERIC"/>
+		<result property="url" column="url" jdbcType="VARCHAR"/>
+		<result property="parentId" column="parent_id_" jdbcType="VARCHAR"/>
+		<result property="path" column="path" jdbcType="VARCHAR"/>
+		<result property="depath" column="depath" jdbcType="NUMERIC"/>
+		<result property="icon" column="icon" jdbcType="VARCHAR"/>
+		<result property="sort" column="sort" jdbcType="NUMERIC"/>
+		<result property="status" column="status" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.pai.biz.auth.persistence.entity.AuthResourcesPo">
+		INSERT INTO pai_auth_resources
+		(id_,name,type,url,parent_id_,path,depath,icon,sort,status)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=NUMERIC}, #{url,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{depath,jdbcType=NUMERIC}, #{icon,jdbcType=VARCHAR}, #{sort,jdbcType=NUMERIC}, #{status,jdbcType=NUMERIC})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="AuthResourcesPo">
+		SELECT * FROM pai_auth_resources 
+		WHERE 
+		id_=#{id}
+	</select>
+	
+	<select id="getLast" resultMap="AuthResourcesPo">
+    	select * from pai_auth_resources where id_ = (select max(id_) from pai_auth_resources)
+    </select>
+	
+	<select id="countAll" resultType="int">
+    	select count(*) _total from pai_auth_resources
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>    	
+    </select>	
+	
+	<select id="find" parameterType="java.util.Map" resultMap="AuthResourcesPo">
+		SELECT * FROM pai_auth_resources
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY id_ DESC
+		</if>
+	</select>
+	
+	<select id="findByIds"   resultMap="AuthResourcesPo">
+		SELECT * FROM pai_auth_resources
+			WHERE id_ in 
+			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">  
+  				#{id}  
+ 			</foreach>  		
+			ORDER BY id_ 				
+	</select>	
+	
+	<update id="update" parameterType="com.pai.biz.auth.persistence.entity.AuthResourcesPo">
+		UPDATE pai_auth_resources SET
+		name=#{name,jdbcType=VARCHAR},
+		type=#{type,jdbcType=NUMERIC},
+		url=#{url,jdbcType=VARCHAR},
+		parent_id_=#{parentId,jdbcType=VARCHAR},
+		path=#{path,jdbcType=VARCHAR},
+		depath=#{depath,jdbcType=NUMERIC},
+		icon=#{icon,jdbcType=VARCHAR},
+		sort=#{sort,jdbcType=NUMERIC},
+		status=#{status,jdbcType=NUMERIC}
+		WHERE
+		id_=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM pai_auth_resources 
+		WHERE
+		id_=#{id}
+	</delete>
+	
+	
+</mapper>
