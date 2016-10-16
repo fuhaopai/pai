@@ -12,6 +12,7 @@ import com.pai.biz.auth.persistence.entity.AuthUserPo;
  * 开发人员:FUHAO
  * 创建时间:2016-09-29 18:00:11
  */
+@SuppressWarnings("serial")
 @Repository
 public class AuthUserQueryDaoImpl extends MyBatisQueryDaoImpl<String, AuthUserPo> implements AuthUserQueryDao{
 

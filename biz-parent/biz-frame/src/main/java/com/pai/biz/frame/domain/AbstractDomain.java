@@ -10,6 +10,7 @@ import com.pai.base.db.persistence.dao.IDao;
 import com.pai.base.db.persistence.entity.AbstractPo;
 import com.pai.base.db.persistence.entity.PO;
 
+@SuppressWarnings("serial")
 public abstract class AbstractDomain<PK extends Serializable,P extends PO<PK>> implements com.pai.biz.frame.domain.Domain<PK,P>,Serializable{
 	
 	private P data;

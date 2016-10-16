@@ -11,7 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.octo.captcha.service.image.ImageCaptchaService;
 import com.pai.app.web.core.framework.web.controller.LigerUIController;
 import com.pai.base.core.entity.CommonResult;
+import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.string.StringUtils;
+import com.pai.biz.auth.event.LoginEvent;
 import com.pai.biz.auth.persistence.entity.AuthUserPo;
 import com.pai.biz.auth.persistence.entity.LoginInfo;
 import com.pai.biz.auth.repository.AuthResourcesRepository;
@@ -45,8 +47,9 @@ public class LoginController extends LigerUIController{
 					//查询用户
 					AuthUserPo authUserPo = authUserRepository.getAccount(loginInfo.getUserName(), loginInfo.getEncryptPassword());
 					if(authUserPo != null){
-						System.out.println("------------------");
+						SpringHelper.publishEvent(new LoginEvent(authUserPo, getIpAddr(request)));
 					}
+					//TODO
 //					commonResult = authUser.login(getIpAddr(request));
 //					if(commonResult.isSuccess()){
 						//权限过滤

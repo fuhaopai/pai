@@ -28,6 +28,7 @@ import com.${sys}.biz.${module}.persistence.entity.${class}Po;
  </#if>
  * 创建时间:${date?string("yyyy-MM-dd HH:mm:ss")}
  */
+@SuppressWarnings("serial")
 @Repository
 public class ${class}QueryDaoImpl extends MyBatisQueryDaoImpl<String, ${class}Po> implements ${class}QueryDao{
 
