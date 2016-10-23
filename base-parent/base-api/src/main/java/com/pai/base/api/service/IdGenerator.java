@@ -6,11 +6,11 @@ public interface IdGenerator {
 	public String genSid();   
 	
 	/* Long型唯一的ID标识 */
-	public Long genLid();           
+//	public Long genLid();           
 	
 	/* String GUID标识 */
-	public String genUuid();
+//	public String genUuid();
 	
 	/* 获取自增ID，所有服务器同步 */
-	public Long genIncrId(String key,int min_value);	
+//	public Long genIncrId(String key,int min_value);	
 }

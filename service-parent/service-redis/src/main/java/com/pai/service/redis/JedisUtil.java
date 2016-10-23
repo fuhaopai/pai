@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -19,7 +20,7 @@ import redis.clients.jedis.exceptions.JedisException;
 import com.pai.base.core.util.SerializeUtil;
 
 public class JedisUtil {
-	private static final JedisUtil redis = new JedisUtil();
+	private static JedisUtil redis = null;
 	private static Logger log = Logger.getLogger(JedisUtil.class);
 
 	private static ApplicationContext app;
@@ -30,11 +31,13 @@ public class JedisUtil {
 	 * 缓存生存时间
 	 */
 	private final int expire = 60000;
-
+	private final static long one_seconds = 1000000000L;
+	
 	static {
 		init();
 	}
-
+	
+	private JedisUtil(){}
 	/**
 	 * 构建redis连接池
 	 * 
@@ -45,6 +48,7 @@ public class JedisUtil {
 	public static void init() {
 		app = new ClassPathXmlApplicationContext(
 				"classpath:/conf/spring-beans.xml");
+		//集群配置，日后改造
 		shardedJedisPool = (ShardedJedisPool) app.getBean("shardedJedisPool");
 		jedisPool = (JedisPool) app.getBean("jedisPool");
 	}
@@ -72,6 +76,9 @@ public class JedisUtil {
 	 * @return JedisUtil
 	 */
 	public static JedisUtil getInstance() {
+		if(redis == null){
+			redis = new JedisUtil();
+		}
 		return redis;
 	}
 
@@ -95,7 +102,6 @@ public class JedisUtil {
 		if (seconds <= 0) {
 			return;
 		}
-		
 		Jedis jedis = null;
 		try {
 			jedis = getJedis();
@@ -120,7 +126,7 @@ public class JedisUtil {
 	 * @param valueElemClazz List中元素的类型
 	 * @param value
 	 */
-	public static void add2List(String key, Object value, int db) {
+	public static void addToList(String key, Object value, int db) {
 		Jedis jedis = null;
 		try {
 			jedis = getJedis();
@@ -276,7 +282,6 @@ public class JedisUtil {
 	}	
 	/**
 	 * 自增JSON缓存属性
-	 * 
 	 * @param key
 	 * @param property
 	 * @param databaseIndex
@@ -308,36 +313,49 @@ public class JedisUtil {
 		
 		return redisValue;
 	}	
-	/**
-	 * 自增缓存
-	 * 
-	 * @param key
-	 * @param value
-	 * @param databaseIndex
-	 */
-	public static void incr(String key, int value, int db) {		
-		Jedis jedis = null;
+	
+	public static String incr(String key, int db) {
+		Jedis jedis = getJedis();
 		try {
-			jedis = getJedis();
 			jedis.select(db);
-			long redisValue = jedis.incr(key);
-			
-            if ((redisValue+99) >= Long.MAX_VALUE  || redisValue < value) {
-            	jedis.getSet(key, ""+(value+1));                            	
-            }
-		} catch (JedisException  e) {
-			log.error(e.getMessage());
-			if(jedis != null){
-				jedisPool.returnBrokenResource(jedis);
+			if(lock(jedis, key)){
+				try {
+					jedis.incr(key);
+					return get(key, db);
+				} finally {
+					unlock(jedis, key);
+				}
 			}
-		} catch (Exception  e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 		} finally {
-			if(jedis != null){
-				jedisPool.returnResource(jedis);
-			}
+			jedisPool.returnResource(jedis);
 		}
+		return null;
 	}
+	
+	public static boolean lock(Jedis jedis, String key){
+		try {
+			key += "_lock";
+			long nano = System.nanoTime();
+			while ((System.nanoTime() - nano) < one_seconds){
+				if(jedis.setnx(key, "TRUE") == 1){
+					jedis.expire(key, 180);
+					return true;
+				}
+				Thread.sleep(1, new Random().nextInt(500));  
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		return false;
+	}
+	
+	public static void unlock(Jedis jedis, String key) {
+		key += "_lock";
+        jedis.del(key);  
+	}
+	
 	/**
 	 * 设置缓存
 	 * 

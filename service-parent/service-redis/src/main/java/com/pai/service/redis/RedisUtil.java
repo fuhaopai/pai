@@ -30,26 +30,22 @@ public class RedisUtil {
 		}		
 	}
 		
-	/**
-	 *     防止重复初始化
-	 */
 	private RedisUtil(int level){  
 		manager = RedisManager.Singleton.getInstance();
 	}  
 	
-    public long makeId(final String key,final int minValue) {  
+    public long incrId(final String key,final int minValue) {  
         return new CommExecutor<Long>(manager.getShardedJedisPool()) {   
             @Override
             public Long execute() {
-            	String key_1 = "SKGIncr_"+key;
-            	RedisLock lock = new RedisLock(key_1, manager.getShardedJedisPool());
+            	RedisLock lock = new RedisLock(key, manager.getShardedJedisPool());
             	long id = 0;
             	if(lock.lock())
             	{
             		try {
-		            	 id = shardedJedis.incr(key_1); 
+		            	 id = shardedJedis.incr(key); 
 		                 if ((id+99) >= Long.MAX_VALUE  || id < minValue) {  
-		                    	shardedJedis.getSet(key_1, ""+minValue);               
+		                    	shardedJedis.getSet(key, ""+minValue);               
 		                     	id = minValue;
 		                 }
                     }finally {  
@@ -85,8 +81,7 @@ public class RedisUtil {
             	return stat;
             }  
         }.getResult();  		
-	}
-	
+	}	
     public long delKeysLike(final String likeKey,final int db) {  
         return new CommExecutor<Long>(manager.getShardedJedisPool()) {        	
             @Override  

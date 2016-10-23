@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,8 +17,12 @@ import com.pai.service.redis.RedisUtil;
 
 public class IdGeneratorImpl implements IdGenerator,InitializingBean{
 
-	@Resource
-	public JdbcTemplate jdbcTemplate;
+		@Resource
+		private JdbcTemplate jdbcTemplate;
+		
+		@Resource
+		private SqlSessionTemplate sqlSessionTemplate;
+		
        //判断初始化状态，modify by Suoron on 2015-08-17
 	    private static int init_status = 0;	
 	    /**
@@ -55,9 +60,9 @@ public class IdGeneratorImpl implements IdGenerator,InitializingBean{
 	        return genLid().toString();
 	    }
 	    
-		public String genUuid() {
+		/*public String genUuid() {
 	    	return UUID.randomUUID().toString();
-		}
+		}*/
 
 		/**
 	     * 获取唯一的ID标识
@@ -80,7 +85,7 @@ public class IdGeneratorImpl implements IdGenerator,InitializingBean{
 			if(init_status == 0){
 				init_status = 1;
 				init();			
-				init_redis_id();
+//				init_redis_id();
 			}    	   
         }
 	    private void genNextDbIds() {
@@ -92,7 +97,7 @@ public class IdGeneratorImpl implements IdGenerator,InitializingBean{
 	    
 	    public Long genIncrId(String key,int min_value){					
 	    	check_init_stat();
-		    return RedisUtil.Singleton.getInstance().makeId(key, min_value);	    	
+		    return RedisUtil.Singleton.getInstance().incrId(key, min_value);	    	
 	    }
 	    
 	    @SuppressWarnings({ "unchecked", "rawtypes" })
