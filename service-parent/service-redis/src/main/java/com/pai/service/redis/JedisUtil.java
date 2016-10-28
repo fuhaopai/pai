@@ -20,24 +20,34 @@ import redis.clients.jedis.exceptions.JedisException;
 import com.pai.base.core.util.SerializeUtil;
 
 public class JedisUtil {
-	private static JedisUtil redis = null;
-	private static Logger log = Logger.getLogger(JedisUtil.class);
+//	private static JedisUtil redis = null;
+	private Logger log = Logger.getLogger(JedisUtil.class);
 
 	private static ApplicationContext app;
 	private static JedisPool jedisPool = null;
+	
 	private static ShardedJedisPool shardedJedisPool = null;
 
 	/**
 	 * 缓存生存时间
 	 */
 	private final int expire = 60000;
-	private final static long one_seconds = 1000000000L;
+	private final long TWO_SECONDS = 2000000000L;
 	
 	static {
 		init();
 	}
 	
 	private JedisUtil(){}
+	
+	private static class LazyHolder {
+		private static final JedisUtil jedisUtil = new JedisUtil();  
+	}
+	
+	public static final JedisUtil getInstance() {
+		return LazyHolder.jedisUtil;
+	}
+	
 	/**
 	 * 构建redis连接池
 	 * 
@@ -66,20 +76,8 @@ public class JedisUtil {
 	 * 
 	 * @return Jedis
 	 */
-	public static Jedis getJedis() {
+	public Jedis getJedis() {
 		return jedisPool.getResource();
-	}
-
-	/**
-	 * 获取JedisUtil实例
-	 * 
-	 * @return JedisUtil
-	 */
-	public static JedisUtil getInstance() {
-		if(redis == null){
-			redis = new JedisUtil();
-		}
-		return redis;
 	}
 
 	/**
@@ -87,7 +85,7 @@ public class JedisUtil {
 	 * 
 	 * @param jedis
 	 */
-	public static void returnJedis(Jedis jedis) {
+	public void returnJedis(Jedis jedis) {
 		jedisPool.returnResource(jedis);
 	}
 
@@ -98,7 +96,7 @@ public class JedisUtil {
 	 * @param key
 	 * @param seconds
 	 */
-	public static void expire(String key, int seconds) {
+	public void expire(String key, int seconds) {
 		if (seconds <= 0) {
 			return;
 		}
@@ -126,7 +124,7 @@ public class JedisUtil {
 	 * @param valueElemClazz List中元素的类型
 	 * @param value
 	 */
-	public static void addToList(String key, Object value, int db) {
+	public void addToList(String key, Object value, int db) {
 		Jedis jedis = null;
 		try {
 			jedis = getJedis();
@@ -157,7 +155,7 @@ public class JedisUtil {
 	 * @param key List的名称
 	 * @param value
 	 */
-	public static List<? extends Object> getFromList(String key, Class valueElemClazz, int db) {
+	public List<? extends Object> getFromList(String key, Class valueElemClazz, int db) {
 		Jedis jedis = null;
 		List<Object> rt = new ArrayList<Object>();
 		try {
@@ -208,7 +206,7 @@ public class JedisUtil {
 	 * @param databaseIndex
 	 * @param expire    --过期秒数
 	 */	
-    public static Long setHashFieldValue(String key, String field,int db,String value) {
+    public Long setHashFieldValue(String key, String field,int db,String value) {
     	if (value == null || value.equals("")) {
 			log.info("key: " + key + " 对应的value为空");
 			return 0L;
@@ -252,7 +250,7 @@ public class JedisUtil {
 	 * @param databaseIndex
 	 * @param expire    --过期秒数
 	 */
-	public static Object getHashField(String key, String field,int db,int expire) {		
+	public Object getHashField(String key, String field,int db,int expire) {		
 		Jedis jedis = null;
 		Object obj =null;
 		try {
@@ -286,7 +284,7 @@ public class JedisUtil {
 	 * @param property
 	 * @param databaseIndex
 	 */
-	public static long incrJSON(String key, String property,int db,int value) {		
+	public long incrJSON(String key, String property,int db,int value) {		
 		Jedis jedis = null;
 		long redisValue = 0;
 		try {
@@ -314,7 +312,7 @@ public class JedisUtil {
 		return redisValue;
 	}	
 	
-	public static String incr(String key, int db) {
+	public String incr(String key, int db) {
 		Jedis jedis = getJedis();
 		try {
 			jedis.select(db);
@@ -334,11 +332,12 @@ public class JedisUtil {
 		return null;
 	}
 	
-	public static boolean lock(Jedis jedis, String key){
+	public boolean lock(Jedis jedis, String key){
 		try {
 			key += "_lock";
 			long nano = System.nanoTime();
-			while ((System.nanoTime() - nano) < one_seconds){
+			//允许最多2秒的等待时间进行incr操作
+			while ((System.nanoTime() - nano) < TWO_SECONDS){
 				if(jedis.setnx(key, "TRUE") == 1){
 					jedis.expire(key, 180);
 					return true;
@@ -351,7 +350,7 @@ public class JedisUtil {
 		return false;
 	}
 	
-	public static void unlock(Jedis jedis, String key) {
+	public void unlock(Jedis jedis, String key) {
 		key += "_lock";
         jedis.del(key);  
 	}
@@ -363,7 +362,7 @@ public class JedisUtil {
 	 * @param value
 	 * @param databaseIndex
 	 */
-	public static void set(String key, String value, int db) {
+	public void set(String key, String value, int db) {
 		if (value == null || value.equals("")) {
 			log.info("key: " + key + " 对应的value为空");
 			return;
@@ -395,7 +394,7 @@ public class JedisUtil {
 	 * @param value
 	 * @param databaseIndex
 	 */
-	public static void set(String key, int seconds, String value, int db, boolean override) {
+	public void set(String key, int seconds, String value, int db, boolean override) {
 		if (value == null || value.equals("")) {
 			log.info("key: " + key + " 对应的value为空");
 			return;
@@ -425,7 +424,7 @@ public class JedisUtil {
 		}
 	}
 
-	public static void set(String key, int seconds, Object obj, int db, boolean override) {
+	public void set(String key, int seconds, Object obj, int db, boolean override) {
 		if (obj == null) {
 			log.info("key: " + key + " 对应的value为空");
 			return;
@@ -455,7 +454,7 @@ public class JedisUtil {
 		}
 	}
 	
-	public static void set(String key, Object obj, int db) {
+	public void set(String key, Object obj, int db) {
 		if (obj == null) {
 			log.info("key: " + key + " 对应的value为空");
 			return;
@@ -487,7 +486,7 @@ public class JedisUtil {
 	 * @param value
 	 * @param databaseIndex
 	 */
-	public static String get(String key, int db) {
+	public String get(String key, int db) {
 		String value = null;
 		Jedis jedis = null;
 		try {
@@ -518,7 +517,7 @@ public class JedisUtil {
 	 * @param value
 	 * @param databaseIndex
 	 */
-	public static <T> T getObject(String key, int db) {
+	public <T> T getObject(String key, int db) {
 		
 		byte[] value = null;
 		Jedis jedis = null;
@@ -550,7 +549,7 @@ public class JedisUtil {
 	 * @param db
 	 * @return Set
 	 */
-	public static Set<String> findByPrefix(String keyPrefix, int db){
+	public Set<String> findByPrefix(String keyPrefix, int db){
 		Set<String> set = null;
 		Jedis jedis = null;
 		try {
@@ -580,7 +579,7 @@ public class JedisUtil {
 	 * @param value
 	 * @param databaseIndex
 	 */
-	public static void delByKey(String key, int db) {
+	public void delByKey(String key, int db) {
 		Jedis jedis = null;
 		try {
 			jedis = getJedis();
@@ -608,7 +607,7 @@ public class JedisUtil {
 	 * @param value
 	 * @param databaseIndex
 	 */
-	public static void delByPrefix(String likeKey, int db) {
+	public void delByPrefix(String likeKey, int db) {
 		Jedis jedis = null;
 		try {
 			jedis = getJedis();
@@ -641,7 +640,7 @@ public class JedisUtil {
 	/**
 	 * 清空所有数据库
 	 */
-	public static String flushAll() {
+	public String flushAll() {
 		String state = null;
 		Jedis jedis = null;
 		
@@ -673,7 +672,7 @@ public class JedisUtil {
 	/**
 	 * 清空单个数据库
 	 */
-	public static String flushDB(int db) {
+	public String flushDB(int db) {
 		
 		String state = null;
 		Jedis jedis = null;
@@ -712,7 +711,7 @@ public class JedisUtil {
 	 * @since  1.0.0
 	 */
 	@SuppressWarnings("unchecked")
-	private static Object getObject(String key, String mapKey,int db){		 
+	private Object getObject(String key, String mapKey,int db){		 
 		 byte[] val = null;
 		 Jedis jedis = getJedis();
 		 try {		   
@@ -747,7 +746,7 @@ public class JedisUtil {
 	 * @since  1.0.0
 	 * @return String
 	 */
-	public static String setObject(String key,Map<byte[], byte[]> map,int db){
+	public String setObject(String key,Map<byte[], byte[]> map,int db){
 		Jedis jedis = getJedis();
 		 try {
 		  if(db > 0)
@@ -776,7 +775,7 @@ public class JedisUtil {
 	 * @param db
 	 * @return Long
 	 */
-	public static Long sadd(String key, String member, int db){
+	public Long sadd(String key, String member, int db){
 		Jedis jedis = getJedis();
 		 try {
 		  if(db > 0)
@@ -804,7 +803,7 @@ public class JedisUtil {
 	 * @param member
 	 * @return Long
 	 */
-	public static Long srem(String key, int db,String... member){
+	public Long srem(String key, int db,String... member){
 		Jedis jedis = getJedis();
 		 try {
 		  if(db > 0)
@@ -832,7 +831,7 @@ public class JedisUtil {
 	 * @param db
 	 * @return Long
 	 */
-	public static Long saddByte(String key, String member, int db){
+	public Long saddByte(String key, String member, int db){
 		Jedis jedis = getJedis();
 		 try {
 		  if(db > 0)
@@ -860,7 +859,7 @@ public class JedisUtil {
 	 * @param db
 	 * @return Long
 	 */
-	public static Long RPUSH(String key, String member, int db){
+	public Long RPUSH(String key, String member, int db){
 		Jedis jedis = getJedis();
 		 try {
 		  if(db > 0)
@@ -889,7 +888,7 @@ public class JedisUtil {
 	 * @param db
 	 * @return List
 	 */
-	public static List<String> LRANGE(String key,long startIndex, long endIndex, int db){
+	public List<String> LRANGE(String key,long startIndex, long endIndex, int db){
 		Jedis jedis = getJedis();
 		 try {
 		  if(db > 0)
@@ -921,7 +920,7 @@ public class JedisUtil {
 	 * @param db
 	 * @return long
 	 */
-	public static long LREM(String key,long count , String value, int db){
+	public long LREM(String key,long count , String value, int db){
 		Jedis jedis = getJedis();
 		 try {
 		  if(db > 0)
@@ -944,15 +943,15 @@ public class JedisUtil {
 	}
 	public static void main(String[] args) {
 
-		JedisUtil
+		JedisUtil.getInstance()
 				.set("com.skg.biz.gl.repository.impl.GlCateRepositoryImpl.findAllTreeCache_90000000070001",
 						"wwwwwwwwwwwwww", 0);
 		System.out
-				.println(JedisUtil
+				.println(JedisUtil.getInstance()
 						.get("com.skg.biz.gl.repository.impl.GlCateRepositoryImpl.findAllTreeCache_90000000070001",
 								0));
 		
-		JedisUtil.flushAll();
+		JedisUtil.getInstance().flushAll();
 		
 		// JedisUtil.delByPrefix("test", 0);
 		// System.out.println(JedisUtil.get("test1",0));

@@ -5,12 +5,6 @@ import java.util.Random;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
-/**
- *   Redis多线程访问mutex实现类
- *   @author Suoron
- *   2015-08-31
- */
-
 public class RedisLock {  
 	
 	public static final String LOCKED = "TRUE";  	

@@ -100,15 +100,15 @@ public class PAICacheableAOPAspect {
 					key=targetClass.getName() + "_" + freemarkEngine.parseByStringTemplate(annotationKey, map);					
 				}
 				  
-				Object objcet=JedisUtil.getObject(key,skgCacheable.db());
+				Object objcet=JedisUtil.getInstance().getObject(key,skgCacheable.db());
 				if(isEmpty(objcet)){
 					returnVal= point.proceed();
 					
 					if(returnVal!=null){
 						if(returnVal instanceof Serializable){
-							JedisUtil.set(key, returnVal, skgCacheable.db());
+							JedisUtil.getInstance().set(key, returnVal, skgCacheable.db());
 							//JedisUtil.set(key,JsonUtil.getJSONString(returnVal),skgCacheable.db());
-							JedisUtil.expire(key, seconds);
+							JedisUtil.getInstance().expire(key, seconds);
 						}else {
 							log.warn(returnVal.getClass().getName() + " must implements Serializable!!");
 						}

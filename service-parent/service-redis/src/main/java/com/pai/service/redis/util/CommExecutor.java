@@ -4,12 +4,6 @@ import redis.clients.jedis.ShardedJedisPool;
 import redis.clients.jedis.ShardedJedis;
 //redis.clients.jedis.Jedis
 
-/**
- *   Redis执行异常封装类
- *   @author Suoron
- *   2015-08-31 
- */
-
 public abstract class CommExecutor<T> {
 	
     public ShardedJedis shardedJedis = null;  

@@ -400,10 +400,10 @@ public class OuOnlineHolder{
 	
 	public static void setRedisSid(String sid, String wxSid) throws Exception {
 		if(wxSid!=null){
-			JedisUtil.set("RediasSid"+sid,wxSid,RedisConstants.ONLINE_ENTITY);
-			JedisUtil.expire("RediasSid"+sid, 7*24*60*60);
+			JedisUtil.getInstance().set("RediasSid"+sid,wxSid,RedisConstants.ONLINE_ENTITY);
+			JedisUtil.getInstance().expire("RediasSid"+sid, 7*24*60*60);
 		}else{
-			JedisUtil.delByKey("RediasSid"+sid, RedisConstants.ONLINE_ENTITY);
+			JedisUtil.getInstance().delByKey("RediasSid"+sid, RedisConstants.ONLINE_ENTITY);
 		}
 		
 	}	
@@ -412,7 +412,7 @@ public class OuOnlineHolder{
 			if(sid.indexOf("\"")==0&& sid.lastIndexOf("\"")==sid.length()-1&& sid.length()!=1){
 				sid=sid.substring(1, sid.length()-1);
 			}
-			return JedisUtil.get("RediasSid"+sid,RedisConstants.ONLINE_ENTITY);
+			return JedisUtil.getInstance().get("RediasSid"+sid,RedisConstants.ONLINE_ENTITY);
 		}
 		return null;
 	}

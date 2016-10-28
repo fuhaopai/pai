@@ -94,6 +94,7 @@ public class SerializeUtil {
 				bis = new ByteArrayInputStream(in);
 				//is = new ObjectInputStream(bis);
 				is = new FakeObjectInputStream(bis);
+//				Hessian2Input is = new Hessian2Input(new ByteArrayInputStream(bytes));
 				rv = is.readObject();
 				is.close();
 				bis.close();

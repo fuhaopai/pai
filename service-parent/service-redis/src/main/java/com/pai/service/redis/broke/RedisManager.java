@@ -8,12 +8,6 @@ import redis.clients.jedis.ShardedJedisPool;
 
 import com.pai.base.core.helper.SpringHelper;
 
-/**
- *    Redis连接池管理类
- *    @author Suoron
- *     
- */
-
 public class RedisManager {
 	private static ShardedJedisPool shardedJedisPool = null;
 	private static ApplicationContext app;

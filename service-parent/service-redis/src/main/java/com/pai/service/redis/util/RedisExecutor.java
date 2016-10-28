@@ -7,11 +7,6 @@ import redis.clients.jedis.ShardedJedisPool;
 import redis.clients.jedis.Transaction;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
-/**
- *   JedisConnectionException异常处理，尚未完成...
- *   @author Suoron 
- */
-
 public abstract class RedisExecutor<T> {
 	int errorCount = 0; 
 	protected static final Logger log =  Logger.getLogger(RedisExecutor.class); 

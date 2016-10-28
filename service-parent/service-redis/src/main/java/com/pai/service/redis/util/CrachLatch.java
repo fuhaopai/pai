@@ -3,11 +3,6 @@ package com.pai.service.redis.util;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-/**
-  *   Redis异常等待恢复类
-  *   @author Suoron
-  */
-
 public class CrachLatch {
 	Long timeout = 1L; 
 	

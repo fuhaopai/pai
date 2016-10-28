@@ -79,16 +79,16 @@ public class PAICacheEvictAOPAspect {
 				String type=skgCacheEvict.type();
 				int db=skgCacheEvict.db();
 				if(type.equals(RedisConstants.EVICT_ALL_TYPE)){//清空当前数据库
-					JedisUtil.flushDB(db);
+					JedisUtil.getInstance().flushDB(db);
 				}else if(type.equals(RedisConstants.EVICT_KEY_TYPE)) {//根据key删除缓存
 					if(skgCacheEvict.key()!=null&&!skgCacheEvict.key().equals("")){
 						String key=freemarkEngine.parseByStringTemplate(skgCacheEvict.key(), map);
-						JedisUtil.delByKey(key,db);
+						JedisUtil.getInstance().delByKey(key,db);
 					}
 					
 				}else if(type.equals(RedisConstants.EVICT_PREFIX_TYPE)){//根据前缀匹配删除
 					String key = skgCacheEvict.key();
-					JedisUtil.delByPrefix(key,db);
+					JedisUtil.getInstance().delByPrefix(key,db);
 				}
 				
 			} catch (Exception e) {
