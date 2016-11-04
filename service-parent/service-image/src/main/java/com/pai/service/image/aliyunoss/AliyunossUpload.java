@@ -72,7 +72,18 @@ public class AliyunossUpload implements ICloudUpload {
 					"OSS_ACCESS_KEY");
 			ossSign = ConfigHelper.getInstance().getBool("OSS_IS_SIGN");
 			
-			switch (this.uploadType) {
+			if(this.uploadType.equals(UploadType.GLFILE)){
+				ossBucketBame = ConfigHelper.getInstance().getParamValue(
+						"OSS_GLFILE_BUCKET_NAME");
+				ossFileUrl = ConfigHelper.getInstance().getParamValue(
+						"OSS_GLFILE_FILE_URL");
+			}else if (this.uploadType.equals(UploadType.IMAGE)) {
+				ossBucketBame = ConfigHelper.getInstance().getParamValue(
+						"OSS_BUCKET_NAME");
+				ossFileUrl = ConfigHelper.getInstance().getParamValue(
+						"OSS_FILE_URL");
+			}
+			/*switch (this.uploadType) {
 				case UploadType.GLFILE:
 					ossBucketBame = ConfigHelper.getInstance().getParamValue(
 							"OSS_GLFILE_BUCKET_NAME");
@@ -87,7 +98,7 @@ public class AliyunossUpload implements ICloudUpload {
 					break;
 				default:
 					break;
-			}
+			}*/
 	}
 
 	// 上传文件

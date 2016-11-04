@@ -312,13 +312,17 @@ public class JedisUtil {
 		return redisValue;
 	}	
 	
-	public String incr(String key, int db) {
+	public String incr(String key, int db){
+		return incrBy(key, 1, db);
+	}
+	
+	public String incrBy(String key, int num, int db) {
 		Jedis jedis = getJedis();
 		try {
 			jedis.select(db);
 			if(lock(jedis, key)){
 				try {
-					jedis.incr(key);
+					jedis.incrBy(key, num);
 					return get(key, db);
 				} finally {
 					unlock(jedis, key);

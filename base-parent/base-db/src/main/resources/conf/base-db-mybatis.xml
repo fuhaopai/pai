@@ -16,6 +16,7 @@
     <bean id="idGenerator" class="com.pai.base.db.service.IdGeneratorImpl" >
     	<property name="machineId" value="${machine.id}" />
 		<property name="machineName" value="${machine.name}" />    	
+		<property name="incrBy" value="${machine.incrBy}" />    	
     </bean>     
  
 	<bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">

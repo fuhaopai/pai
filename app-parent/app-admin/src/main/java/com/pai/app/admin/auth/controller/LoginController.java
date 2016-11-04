@@ -1,5 +1,8 @@
 package com.pai.app.admin.auth.controller;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +22,14 @@ import com.pai.biz.auth.persistence.entity.LoginInfo;
 import com.pai.biz.auth.repository.AuthResourcesRepository;
 import com.pai.biz.auth.repository.AuthUserRepository;
 
+/**
+ * 后台用户登录，及登录后的操作
+ * <pre> 
+ * 构建组：app-admin
+ * 作者：fuhao
+ * 日期：2016年11月4日-上午9:58:58
+ * </pre>
+ */
 @Controller
 @RequestMapping("/")
 public class LoginController extends LigerUIController{
@@ -39,36 +50,48 @@ public class LoginController extends LigerUIController{
 	}
 
 	@RequestMapping("adminLogin")
-	public ModelAndView login(HttpServletRequest request,HttpServletResponse response,LoginInfo loginInfo){
+	public ModelAndView login(final HttpServletRequest request,HttpServletResponse response,LoginInfo loginInfo){
 		ModelAndView modelAndView = new ModelAndView("/admin/pai/auth/login");
 		 if(loginInfo.isLogin()){	//是提交登录	
-			 CommonResult commonResult = null;
-				if(isCaptchaCorrect(request.getSession().getId(),loginInfo.getCaptchaCode())){
-					//查询用户
-					AuthUserPo authUserPo = authUserRepository.getAccount(loginInfo.getUserName(), loginInfo.getEncryptPassword());
-					if(authUserPo != null){
-						SpringHelper.publishEvent(new LoginEvent(authUserPo, getIpAddr(request)));
+			CommonResult commonResult = null;
+		 	//匹配验证码
+			if(isCaptchaCorrect(request.getSession().getId(),loginInfo.getCaptchaCode())){
+				//查询用户
+				final AuthUserPo authUserPo = authUserRepository.getAccount(loginInfo.getUserName(), loginInfo.getEncryptPassword());
+				if(authUserPo != null){
+					//登录后发布一个事件，记录登录日志等操作，前端建议用mq topic
+					ExecutorService executorService = Executors.newCachedThreadPool();
+					try {
+						executorService.execute(new Runnable() {
+							@Override
+							public void run() {
+								SpringHelper.publishEvent(new LoginEvent(authUserPo, getIpAddr(request)));
+							}
+						});
+					} finally {
+						executorService.shutdown();
 					}
-					//TODO
+				}
+				//TODO
 //					commonResult = authUser.login(getIpAddr(request));
 //					if(commonResult.isSuccess()){
-						//权限过滤
+					//权限过滤
 //						List<AuthResourcesPo> authResourcesPos =  authResourcesRepository.findBbsResByUserId(user.getId());
 //						authUser.getData().setAuthResourcesPos(authResourcesPos);
-						//往在线上下文中设置数据
+					//往在线上下文中设置数据
 //						OuOnlineHolder.setUserPo(request.getSession(),authUser.getData());
 //						redirectUrl(response, request.getAttribute(WebConstants.CONTEXT_PATH)+ UrlConstants.MAIN_URL);
 //						return null;
 //					}
-					commonResult = new CommonResult();
-					commonResult.setSuccess(true);
-					return null;
-				}else{
-					commonResult = new CommonResult();
-					commonResult.setSuccess(false);
+				commonResult = new CommonResult();
+				commonResult.setSuccess(true);
+				return null;
+			}else{
+				commonResult = new CommonResult();
+				commonResult.setSuccess(false);
 //					commonResult.setMsgCode(LoginMsgCode.CAPTCHA.name());					
-				}				
-				loginInfo.setCommonResult(commonResult);		
+			}				
+			loginInfo.setCommonResult(commonResult);		
 		 }else{	//是访问登录页面								   
 //			 	if(loginInfo.getLoginFormStatic().equals(LoginFrom.ADMIN)){			 		
 //			 		loginInfo.reset();			 					 	

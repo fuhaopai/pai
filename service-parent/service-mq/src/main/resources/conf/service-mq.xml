@@ -24,12 +24,13 @@
   	   
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
 		<property name="connectionFactory" ref="jmsFactory"/> 
+		<!-- 支持订阅/发布模式的ActiveMQTopic -->
 		<property name="defaultDestinationName" value="subject" />  
         <!-- 区别它采用的模式为false是p2p为true是订阅 -->  
         <property name="pubSubDomain" value="true" />		 
     </bean>    
     
-	<!-- 发送消息的目的地（一个队列） -->  
+	<!-- 发送消息的目的地（一个主题） -->  
     <bean id="destination" class="org.apache.activemq.command.ActiveMQTopic">  
         <!-- 设置消息队列的名字 -->  
         <constructor-arg index="0" value="subject" />  
@@ -45,8 +46,11 @@
 	<bean id="jmsContainer"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
 		<property name="concurrentConsumers" value="10" />
+		<!-- 从哪里监听 -->
 		<property name="connectionFactory" ref="jmsFactory" />
+		<!-- 监听什么 -->
 		<property name="destinationName" value="subject" />  
+		<!-- 接收到消息以后进行消息处理 -->
 		<property name="messageListener" ref="jmsListener" />
 		<property name="pubSubNoLocal" value="false"></property>  
 	</bean>
@@ -56,6 +60,7 @@
 		<constructor-arg>
 			<ref bean="jmsConsumer"/>		
 		</constructor-arg>
+		<!-- 默认方法handleMessage -->
 		<property name="defaultListenerMethod" value="execute" />
 	</bean>
 
