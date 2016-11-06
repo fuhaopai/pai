@@ -3,6 +3,8 @@ package com.pai.base.db.service;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.pai.base.api.service.IdGenerator;
+import com.pai.base.core.util.date.DateConverter;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.service.redis.JedisUtil;
 import com.pai.service.redis.RedisDb;
@@ -23,7 +26,7 @@ import com.pai.service.redis.RedisDb;
  *   恢复从redis中获取主键要恢复redis主键最大值
  */
 public class IdGeneratorImpl implements IdGenerator,InitializingBean{
-
+		
 		@Resource
 		private JdbcTemplate jdbcTemplate;
 	    /**
@@ -51,35 +54,31 @@ public class IdGeneratorImpl implements IdGenerator,InitializingBean{
 					idString = JedisUtil.getInstance().incrBy(machineName, incrBy, RedisDb.DBFIFTEEN.getDb());
 					if(StringUtils.isEmpty(idString)){
 				        try {
-				        	String updateSql = "UPDATE pai_common_id SET max_num=max_num+incr_num, SET update_time="+new Date()+" WHERE id_=? AND name=?";
+				        	String updateSql = "UPDATE pai_common_id SET max_num=max_num+incr_num, update_time='"+DateConverter.toString(new Date())+"' WHERE id_=? AND name=?";
 					        jdbcTemplate.update(updateSql, machineId, machineName);
 					        String querySql = "select max_num from pai_common_id where id_ ="+machineId+" and name='"+ machineName+ "'";
-					        jdbcTemplate.queryForObject(querySql, new RowMapper() {
+					        idString = jdbcTemplate.queryForObject(querySql, new RowMapper() {
 				                public Object mapRow(ResultSet rs, int i) throws SQLException {
-				                    return rs.getString("max_num");
+				                	return rs.getString("max_num");
 				                }
 				            });
-				        } catch (Exception ex) {	            
-				            String insertSql = "INSERT INTO pai_common_id(id_,name,base_num,incr_num,max_num,update_time)VALUES(?,?,?,?,?,?)";
-				            jdbcTemplate.update(insertSql, new Object[]{machineId, machineName, baseNum, incrBy, baseNum, new Date()});
-				            return String.valueOf(baseNum);
+				        } catch (Exception e) {	            
+				             e.printStackTrace();
 				        }
 					}
 				} catch (Exception e) {
 					//后台显著位置显示
 					try {
-			        	String updateSql = "UPDATE pai_common_id SET max_num=max_num+incr_num, update_time="+new Date()+" WHERE id_=? AND name=?";
+			        	String updateSql = "UPDATE pai_common_id SET max_num=max_num+incr_num, update_time='"+DateConverter.toString(new Date())+"' WHERE id_=? AND name=?";
 				        jdbcTemplate.update(updateSql, machineId, machineName);
 				        String querySql = "select max_num from pai_common_id where id_ ="+machineId+" and name='"+ machineName+ "'";
-				        jdbcTemplate.queryForObject(querySql, new RowMapper() {
+				        idString = jdbcTemplate.queryForObject(querySql, new RowMapper() {
 			                public Object mapRow(ResultSet rs, int i) throws SQLException {
-			                    return rs.getString("max_num");
+			                	return rs.getString("max_num");
 			                }
 			            });
 			        } catch (Exception ex) {	            
-			            String insertSql = "INSERT INTO pai_common_id(id_,name,base_num,incr_num,max_num,update_time)VALUES(?,?,?,?,?,?)";
-			            jdbcTemplate.update(insertSql, new Object[]{machineId, machineName, baseNum, incrBy, baseNum, new Date()});
-			            return String.valueOf(baseNum);
+			        	ex.printStackTrace();
 			        }
 				}
 			}
