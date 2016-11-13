@@ -1,4 +1,4 @@
-package com.pai.app.web.core.framework.constants;
+package com.pai.app.web.core.constants;
 
 
 public class WebConstants {
@@ -24,13 +24,13 @@ public class WebConstants {
 	public final static String HTTPS_CONTEXT_PATH = "HttpsPath";
 	//cookie 
 	public final static String DEFAULT_COOKIE_DOMAIN_KEY = "cookieDomain";
-	public final static String DEFAULT_COOKIE_DOMAIN_VALUE = ".skg.com"; //默认的cookie域
+	public final static String DEFAULT_COOKIE_DOMAIN_VALUE = ".pai.com"; //默认的cookie域
 	public final static String DEFAULT_COOKIE_PATH_KEY = "cookiePath";
 	public final static String DEFAULT_COOKIE_PATH_VALUE = "/";//默认的cookie path
 	
 	public final static String DEFAULT_CATEGORY = "others";
 	
-	public final static String ONLINE_OU = "_ONLINE_OU";
+	public final static String PAI_AUTH_USER = "_PAI_AUTH_USER";
 	
 	public final static String ONLINE_MEMBER = "_ONLINE_MEMBER";
 	

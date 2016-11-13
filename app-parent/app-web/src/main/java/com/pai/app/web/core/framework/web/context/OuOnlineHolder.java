@@ -2,47 +2,51 @@ package com.pai.app.web.core.framework.web.context;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import com.pai.app.web.core.framework.constants.WebConstants;
+import com.pai.app.web.core.constants.WebConstants;
 import com.pai.base.api.constants.RedisConstants;
-import com.pai.base.core.context.OnlineUserIdHolder;
-import com.pai.base.core.helper.SpringHelper;
-import com.pai.base.core.util.JsonUtil;
 import com.pai.base.core.util.string.StringUtils;
+import com.pai.base.db.api.constants.OnlineUserIdHolder;
+import com.pai.biz.auth.persistence.entity.AuthUserPo;
 import com.pai.service.redis.JedisUtil;
 
 public class OuOnlineHolder{
-	protected static final ThreadLocal<HttpSession> ouOnlineHolder	= new ThreadLocal<HttpSession>();	
-
-	public static void setSession(HttpSession session) {
-		ouOnlineHolder.set(session);
-//		OnlineUserIdHolder.setUserId(getUserId());
-	}
 	
-	/*public static void setUserPo(HttpSession session,UserPo userPo) {
+	//每一个客户端主线程和session是保持一致的，把session放入线程共享中，方便获取session
+	protected static final ThreadLocal<HttpSession> ouOnlineHolder	= new ThreadLocal<HttpSession>();	
+	
+//	public static void setSession(HttpSession session) {
+//		ouOnlineHolder.set(session);
+//		OnlineUserIdHolder.setUserId(getUserId());
+//	}
+	
+	public static void setUserPo(HttpSession session,AuthUserPo authUserPo) {
 		if(session!=null){
-			session.setAttribute(WebConstants.ONLINE_OU, userPo);
+			session.setAttribute(WebConstants.PAI_AUTH_USER, authUserPo);
 			ouOnlineHolder.set(session);
-			OnlineUserIdHolder.setUserId(userPo.getId());
+			//数据库插入userId
+			OnlineUserIdHolder.setUserId(authUserPo.getId());
 		}
 	}
 	
 	public static String getUserId() {
+		return getUserPo().getId();
+	}
+
+	/*public static String getUserId() {
 		if(getUserPo()!=null){
 			return getUserPo().getId();
 		}
-				
 		return null;
-	}
+	}*/
 
-	public static UserPo getUserPo() {
+	public static AuthUserPo getUserPo() {
 		if(ouOnlineHolder.get()!=null){
-			Object obj = ouOnlineHolder.get().getAttribute(WebConstants.ONLINE_OU);
-			if(obj instanceof UserPo){
-				UserPo userPo = (UserPo)obj;
+			Object obj = ouOnlineHolder.get().getAttribute(WebConstants.PAI_AUTH_USER);
+			if(obj instanceof AuthUserPo){
+				AuthUserPo userPo = (AuthUserPo)obj;
 				return userPo;
 			}			
 		}
@@ -50,7 +54,7 @@ public class OuOnlineHolder{
 	}
 	
 
-	
+	/*
 	public static void logout() {
 		//抛出登出事件，进行扩展业务处理
 		if(getUserPo()!=null){
@@ -62,8 +66,6 @@ public class OuOnlineHolder{
 	}
 	
 	*/
-	
-
 	
 	public  static HttpSession getSession(){
 		return ouOnlineHolder.get();
@@ -78,8 +80,12 @@ public class OuOnlineHolder{
 		}
 		return null;
 	}
+	
+	/**
+	 * api session随机id
+	 * @param sid
+	 */
 	public static void setSid(String sid){
-		
 		if(ouOnlineHolder.get()!=null){
 			ouOnlineHolder.get().setAttribute(WebConstants.ONLINE_MEMBER,sid);
 		}

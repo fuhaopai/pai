@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.DispatcherServlet;
 
-import com.pai.app.web.core.framework.constants.WebConstants;
+import com.pai.app.web.core.constants.WebConstants;
 import com.pai.app.web.core.framework.web.util.ViewUtil;
 
 /**

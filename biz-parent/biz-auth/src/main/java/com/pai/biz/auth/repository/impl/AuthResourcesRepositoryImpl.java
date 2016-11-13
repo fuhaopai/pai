@@ -44,5 +44,10 @@ public class AuthResourcesRepositoryImpl extends AbstractRepository<String, Auth
 	protected IQueryDao<String, AuthResourcesPo> getQueryDao() {
 		return authResourcesQueryDao;
 	}
+
+	@Override
+	public List<AuthResourcesPo> findResourcesByUserId(String userId) {
+		return authResourcesQueryDao.findResourcesByUserId(userId);
+	}
 	
 }

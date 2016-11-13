@@ -1,4 +1,6 @@
 package com.pai.biz.auth.persistence.dao;
+import java.util.List;
+
 import com.pai.base.db.persistence.dao.IQueryDao;
 import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
 
@@ -9,5 +11,10 @@ import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
  * 创建时间:2016-08-07 14:07:40
  */
 public interface AuthResourcesQueryDao extends IQueryDao<String, AuthResourcesPo> {
-
+	/**
+	 * 根据用户Id查找权限
+	 * @param userId
+	 * @return
+	 */
+	public List<AuthResourcesPo> findResourcesByUserId(String userId);
 }

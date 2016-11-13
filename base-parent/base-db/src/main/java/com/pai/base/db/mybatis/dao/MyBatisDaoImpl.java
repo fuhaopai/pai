@@ -8,8 +8,8 @@ import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
-import com.pai.base.core.context.OnlineUserIdHolder;
 import com.pai.base.core.util.string.StringUtils;
+import com.pai.base.db.api.constants.OnlineUserIdHolder;
 import com.pai.base.db.persistence.dao.AbstractDao;
 import com.pai.base.db.persistence.entity.AbstractPo;
 

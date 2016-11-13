@@ -110,7 +110,7 @@
 
 	<variables>
 		<variable name="developer" value="FUHAO" />
-		<variable name="company" value="PAI.COM" />
+		<variable name="company" value="π" />
 		<!--keys值必须小写，且用,隔开-->
 		<variable name="keys" value="db,dao,domain,controller,view,apiBase,api"/>
 		<variable name="workspace" value="D:\github\pai\" />

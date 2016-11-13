@@ -1,5 +1,7 @@
 package com.pai.biz.auth.repository;
 
+import java.util.List;
+
 import com.pai.biz.frame.repository.IRepository;
 import com.pai.biz.auth.domain.AuthResources;
 import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
@@ -10,6 +12,7 @@ import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
  * 创建时间:2016-08-07 14:07:40
  */
 public interface AuthResourcesRepository extends IRepository<String, AuthResourcesPo,AuthResources>{
-	  
+
+	List<AuthResourcesPo> findResourcesByUserId(String id);
 	 
 }

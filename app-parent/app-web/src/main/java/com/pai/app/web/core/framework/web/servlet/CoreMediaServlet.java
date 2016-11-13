@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.pai.app.web.core.framework.constants.WebConstants;
+import com.pai.app.web.core.constants.WebConstants;
 import com.pai.app.web.core.framework.web.context.ServletContextHelper;
 
 @SuppressWarnings("serial")

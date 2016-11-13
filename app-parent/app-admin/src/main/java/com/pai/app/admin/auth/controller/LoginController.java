@@ -1,5 +1,6 @@
 package com.pai.app.admin.auth.controller;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -12,11 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.octo.captcha.service.image.ImageCaptchaService;
+import com.pai.app.web.core.constants.MsgCode;
+import com.pai.app.web.core.constants.UrlConstants;
+import com.pai.app.web.core.constants.WebConstants;
+import com.pai.app.web.core.framework.web.context.OuOnlineHolder;
 import com.pai.app.web.core.framework.web.controller.LigerUIController;
+import com.pai.base.api.constants.MsgType;
 import com.pai.base.core.entity.CommonResult;
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.biz.auth.event.LoginEvent;
+import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
 import com.pai.biz.auth.persistence.entity.AuthUserPo;
 import com.pai.biz.auth.persistence.entity.LoginInfo;
 import com.pai.biz.auth.repository.AuthResourcesRepository;
@@ -48,10 +55,17 @@ public class LoginController extends LigerUIController{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	/**
+	 * 登录查找权限
+	 * @param request
+	 * @param response
+	 * @param loginInfo
+	 * @return
+	 */
 	@RequestMapping("adminLogin")
 	public ModelAndView login(final HttpServletRequest request,HttpServletResponse response,LoginInfo loginInfo){
-		ModelAndView modelAndView = new ModelAndView("/admin/pai/auth/login");
+		ModelAndView modelAndView = new ModelAndView(UrlConstants.LOGIN_FTL);
 		 if(loginInfo.isLogin()){	//是提交登录	
 			CommonResult commonResult = null;
 		 	//匹配验证码
@@ -59,7 +73,7 @@ public class LoginController extends LigerUIController{
 				//查询用户
 				final AuthUserPo authUserPo = authUserRepository.getAccount(loginInfo.getUserName(), loginInfo.getEncryptPassword());
 				if(authUserPo != null){
-					//登录后发布一个事件，记录登录日志等操作，前端建议用mq topic
+					//登录后发布一个事件，记录登录日志等操作，mq topic
 					ExecutorService executorService = Executors.newCachedThreadPool();
 					try {
 						executorService.execute(new Runnable() {
@@ -71,32 +85,22 @@ public class LoginController extends LigerUIController{
 					} finally {
 						executorService.shutdown();
 					}
-				}
-				//TODO
-//					commonResult = authUser.login(getIpAddr(request));
-//					if(commonResult.isSuccess()){
 					//权限过滤
-//						List<AuthResourcesPo> authResourcesPos =  authResourcesRepository.findBbsResByUserId(user.getId());
-//						authUser.getData().setAuthResourcesPos(authResourcesPos);
-					//往在线上下文中设置数据
-//						OuOnlineHolder.setUserPo(request.getSession(),authUser.getData());
-//						redirectUrl(response, request.getAttribute(WebConstants.CONTEXT_PATH)+ UrlConstants.MAIN_URL);
-//						return null;
-//					}
-				commonResult = new CommonResult();
-				commonResult.setSuccess(true);
-				return null;
+					List<AuthResourcesPo> authResourcesPos = authResourcesRepository.findResourcesByUserId(authUserPo.getId());
+					authUserPo.setAuthResourcesPos(authResourcesPos);
+					//放置session
+					OuOnlineHolder.setUserPo(request.getSession(), authUserPo);
+					//重定向到后台主页
+					redirectUrl(response, request.getAttribute(WebConstants.CONTEXT_PATH)+UrlConstants.MAIN_URL); 
+				}
 			}else{
 				commonResult = new CommonResult();
 				commonResult.setSuccess(false);
-//					commonResult.setMsgCode(LoginMsgCode.CAPTCHA.name());					
+				commonResult.setMsgCode(MsgCode.CAPTCHA.getCode());
+				commonResult.setMsg(MsgCode.CAPTCHA.getMsg());
 			}				
 			loginInfo.setCommonResult(commonResult);		
-		 }else{	//是访问登录页面								   
-//			 	if(loginInfo.getLoginFormStatic().equals(LoginFrom.ADMIN)){			 		
-//			 		loginInfo.reset();			 					 	
-//			 	}
-		 }		
+		 }	
 		 
 		 modelAndView.addObject(LOGIN_INFO, loginInfo);
 		 return	modelAndView;

@@ -94,5 +94,4 @@ public interface IQueryDao<PK,P>  {
      * @return
      */
 	public List<P> findAll(Map<String, Object> params);
-
 }

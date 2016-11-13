@@ -19,7 +19,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pai.app.web.core.framework.constants.WebConstants;
+import com.pai.app.web.core.constants.WebConstants;
 import com.pai.app.web.core.framework.web.propertieseditors.DoubleEditor;
 import com.pai.app.web.core.framework.web.propertieseditors.FloatEditor;
 import com.pai.app.web.core.framework.web.propertieseditors.IntegerEditor;

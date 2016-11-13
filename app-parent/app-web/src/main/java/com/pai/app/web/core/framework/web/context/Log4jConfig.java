@@ -13,7 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.pai.app.web.core.framework.constants.WebConstants;
+import com.pai.app.web.core.constants.WebConstants;
 
 /**
  * @author Winston

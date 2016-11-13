@@ -85,5 +85,11 @@
 		id_=#{id}
 	</delete>
 	
-	
+	<select id="findResourcesByUserId" parameterType="java.util.Map" resultMap="AuthResourcesPo">
+		SELECT a.* FROM pai_auth_resources a 
+		INNER JOIN pai_auth_role_resources b ON a.id_=b.resource_id_ AND b.`status`=1
+		INNER JOIN pai_auth_role c ON b.role_id_=c.id_ AND b.`status`=1
+		INNER JOIN pai_auth_role_user d ON c.id_=d.role_id_ 
+		WHERE a.`status`=1 AND d.user_id_=#{userId}
+	</select>
 </mapper>

@@ -4,25 +4,19 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.pai.app.web.core.framework.constants.WebConstants;
-import com.pai.app.web.core.framework.filter.RunFilter;
-import com.pai.app.web.core.framework.web.context.OuOnlineHolder;
+import com.pai.app.web.core.constants.WebConstants;
 import com.pai.app.web.core.framework.web.context.RequestHolder;
 import com.pai.app.web.core.framework.web.xss.XssHttpServletRequestWrapper;
-import com.pai.base.api.service.IdGenerator;
-import com.pai.base.core.helper.SpringHelper;
-import com.pai.base.core.util.string.StringUtils;
 import com.pai.base.core.util.ConfigHelper;
-import com.pai.service.image.utils.RequestUtil;
 
-public class BaseWebFilter extends RunFilter{
+public class BaseWebFilter extends OncePerRequestFilter{
 	private static final Log log	= LogFactory.getLog(BaseWebFilter.class);
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response, FilterChain chain)
@@ -35,7 +29,6 @@ public class BaseWebFilter extends RunFilter{
 		}
 		
 		String url=   request.getRequestURL().toString();
-		doFilterRun(request, response, chain);
 		RequestHolder.setCurrentHttpRequest(request);
 		request.setCharacterEncoding(WebConstants.DEFAULT_ENCODING);
 		StringBuffer baseUrl = request.getRequestURL();  
@@ -47,7 +40,7 @@ public class BaseWebFilter extends RunFilter{
 		}
 		request.setAttribute(WebConstants.CONTEXT_PATH,_ctxPath);
 		
-		OuOnlineHolder.setSession(request.getSession());
+		/*OuOnlineHolder.setSession(request.getSession());
 				
 		if(OuOnlineHolder.isNotLogin()){
 			Cookie cookie = RequestUtil.getCookie(request, WebConstants.VISITOR_ID);
@@ -68,8 +61,8 @@ public class BaseWebFilter extends RunFilter{
 			}				
 		}else {
 			OuOnlineHolder.setVid("");
-		}
-			chain.doFilter(new XssHttpServletRequestWrapper((HttpServletRequest) request), response);		
+		}*/
+		chain.doFilter(new XssHttpServletRequestWrapper((HttpServletRequest) request), response);		
 	}		
 	private boolean ignore(String url){
 		if(url.endsWith(".png") || 

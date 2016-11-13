@@ -16,7 +16,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.pai.app.web.core.framework.constants.WebConstants;
+import com.pai.app.web.core.constants.WebConstants;
 import com.pai.app.web.core.framework.web.entity.DWZResultInfo;
 import com.pai.base.api.constants.Bool;
 import com.pai.base.core.exception.GeneralException;

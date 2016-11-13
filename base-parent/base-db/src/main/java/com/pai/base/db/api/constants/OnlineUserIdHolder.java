@@ -1,5 +1,4 @@
-package com.pai.base.core.context;
-
+package com.pai.base.db.api.constants;
 
 public class OnlineUserIdHolder {
 	private static ThreadLocal<String> onlineUserIdHolder	= new ThreadLocal<String>();

@@ -10,10 +10,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pai.app.web.core.constants.UrlConstants;
-import com.pai.app.web.core.framework.constants.WebConstants;
-import com.pai.app.web.core.framework.web.context.OuOnlineHolder;
+import com.pai.app.web.core.constants.WebConstants;
 import com.pai.base.api.constants.Constants;
-import com.pai.base.core.util.string.StringUtils;
 
 public class SecurityInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request,

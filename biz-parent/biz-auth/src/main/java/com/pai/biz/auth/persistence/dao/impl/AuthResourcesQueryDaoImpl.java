@@ -1,5 +1,7 @@
 package com.pai.biz.auth.persistence.dao.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.pai.base.db.mybatis.dao.MyBatisQueryDaoImpl;
@@ -19,5 +21,10 @@ public class AuthResourcesQueryDaoImpl extends MyBatisQueryDaoImpl<String, AuthR
     public String getNamespace() {
         return AuthResourcesPo.class.getName();
     }
+
+	@Override
+	public List<AuthResourcesPo> findResourcesByUserId(String userId) {
+		return findByKey("findResourcesByUserId", b().a("userId", userId).p());
+	}
 	
 }
