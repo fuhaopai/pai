@@ -98,7 +98,7 @@
 
  
 .l-dialog-tl{ background:none;border-bottom: 1px solid #f5f5f5;}
-.l-dialog-tc{font-size: 14px;font-weight: bold;height: 30px;line-height: 30px;background: -webkit-gradient(linear, 0 0, 0 100%, from(#EFF5FE), to(#D6E4F4)); padding-left: 10px;background: -o-linear-gradient(top, #EFF5FE, #D6E4F4);_background:#EFF5FE;
+.l-dialog-tc{font-size: 14px;font-weight: bold;height: 29px;line-height: 29px;background: -webkit-gradient(linear, 0 0, 0 100%, from(#EFF5FE), to(#D6E4F4)); padding-left: 10px;background: -o-linear-gradient(top, #EFF5FE, #D6E4F4);_background:#EFF5FE;
 background: -ms-linear-gradient(top, #EFF5FE 0%,#D6E4F4 100%);
 background: linear-gradient(top, #EFF5FE, #D6E4F4);background: -moz-linear-gradient(top, #EFF5FE, #D6E4F4);
 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EFF5FE', endColorstr='#D6E4F4');
@@ -113,7 +113,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EFF5FE', endC
 .l-dialog-cl{background:none;}
 .l-dialog-cl,.l-dialog-cc,.l-dialog-cr{border-top: 1px solid #BED5F3;}
 
-
+.l-dialog-loading{position:absolute;top: 30%; left:40%; background:#fff url('../images/common/loading.gif') no-repeat; padding:8px; z-index:99000; height:auto; border:0;}
 
 .l-dialog-winbtns{ position:absolute;right:0px; top:4px; height:16px;}
 .l-dialog-winbtn{background:url('../images/win/dialog-winbtns.gif') no-repeat;cursor:pointer;overflow:hidden; width:17px; height:16px; float:right; margin-right:4px;}

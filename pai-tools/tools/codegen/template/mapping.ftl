@@ -107,4 +107,19 @@
 	</select>
 	</#if>
 	
+	<update id="updateByExampleSelective" parameterType="${type}">
+		UPDATE ${tableName} 
+		<set>
+		<#list commonList as col>
+		<#assign colName=func.convertUnderLine(col.columnName)>
+		<#if test="entity.${colName}!=null">
+			${col.columnName}=<#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>,</#if>
+		</#list>
+		</set>
+		<where>
+			<if test="whereSql!=null">
+				<#noparse>${</#noparse>whereSql}
+			</if>
+		</where>
+	</update>
 </mapper>

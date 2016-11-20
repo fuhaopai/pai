@@ -55,7 +55,11 @@ color: #999;
 .l-text-readonly {
 	background: #f0f0f0;border-color:#ddd;
     color: #999;margin:0;padding:0;
-} 
+}
+
+    .l-text-readonly .l-text-field {
+        cursor: not-allowed;
+    }
 /* 表单文本框 input:text */
 .l-text-field
 {
@@ -159,6 +163,9 @@ background:#F0F0F0;
 .l-box-select-inner{ margin:0; padding:0; width:100%;overflow:auto;  height:120px;color:#333;}
 .l-box-select-inner .l-box-select-table{margin:0; padding:0; width:100%; }
 .l-box-select .l-table-nocheckbox td:hover,.l-box-select .l-table-nocheckbox td.l-over{ background-color:#EEE; cursor:pointer;}
+
+.l-box-select .l-table-nocheckbox .rowreadonly td:hover,.l-box-select .l-table-nocheckbox .rowreadonly td.l-over{ background-color:none; cursor:auto;}
+
 .l-box-select .l-table-nocheckbox td.l-selected{ background-color:#D2D2D2;}
 .l-box-select .l-box-select-table td{ padding:2px; text-align:left;} 
 

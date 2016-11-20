@@ -19,5 +19,10 @@ public class AuthUserDaoImpl extends MyBatisDaoImpl<String, AuthUserPo> implemen
     public String getNamespace() {
         return AuthUserPo.class.getName();
     }
+
+	@Override
+	public void updatePassword(AuthUserPo authUserPo) {
+		updateByExampleSelective(authUserPo, b().a("whereSql", "id_="+authUserPo.getId()).p());
+	}
 	
 }

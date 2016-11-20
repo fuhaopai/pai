@@ -27,11 +27,11 @@
 				{ display: '&nbsp;创建时间', name: 'Q__S__EQ__createTime', align: 'left', width: 80, minWidth: 60 },
 				{ display: '&nbsp;修改人', name: 'Q__S__EQ__updateBy', align: 'left', width: 80, minWidth: 60 },
 				{ display: '&nbsp;修改时间', name: 'Q__S__EQ__updateTime', align: 'left', width: 80, minWidth: 60 },
-			{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
-				          	{display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", 
-							name: "searchButton", newline: false, width:0.01}
-						  ]
-			});        
+				{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
+					          	{display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", 
+								name: "searchButton", newline: false, width:0.01}
+							  ]
+				});        
         	
            grid = $("#maingrid").ligerGrid({
                 height:'100%',

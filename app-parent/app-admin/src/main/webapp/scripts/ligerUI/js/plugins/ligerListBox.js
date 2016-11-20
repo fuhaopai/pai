@@ -1,9 +1,9 @@
 ﻿/**
-* jQuery ligerUI 1.2.4
+* jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
 *  
-* Author daomi 2014 [ gd_star@163.com ] 
+* Author daomi 2015 [ gd_star@163.com ] 
 * 
 */
 (function ($)
@@ -29,6 +29,9 @@
         data: null,             //数据  
         parms: null,            //ajax提交表单 
         url: null,              //数据源URL(需返回JSON)
+        urlParms: null,                     //url带参数
+        ajaxContentType: null,
+        ajaxType : 'post',
         onSuccess: null,
         onError: null,
         render: null,            //显示html自定义函数 
@@ -64,7 +67,15 @@
             g.data = p.data;    
             g.valueField = null; //隐藏域(保存值) 
                
-            if (p.valueFieldID)
+            if ($(this.element).is(":hidden") || $(this.element).is(":text"))
+            {
+                g.valueField = $(this.element);
+                if ($(this.element).is(":text"))
+                {
+                    g.valueField.hide();
+                }
+            }
+            else if (p.valueFieldID)
             {
                 g.valueField = $("#" + p.valueFieldID + ":input,[name=" + p.valueFieldID + "]:input");
                 if (g.valueField.length == 0) g.valueField = $('<input type="hidden"/>');
@@ -81,8 +92,14 @@
                 g.valueField.addClass(p.valueFieldCssClass);
             }
             g.valueField.attr("data-ligerid", g.id);
-            //选择框框
-            g.selectBox = $(this.element);
+
+            if ($(this.element).is(":hidden") || $(this.element).is(":text"))
+            {
+                g.selectBox = $('<div></div>').insertBefore(this.element);
+            } else
+            {
+                g.selectBox = $(this.element);
+            }
             g.selectBox.html('<div class="l-listbox-inner"><table cellpadding="0" cellspacing="0" border="0" class="l-listbox-table"></table></div>').addClass("l-listbox").append(g.valueField);
             g.selectBox.table = $("table:first", g.selectBox); 
               
@@ -136,13 +153,18 @@
         _setHeight: function (value)
         {
             this.selectBox.height(value);
-        }, 
+        },
+        getText : function()
+        {
+            var value = this.getValue();
+            return this.findTextByValue(value);
+        },
         //查找Text,适用多选和单选
         findTextByValue: function (value)
         {
             var g = this, p = this.options;
-            if (value == null) return "";
-            var texts = "";
+            if (value == null || value == "") return "";
+            var texts = [];
             var contain = function (checkvalue)
             {
                 var targetdata = value.toString().split(p.split);
@@ -158,11 +180,10 @@
                 var txt = item[p.textField];
                 if (contain(val))
                 {
-                    texts += txt + p.split;
+                    texts.push(txt);
                 }
-            });
-            if (texts.length > 0) texts = texts.substr(0, texts.length - 1);
-            return texts;
+            }); 
+            return texts.join(p.split);
         },
         getDataByValue: function (value)
         {
@@ -261,11 +282,25 @@
         _setUrl: function (url)
         {
             if (!url) return;
-            var g = this, p = this.options; 
-            $.ajax({
-                type: 'post',
+            var g = this, p = this.options;
+            var urlParms = $.isFunction(p.urlParms) ? p.urlParms.call(g) : p.urlParms;
+            if (urlParms)
+            {
+                for (name in urlParms)
+                {
+                    url += url.indexOf('?') == -1 ? "?" : "&";
+                    url += name + "=" + urlParms[name];
+                }
+            }
+            var parms = $.isFunction(p.parms) ? p.parms() : p.parms;
+            if (p.ajaxContentType == "application/json" && typeof (parms) != "string")
+            {
+                parms = liger.toJSON(parms);
+            } 
+            var ajaxOp = {
+                type: p.ajaxType || 'post',
                 url: url,
-                data: p.parms,
+                data: parms,
                 cache: false,
                 dataType: 'json',
                 success: function (data)
@@ -277,7 +312,17 @@
                 {
                     g.trigger('error', [XMLHttpRequest, textStatus]);
                 }
-            });
+            };
+
+            if (p.ajaxContentType)
+            {
+                ajaxOp.contentType = p.ajaxContentType;
+            }
+            $.ajax(ajaxOp);
+        },
+        reload : function()
+        {
+            this.set('url', this.options.url);
         },
         setUrl: function (url)
         {

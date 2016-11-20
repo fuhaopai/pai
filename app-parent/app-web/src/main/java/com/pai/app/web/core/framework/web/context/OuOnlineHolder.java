@@ -17,10 +17,10 @@ public class OuOnlineHolder{
 	//每一个客户端主线程和session是保持一致的，把session放入线程共享中，方便获取session
 	protected static final ThreadLocal<HttpSession> ouOnlineHolder	= new ThreadLocal<HttpSession>();	
 	
-//	public static void setSession(HttpSession session) {
-//		ouOnlineHolder.set(session);
-//		OnlineUserIdHolder.setUserId(getUserId());
-//	}
+	public static void setSession(HttpSession session) {
+		ouOnlineHolder.set(session);
+		OnlineUserIdHolder.setUserId(getUserId());
+	}
 	
 	public static void setUserPo(HttpSession session,AuthUserPo authUserPo) {
 		if(session!=null){
@@ -32,15 +32,11 @@ public class OuOnlineHolder{
 	}
 	
 	public static String getUserId() {
-		return getUserPo().getId();
-	}
-
-	/*public static String getUserId() {
 		if(getUserPo()!=null){
 			return getUserPo().getId();
 		}
 		return null;
-	}*/
+	}
 
 	public static AuthUserPo getUserPo() {
 		if(ouOnlineHolder.get()!=null){

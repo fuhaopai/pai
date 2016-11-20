@@ -1,9 +1,9 @@
 ﻿/**
-* jQuery ligerUI 1.2.4
+* jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
 *  
-* Author daomi 2014 [ gd_star@163.com ] 
+* Author daomi 2015 [ gd_star@163.com ] 
 * 
 */
 (function ($)
@@ -25,19 +25,23 @@
         onButtonClick: null,    //利用这个参数来调用其他函数，比如打开一个新窗口来选择值 
         nullText: null,         //不能为空时的提示
         disabled: false,        //是否无效
+        method: 'post',                         //获取数据http方式
+        async: true,
         cancelable: true,
         width: 200,
         heigth: null,
         render: null,        //显示函数   
         split: ';',
-        grid: null,       //在 可查询、可分页列表的弹出框 中选择值 
+        data: [],
+        grid: null,       //在可查询、可分页列表的弹出框 中选择值 
         condition: null,  // 条件字段,比如 {fields:[{ name : 'Title' ,op : 'like', vt : 'string',type:'text' }]}
         valueField: 'id', //值字段
         textField: 'text',   //显示字段
         parms: null,
         onSelect: null,    //选择事件,可阻止
         onSelected: null,  //选择后事件
-        valueFieldCssClass: null
+        valueFieldCssClass: null,
+        searchClick: null      //弹窗查询搜索按钮自定义函数
     };
 
 
@@ -79,7 +83,7 @@
             {
                 g.valueField = $("#" + p.valueFieldID + ":input");
                 if (g.valueField.length == 0) g.valueField = $('<input type="hidden"/>');
-                g.valueField[0].id = g.valueField[0].name = p.valueFieldID;
+                if (g.valueField[0].name == undefined) g.valueField[0].id = g.valueField[0].name = p.valueFieldID;
             }
             else
             {
@@ -146,6 +150,8 @@
             });
 
             g.set(p);
+            g.setTextByVal(g.getValue());
+            //alert(g.getValue());
         },
         destroy: function ()
         {
@@ -247,11 +253,11 @@
             return $(this.inputText).val();
         },
         _getValue: function ()
-        {
+        { 
             return $(this.valueField).val();
         },
         getValue: function ()
-        {
+        { 
             return this._getValue();
         },
         getText: function ()
@@ -261,6 +267,7 @@
         //设置值到  隐藏域
         setValue: function (value, text)
         {
+            if (value == '') return;
             var g = this, p = this.options;
             if (arguments.length >= 2)
             {
@@ -269,6 +276,86 @@
                 return;
             }
             g.valueField.val(value);
+            //g.setTextByVal(value);
+        },
+        //根据值设置文本  value：数值或文本
+        setTextByVal: function (value)
+        {
+            value = (typeof (value) != "string") ? value.toString : value;
+            if (value == '') return;
+
+            var g = this, text = [], p = this.options, gridData = [];
+            if (g.valueField.val() != value) g.valueField.val(value);
+
+            var gridparms = p.grid;
+            if ($.isFunction(gridparms)) gridparms = gridparms();
+            var gridOptions = $.extend({
+                parms: p.parms
+            }, gridparms);
+
+            if (p.data.length > 0)
+            {
+                gridData = p.data.Rows;
+            } else if (gridOptions.url)
+            {
+                g.loadServerData(gridOptions.url, value);
+                return;
+            } else
+            {
+                gridData = gridOptions.data.Rows;
+            }
+
+
+            var values = value.split(p.split);
+
+            $(gridData).each(function (i, rowdata)
+            {
+                if ($.inArray(rowdata[p.valueField], values) != -1)
+                {
+                    text.push(rowdata[p.textField]);
+                }
+            });
+            text = text.join(p.split);
+            g.setText(text);
+        },
+        loadServerData: function (param, value)
+        {
+            var g = this, p = this.options, gdata = [];
+            if ($.isFunction(param)) param = param();
+            var ajaxOptions = {
+                type: p.method,
+                url: param,
+                async: p.async,
+                //data: [],
+                dataType: 'json',
+                success: function (data)
+                {
+                    //g.trigger('success', [data, g]);
+                    gridData = $.extend(true, {}, data);
+                    p.data = gridData;
+                    gridData = data.Rows;
+                    var values = value.split(p.split);
+                    var text = [];
+
+                    $(gridData).each(function (i, rowdata)
+                    {
+                        if ($.inArray(rowdata[p.valueField], values) != -1)
+                        {
+                            text.push(rowdata[p.textField]);
+                        }
+                    });
+                    text = text.join(p.split);
+                    g.setText(text);
+                    return;
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown)
+                {
+                    return;
+                }
+
+            }
+            $.ajax(ajaxOptions);
+
         },
         //设置值到 文本框 
         setText: function (text)
@@ -355,6 +442,7 @@
                         valueField: p.valueField,
                         textField: p.textField,
                         split: p.split,
+                        searchClick : p.searchClick,
                         lastSelected: getLastSelected(),
                         onSelect: function (e)
                         {
@@ -378,7 +466,7 @@
                             return $.inArray(rowdata[p.valueField].toString(), value.split(p.split)) != -1;
                         }
                     };
-                    g.popupFn = $.ligerui.getPopupFn(options);
+                    g.popupFn = $.ligerui.getPopupFn(options, g);
                 }
                 g.popupFn();
             });
@@ -388,7 +476,7 @@
 
 
     //创建一个可查询、可分页列表的选取弹出框 需要dialog,grid,form等插件的支持
-    $.ligerui.getPopupFn = function (p)
+    $.ligerui.getPopupFn = function (p,master)
     {
         p = $.extend({
             title: '选择数据',     //窗口标题
@@ -402,6 +490,7 @@
             grid: null,          //表格的参数 同ligerGrid
             condition: null,     //搜索表单的参数 同ligerForm
             onSelect: function (p) { },   //选取函数 
+            searchClick : p.searchClick,
             selectInit: function (rowdata) { return false }  //选择初始化
         }, p);
         if (!p.grid) return;
@@ -431,13 +520,17 @@
             var conditionPanel = $("<div></div>");
             var gridPanel = $("<div></div>");
             panle.append(conditionPanel).append(gridPanel);
+            
             if (p.condition)
             { 
                 var conditionParm = $.extend({
                     labelWidth: 60,
                     space: 20
                 }, p.condition);
-                condition = conditionPanel.ligerForm(conditionParm);
+                setTimeout(function ()
+                {
+                    condition = conditionPanel.ligerForm(conditionParm);
+                }, 50);
             } else
             {
                 conditionPanel.remove();
@@ -459,17 +552,36 @@
             //搜索按钮
             if (p.condition)
             {
-                var containerBtn1 = $('<li style="margin-right:9px"><div></div></li>');
-                $("ul:first", conditionPanel).append(containerBtn1).after('<div class="l-clear"></div>');
-                $("div", containerBtn1).ligerButton({
-                    text: '搜索',
-                    click: function ()
-                    {
-                        var rules = $.ligerui.getConditions(conditionPanel);
-                        grid.setParm('condition', $.ligerui.toJSON(rules));
-                        grid.reload();
-                    }
-                });
+               
+                setTimeout(function ()
+                {
+                    var containerBtn1 = $('<li style="margin-right:9px"><div></div></li>');
+                    $("ul:first", conditionPanel).append(containerBtn1).after('<div class="l-clear"></div>');
+                    $("div", containerBtn1).ligerButton({
+                        text: '搜索',
+                        click: function ()
+                        { 
+                            var rules = condition.toConditions();
+                            if (p.searchClick)
+                            {
+                                p.searchClick({
+                                    grid: grid,
+                                    rules: rules
+                                });
+                            } else
+                            {
+                                if (grid.get('url'))
+                                {
+                                    grid.setParm(grid.conditionParmName || 'condition', $.ligerui.toJSON(rules));
+                                    grid.reload();
+                                } else
+                                {
+                                    grid.loadData($.ligerFilter.getFilterFunction(rules));
+                                }
+                            }
+                        }
+                    });
+                }, 100);
             }
             //dialog
             win = $.ligerDialog.open({
@@ -496,6 +608,11 @@
                 ]
             });
 
+            if (master)
+            {
+                master.includeControls = master.includeControls || [];
+                master.includeControls.push(win);
+            }
             grid.refreshSize();
         }
         function exist(value, data)

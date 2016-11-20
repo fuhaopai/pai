@@ -1,9 +1,9 @@
 ﻿/**
-* jQuery ligerUI 1.2.4
+* jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
 *  
-* Author daomi 2014 [ gd_star@163.com ] 
+* Author daomi 2015 [ gd_star@163.com ] 
 * 
 */
 
@@ -33,6 +33,8 @@
         onDrag: false,
         onStopDrag: false,
         handler: null,
+        //鼠标按下再弹起，如果中间的间隔小于[dragDelay]毫秒，那么认为是点击，不会进行拖拽操作
+        clickDelay : 100, 
         //代理 拖动时的主体,可以是'clone'或者是函数,放回jQuery 对象
         proxy: true,
         revert: false,
@@ -75,15 +77,33 @@
             this.set(p);
             g.cursor = "move";
             g.handler.css('cursor', g.cursor);
+            g.mouseDowned = false;
             g.handler.bind('mousedown.drag', function (e)
             {
                 if (p.disabled) return;
                 if (e.button == 2) return;
-                g._start.call(g, e);
+                g.mouseDowned = true;
+                $(document).bind("selectstart.drag", function () { return false; });
+                setTimeout(function ()
+                {
+                    //如果过了N毫秒,鼠标还没有弹起来，才认为是启动drag
+                    if (g.mouseDowned)
+                    {
+                        g._start.call(g, e);
+                    }
+                }, p.clickDelay || 100);
             }).bind('mousemove.drag', function ()
             {
-                if (p.disabled) return;
+                if (p.disabled) return; 
                 g.handler.css('cursor', g.cursor);
+            }).bind('mouseup.drag', function ()
+            {
+                $(document).unbind("selectstart.drag");
+            });
+
+            $(document).bind('mouseup', function ()
+            {
+                g.mouseDowned = false;
             });
         },
         _rendered: function ()
@@ -107,8 +127,7 @@
             g._createProxy(p.proxy, e);
             //代理没有创建成功
             if (p.proxy && !g.proxy) return false;
-            (g.proxy || g.handler).css('cursor', g.cursor);
-            $(document).bind("selectstart.drag", function () { return false; });
+            (g.proxy || g.handler).css('cursor', g.cursor); 
             $(document).bind('mousemove.drag', function ()
             {
                 g._drag.apply(g, arguments);

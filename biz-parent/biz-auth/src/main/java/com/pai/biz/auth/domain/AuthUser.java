@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.pai.biz.frame.domain.AbstractDomain;
+import com.pai.base.core.helper.PasswordHelper;
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.biz.auth.persistence.dao.AuthUserDao;
 import com.pai.biz.auth.persistence.entity.AuthUserPo;
@@ -24,6 +25,11 @@ public class AuthUser extends AbstractDomain<String, AuthUserPo>{
 	protected void init(){
 		authUserDao = SpringHelper.getBean(AuthUserDao.class);
 		setDao(authUserDao);
+	}
+
+	public void updatePassword(AuthUserPo authUserPo) {
+		authUserPo.setPassword(PasswordHelper.getEncryptPassword(authUserPo.getPassword()));
+		authUserDao.updatePassword(authUserPo);
 	}	 
 	 
 }

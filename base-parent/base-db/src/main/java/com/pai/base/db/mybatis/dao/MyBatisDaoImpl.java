@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.pai.base.core.util.string.StringUtils;
@@ -59,7 +60,15 @@ public abstract class MyBatisDaoImpl<PK extends java.io.Serializable,T extends A
 		for(PK id:ids){
 			delete(id);
 		}
-		
 	}
-	
+
+	public void updateByExampleSelective(T entity, Map<String, Object> params) {
+		if(entity instanceof AbstractPo){
+        	AbstractPo<PK> po = (AbstractPo<PK>)entity;        	
+            po.setUpdateTime(new java.util.Date());
+           	po.setUpdateBy(OnlineUserIdHolder.getUserId());
+        }
+		params.put("entity", entity);
+		sqlSessionTemplate.update(getNamespace() + ".updateByExampleSelective", params);		
+	}
 }

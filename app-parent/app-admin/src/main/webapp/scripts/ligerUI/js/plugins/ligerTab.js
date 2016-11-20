@@ -1,9 +1,9 @@
 ﻿/**
-* jQuery ligerUI 1.2.4
+* jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
 *  
-* Author daomi 2014 [ gd_star@163.com ] 
+* Author daomi 2015 [ gd_star@163.com ] 
 * 
 */
 (function ($)
@@ -28,6 +28,7 @@
         dragToMove: false,    //是否允许拖动时改变tab项的位置
         showSwitch: false,       //显示切换窗口按钮
         showSwitchInTab: false, //切换窗口按钮显示在最后一项
+        data: null, //传递数据容器
         onBeforeOverrideTabItem: null,
         onAfterOverrideTabItem: null,
         onBeforeRemoveTabItem: null,
@@ -39,7 +40,8 @@
         onCloseOther: null,
         onCloseAll: null,
         onClose: null,
-        onReload: null
+        onReload: null,
+        onSwitchRender : null      //当切换窗口层构件时的事件
     };
     $.ligerDefaults.TabString = {
         closeMessage: "关闭当前页",
@@ -197,6 +199,23 @@
             });
 
             g.set(p);
+            //set tab links width
+            setTimeout(setLinksWidth, 100);
+            $(window).resize(function ()
+            {
+                setLinksWidth.call(g);
+            });
+
+            function setLinksWidth()
+            {
+                var w = g.tab.width() - parseInt(g.tab.links.css("marginLeft"), 10) - parseInt(g.tab.links.css("marginRight"), 10); 
+                g.tab.links.width(w);
+            }
+
+            g.bind('sysWidthChange', function ()
+            {
+                setLinksWidth.call(g);
+            });
         },
         _setShowSwitch: function (value)
         {
@@ -266,18 +285,15 @@
                 top: $(btn).offset().top + $(btn).height(),
                 left: $(btn).offset().left - windowsswitch.width()  
             });
-            windowsswitch.bind("click", function (e)
+            windowsswitch.find("a").bind("click", function (e)
             {
-                var obj = (e.target || e.srcElement);
-                if (obj.tagName.toLowerCase() == "a")
-                {
-                    var tabid = $(obj).attr("tabid");
-                    g.selectTabItem(tabid);
-                    g.moveToTabItem(tabid);
-                    $("body > .l-tab-windowsswitch").remove();
-                    return;
-                }
+                var tabid = $(this).attr("tabid");
+                if (tabid == undefined) return;
+                g.selectTabItem(tabid);
+                g.moveToTabItem(tabid);
+                $("body > .l-tab-windowsswitch").remove();
             });
+            g.trigger('switchRender', [windowsswitch]);
         },
         _applyDrag: function (tabItemDom)
         {
@@ -637,12 +653,42 @@
                 g.tab.links.ul.animate({ left: -1 * (sumwidth - mainwidth + btnWitdth + 2) });
             }
         },
+        getTabItemTitle: function (tabid)
+        {
+            var g = this, p = this.options;
+            return $("li[tabid=" + tabid + "] a", g.tab.links.ul).text();
+        },
+        setTabItemTitle: function (tabid, title)
+        {
+            var g = this, p = this.options;
+            $("li[tabid=" + tabid + "] a", g.tab.links.ul).text(title);
+        },
+        getTabItemSrc: function (tabid)
+        {
+            var g = this, p = this.options;
+            return $(".l-tab-content-item[tabid=" + tabid + "] iframe", g.tab.content).attr("src");
+        },
+        setTabItemSrc: function (tabid, url)
+        {
+            var g = this, p = this.options;
+            var contentitem = $(".l-tab-content-item[tabid=" + tabid + "]", g.tab.content);
+            var iframeloading = $(".l-tab-loading:first", contentitem);
+            var iframe = $(".l-tab-content-item[tabid=" + tabid + "] iframe", g.tab.content); 
+            iframeloading.show();
+            iframe.attr("src", url).unbind('load.tab').bind('load.tab', function ()
+            {
+                iframeloading.hide();
+            }); 
+        },
+
+       
+
         //判断tab是否存在
         isTabItemExist: function (tabid)
         {
             var g = this, p = this.options;
-            return $("li[tabid=" + tabid + "]", g.tab.links.ul).length > 0;
-        },
+            return $("li[tabid=" + tabid + "] a", g.tab.links.ul).length > 0;
+        }, 
         //增加一个tab
         addTabItem: function (options)
         {
@@ -671,7 +717,11 @@
             contentitem.attr("tabid", tabid); 
             if (url)
             {
-                iframe[0].tab = g;//增加iframe对tab对象的引用 
+                iframe[0].tab = g;//增加iframe对tab对象的引用  
+                if (options.data)
+                {
+                    iframe[0].openerData = options.data;
+                }
                 iframe.attr("name", tabid)
                  .attr("id", tabid)
                  .attr("src", url)
@@ -785,6 +835,28 @@
             g.setTabButton();
             g.trigger('afterRemoveTabItem', [tabid]);
         },
+
+        hideTabItem: function (tabid)
+        {
+            var g = this, p = this.options;
+            var currentIsSelected = $("li[tabid=" + tabid + "]", g.tab.links.ul).hasClass("l-selected");
+            if (currentIsSelected)
+            {
+                $(".l-tab-content-item[tabid=" + tabid + "]", g.tab.content).prev().show();
+                $("li[tabid=" + tabid + "]", g.tab.links.ul).prev().addClass("l-selected").siblings().removeClass("l-selected");
+            }
+            $("li[tabid=" + tabid + "]", g.tab.links.ul).hide();
+            $(".l-tab-content-item[tabid=" + tabid + "]", g.tab.content).hide();
+
+
+        },
+        showTabItem: function (tabid)
+        {
+            var g = this, p = this.options; 
+            $("li[tabid=" + tabid + "]", g.tab.links.ul).show(); 
+        },
+
+
         addHeight: function (heightDiff)
         {
             var g = this, p = this.options;

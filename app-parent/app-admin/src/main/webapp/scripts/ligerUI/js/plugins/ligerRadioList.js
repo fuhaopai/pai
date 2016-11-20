@@ -1,9 +1,9 @@
 ﻿/**
-* jQuery ligerUI 1.2.4
+* jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
 *  
-* Author daomi 2014 [ gd_star@163.com ] 
+* Author daomi 2015 [ gd_star@163.com ] 
 * 
 */
 (function ($)
@@ -23,6 +23,9 @@
         data: null,             //数据  
         parms: null,            //ajax提交表单 
         url: null,              //数据源URL(需返回JSON)
+        urlParms: null,                     //url带参数
+        ajaxContentType: null,
+        ajaxType: 'post', 
         onSuccess: null,
         onError: null,
         onSelect: null,
@@ -57,8 +60,16 @@
             var g = this, p = this.options;
             g.data = p.data;
             g.valueField = null; //隐藏域(保存值) 
-
-            if (p.valueFieldID)
+             
+            if ($(this.element).is(":hidden") || $(this.element).is(":text"))
+            {
+                g.valueField = $(this.element);
+                if ($(this.element).is(":text"))
+                {
+                    g.valueField.hide();
+                }
+            }
+            else if (p.valueFieldID)
             {
                 g.valueField = $("#" + p.valueFieldID + ":input,[name=" + p.valueFieldID + "]:input");
                 if (g.valueField.length == 0) g.valueField = $('<input type="hidden"/>');
@@ -75,7 +86,15 @@
                 g.valueField.addClass(p.valueFieldCssClass);
             }
             g.valueField.attr("data-ligerid", g.id);
-            g.radioList = $(this.element);
+
+
+            if ($(this.element).is(":hidden") || $(this.element).is(":text"))
+            {
+                g.radioList = $('<div></div>').insertBefore(this.element);
+            } else
+            {
+                g.radioList = $(this.element);
+            }
             g.radioList.html('<div class="l-radiolist-inner"><table cellpadding="0" cellspacing="0" border="0" class="l-radiolist-table"></table></div>').addClass("l-radiolist").append(g.valueField);
             g.radioList.table = $("table:first", g.radioList);
 
@@ -188,6 +207,7 @@
         _setValue: function (value)
         {
             var g = this, p = this.options;
+            g.valueField.val(value);
             p.value = value;
             this._dataInit();
         },
@@ -197,14 +217,29 @@
         },
         _setUrl: function (url)
         {
-            if (!url) return;
             var g = this, p = this.options;
+            if (!url) return;
+            var urlParms = $.isFunction(p.urlParms) ? p.urlParms.call(g) : p.urlParms;
+            if (urlParms)
+            {
+                for (name in urlParms)
+                {
+                    url += url.indexOf('?') == -1 ? "?" : "&";
+                    url += name + "=" + urlParms[name];
+                }
+            }
+            var parms = $.isFunction(p.parms) ? p.parms() : p.parms;
+            if (p.ajaxContentType == "application/json" && typeof (parms) != "string")
+            {
+                parms = liger.toJSON(parms);
+            }
             $.ajax({
                 type: 'post',
                 url: url,
-                data: p.parms,
+                data: parms,
                 cache: false,
                 dataType: 'json',
+                contentType: p.ajaxContentType,
                 success: function (data)
                 {
                     g.setData(data);
@@ -214,7 +249,7 @@
                 {
                     g.trigger('error', [XMLHttpRequest, textStatus]);
                 }
-            });
+            }); 
         },
         setUrl: function (url)
         {

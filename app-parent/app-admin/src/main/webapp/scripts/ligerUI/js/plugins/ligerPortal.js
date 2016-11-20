@@ -1,9 +1,9 @@
 ﻿/**
-* jQuery ligerUI 1.2.4
+* jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
 *  
-* Author daomi 2014 [ gd_star@163.com ] 
+* Author daomi 2015 [ gd_star@163.com ] 
 * 
 */
 (function ($)
@@ -131,7 +131,23 @@
             var rowObj = {
                 element : jrow[0]
             };
-            if (row.width) jrow.width(row.width);
+            if (row.width)
+            {
+                if (typeof (row.width) == "string")
+                {
+                    if (row.width.indexOf('%') > -1 )
+                    {
+                        jrow.width(row.width);
+                    }
+                    else
+                    {
+                        jrow.width(parseInt(row.width));
+                    }
+                } else
+                {
+                    jrow.width(row.width);
+                }
+            }
             if (row.height) jrow.height(row.height);
             if (row.columns) rowObj.columns = [];
             if (row.columns && row.columns.length)

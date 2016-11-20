@@ -73,8 +73,18 @@
 .l-accordion-content{position:relative;overflow:auto; background:white url('../images/layout/accordion-content.gif') repeat-x;}
 
 .l-layout-left .l-accordion-panel{ border-left:none; border-right:none;  }
-
-
+.l-accordion-header i {
+    display: none;
+}
+.l-accordion-header-hasicon {
+    padding-left:30px;position:relative;    
+}
+.l-accordion-header-hasicon i {
+    display:block;position:absolute;left:5px;top:5px;width:16px;height:16px;margin:0;padding:0;
+}
+    .l-accordion-header-hasicon i img {
+        width:16px;height:16px;
+    }
 /* --------------
    *   panel  *
 * ------------ */

@@ -5,10 +5,12 @@
     <title>π管理后台</title>
     <link href="${CtxPath}/scripts/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" /> 
     <link href="${CtxPath}/scripts/ligerUI/skins/Gray2014/css/all.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" id="mylink"/>
     <script src="${CtxPath}/scripts/jquery/jquery-1.11.2.min.js" type="text/javascript"></script>    
     <script src="${CtxPath}/scripts/ligerUI/js/ligerui.all.js" type="text/javascript"></script> 
     <script src="${CtxPath}/scripts/ligerUI/js/plugins/ligerTab.js"></script>
     <script src="${CtxPath}/scripts/jquery/jquery.cookie.js"></script>
+    <script src="${CtxPath}/scripts/ligerUI/js/json2.js"></script>
     <script type="text/javascript">
         var tab = null;
         var accordion = null;
@@ -147,10 +149,10 @@
             { 
                 if (this.value)
                 {
-                    location.href = "index.htm?skin=" + this.value;
+                    location.href = "${CtxPath}/admin/pai/auth/main.do?skin=" + this.value;
                 } else
                 {
-                    location.href = "index.htm";
+                    location.href = "${CtxPath}/admin/pai/auth/main.do";
                 }
             });
 
@@ -204,7 +206,7 @@
 				height:600,
 				width: 800,
 				title : '修改密码',
-				url:  '${CtxPath}/storeadmin/biz/ou/user/editPassword.do', 
+				url:  '${CtxPath}/admin/pai/auth/authUser/editPassword.do', 
 				showMax: false,
 				showToggle: true,
 				showMin: false,
@@ -220,14 +222,14 @@
 	    .l-link2{text-decoration:underline; color:white; margin-left:2px;margin-right:2px;}
 	    .l-layout-top{background:#102A49; color:White;}
 	    .l-layout-bottom{ background:#E5EDEF; text-align:center;}
-	    #pageloading{position:absolute; left:0px; top:0px; background:white url('${CtxPath}/scripts/ligerUI/skins/Gray2014/images/ui/loading.gif') no-repeat center; width:100%; height:100%;z-index:99999;}
+	    #pageloading{position:absolute; left:0px; top:0px; background:white url('${CtxPath}/images/ligerUI/loading.gif') no-repeat center; width:100%; height:100%;z-index:99999;}
 	    .l-link{ display:block; line-height:22px; height:22px; padding-left:16px;border:1px solid white; margin:4px;}
 	    .l-link-over{ background:#FFEEAC; border:1px solid #DB9F00;} 
 	    .l-winbar{ background:#2B5A76; height:30px; position:absolute; left:0px; bottom:0px; width:100%; z-index:99999;}
 	    .space{ color:#E7E7E7;}
 	    /* 顶部 */ 
-	    .l-topmenu{ margin:0; padding:0; height:31px; line-height:31px; background:url('${CtxPath}/styles/main/images/top.jpg') repeat-x bottom;  position:relative; border-top:1px solid #1D438B;  }
-	    .l-topmenu-logo{ color:#E7E7E7; padding-left:35px; line-height:26px;background:url('${CtxPath}/styles/main/images/topicon.gif') no-repeat 10px 5px;}
+	    .l-topmenu{ margin:0; padding:0; height:31px; line-height:31px; background:url('${CtxPath}/images/ligerUI/top.jpg') repeat-x bottom;  position:relative; border-top:1px solid #1D438B;  }
+	    .l-topmenu-logo{ color:#E7E7E7; padding-left:35px; line-height:26px;background:url('${CtxPath}/images/ligerUI/topicon.gif') no-repeat 10px 5px;}
 	    .l-topmenu-welcome{  position:absolute; height:24px; line-height:24px;  right:30px; top:2px;color:#070A0C;}
 	    .l-topmenu-welcome a{ color:#E7E7E7; text-decoration:underline} 
 	     .body-gray2014 #framecenter{

@@ -1,9 +1,9 @@
 ﻿/**
-* jQuery ligerUI 1.2.4
+* jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
 *  
-* Author daomi 2014 [ gd_star@163.com ] 
+* Author daomi 2015 [ gd_star@163.com ] 
 * 
 */
 (function ($)
@@ -20,9 +20,11 @@
 
     $.ligerDefaults.Tree = {
         url: null,
+        urlParms: null,                     //url带参数
         data: null,
         checkbox: true,
         autoCheckboxEven: true,
+        enabledCompleteCheckbox : true,     //是否启用半选择
         parentIcon: 'folder',
         childIcon: 'leaf',
         textFieldName: 'text',
@@ -58,6 +60,7 @@
         nodeDraggingRender: null,
         btnClickToToggleOnly: true,     //是否点击展开/收缩 按钮时才有效
         ajaxType: 'post',
+        ajaxContentType : null,
         render: null,               //自定义函数
         selectable: null,           //可选择判断函数
         /*
@@ -79,7 +82,13 @@
 
         优先级没有节点数据的delay属性高
         */
-        delay: null
+        delay: null,
+
+        //id字段
+        idField: null,
+        //parent id字段，可用于线性数据转换为tree数据
+        parentIDField: null,
+	    iconClsFieldName : null 
     };
 
     $.ligerui.controls.Tree = function (element, options)
@@ -129,6 +138,27 @@
                 success: callback
             });
         },
+
+        //刷新节点
+        reloadNode: function (node, data, callback)
+        {
+            var g = this, p = this.options; 
+            g.clear(node); 
+            if (typeof (data) == "string")
+            {
+                g.loadData(node, data, null, {
+                    success: callback
+                });
+            } else
+            { 
+                if (!data) return;
+                if (p.idField && p.parentIDField)
+                {
+                    data = g.arrayToTree(data, p.idField, p.parentIDField);
+                } 
+                g.append(node, data);
+            }
+        },
         _setUrl: function (url)
         {
             var g = this, p = this.options;
@@ -168,7 +198,7 @@
             var parentTreeNode = g.getParentTreeItem(treenode, level);
             if (!parentTreeNode) return null;
             var parentIndex = $(parentTreeNode).attr("treedataindex");
-            return g._getDataNodeByTreeDataIndex(parentIndex);
+            return g._getDataNodeByTreeDataIndex(g.data,parentIndex);
         },
         //获取父节点
         getParentTreeItem: function (treenode, level)
@@ -204,6 +234,21 @@
             });
             return nodes;
         },
+        getCheckedData: function ()
+        {
+            var g = this, p = this.options;
+            if (!this.options.checkbox) return null;
+            var nodes = [];
+            $(".l-checkbox-checked", g.tree).parent().parent("li").each(function ()
+            {
+                var treedataindex = parseInt($(this).attr("treedataindex"));
+                nodes.push(g._getDataNodeByTreeDataIndex(g.data, treedataindex));
+            });
+            return nodes;
+        },
+
+
+
         //add by superzoc 12/24/2012 
         refreshTree: function ()
         {
@@ -277,6 +322,41 @@
         {
             var g = this, p = this.options;
             $(".l-expandable-close", g.tree).click();
+        }, 
+        arrayToTree: function (data, id, pid)      //将ID、ParentID这种数据格式转换为树格式
+        {
+            var g = this, p = this.options;
+            var childrenName = "children"; 
+            if (!data || !data.length) return [];
+            var targetData = [];                    //存储数据的容器(返回) 
+            var records = {};
+            var itemLength = data.length;           //数据集合的个数
+            for (var i = 0; i < itemLength; i++)
+            {
+                var o = data[i];
+                var key = getKey(o[id]);
+                records[key] = o;
+            }
+            for (var i = 0; i < itemLength; i++)
+            {
+                var currentData = data[i];
+                var key = getKey(currentData[pid]);
+                var parentData = records[key];
+                if (!parentData)
+                {
+                    targetData.push(currentData);
+                    continue;
+                }
+                parentData[childrenName] = parentData[childrenName] || [];
+                parentData[childrenName].push(currentData);
+            }
+            return targetData;
+
+            function getKey(key)
+            {
+                if (typeof (key) == "string") key = key.replace(/[.]/g, '').toLowerCase();
+                return key;
+            }
         },
         loadData: function (node, url, param, e)
         {
@@ -296,12 +376,24 @@
             var ajaxtype = p.ajaxType;
             //解决树无法设置parms的问题
             param = $.extend(($.isFunction(p.parms) ? p.parms() : p.parms), param);
-            //请求服务器
-            $.ajax({
+            if (p.ajaxContentType == "application/json" && typeof (param) != "string")
+            {
+                param = liger.toJSON(param);
+            } 
+            var urlParms = $.isFunction(p.urlParms) ? p.urlParms.call(g) : p.urlParms;
+            if (urlParms)
+            {
+                for (name in urlParms)
+                {
+                    url += url.indexOf('?') == -1 ? "?" : "&";
+                    url += name + "=" + urlParms[name];
+                }
+            }
+            var ajaxOp = {
                 type: ajaxtype,
                 url: url,
                 data: param,
-                dataType: 'json',
+                dataType: 'json', 
                 beforeSend: function ()
                 {
                     e.showLoading();
@@ -309,6 +401,10 @@
                 success: function (data)
                 {
                     if (!data) return;
+                    if (p.idField && p.parentIDField)
+                    {
+                        data = g.arrayToTree(data, p.idField, p.parentIDField);
+                    }
                     e.hideLoading();
                     g.append(node, data);
                     g.trigger('success', [data]);
@@ -327,18 +423,35 @@
 
                     }
                 }
-            });
+            };
+            if (p.ajaxContentType)
+            {
+                ajaxOp.contentType = p.ajaxContentType;
+            }
+            $.ajax(ajaxOp);
         },
+
         //清空
-        clear: function ()
+        clear: function (node)
         {
             var g = this, p = this.options;
-            g.toggleNodeCallbacks = [];
-            g.data = null;
-            g.data = [];
-            g.nodes = null;
-            g.tree.html("");
+            if (!node)
+            {
+                g.toggleNodeCallbacks = [];
+                g.data = null;
+                g.data = [];
+                g.nodes = null;
+                g.tree.html("");
+            } else
+            {
+               
+                var nodeDom = g.getNodeDom(node);
+                var nodeData = g._getDataNodeByTreeDataIndex(g.data, $(nodeDom).attr("treedataindex"));
+                $(nodeDom).find("ul.l-children").remove();
+                if (nodeData) nodeData.children = [];
+            }
         },
+
         //parm [treeNode] dom节点(li)、节点数据 或者节点 dataindex
         getNodeDom: function (nodeParm)
         {
@@ -351,6 +464,9 @@
             else if (typeof (nodeParm) == "object" && 'treedataindex' in nodeParm) //nodedata
             {
                 return g.getNodeDom(nodeParm['treedataindex']);
+            } else if(nodeParm.target && nodeParm.data)
+            {
+                return nodeParm.target;
             }
             return nodeParm;
         },
@@ -510,7 +626,7 @@
             g.trigger('afterAppend', [parentNode, newdata]);
         },
         //parm [nodeParm] dom节点(li)、节点数据 或者节点 dataindex
-        cancelSelect: function (nodeParm)
+        cancelSelect: function (nodeParm, isTriggerEvent)
         {
             var g = this, p = this.options;
             var domNode = g.getNodeDom(nodeParm);
@@ -522,10 +638,13 @@
                 $(".l-checkbox", treeitembody).removeClass("l-checkbox-checked").addClass("l-checkbox-unchecked");
             else
                 treeitembody.removeClass("l-selected");
-            g.trigger('cancelSelect', [{ data: treenodedata, target: treeitem[0] }]);
+            if (isTriggerEvent != false)
+            {
+                g.trigger('cancelSelect', [{ data: treenodedata, target: treeitem[0] }]);
+            }
         },
         //选择节点(参数：条件函数、Dom节点或ID值)
-        selectNode: function (selectNodeParm)
+        selectNode: function (selectNodeParm,isTriggerEvent)
         {
             var g = this, p = this.options;
             var clause = null;
@@ -552,14 +671,17 @@
                     $("div.l-selected", g.tree).removeClass("l-selected");
                     treeitembody.addClass("l-selected");
                 }
-                g.trigger('select', [{ data: treenodedata, target: treeitembody.parent().get(0) }]);
+                if (isTriggerEvent != false)
+                {
+                    g.trigger('select', [{ data: treenodedata, target: treeitembody.parent().get(0) }]);
+                }
                 return;
             }
             else
             {
                 clause = function (data)
                 {
-                    if (!data[p.idFieldName]) return false;
+                    if (!data[p.idFieldName] && data[p.idFieldName] != 0) return false;
                     return strTrim(data[p.idFieldName].toString()) == strTrim(selectNodeParm.toString());
                 };
             }
@@ -570,14 +692,14 @@
                 var treenodedata = g._getDataNodeByTreeDataIndex(g.data, treedataindex);
                 if (clause(treenodedata, treedataindex))
                 {
-                    g.selectNode(this);
+                    g.selectNode(this, isTriggerEvent);
                 }
                 else
                 {
                     //修复多选checkbox为true时调用该方法会取消已经选中节点的问题
                     if (!g.options.checkbox)
                     {
-                        g.cancelSelect(this);
+                        g.cancelSelect(this, isTriggerEvent);
                     }
                 }
             });
@@ -593,6 +715,28 @@
         {
             var g = this, p = this.options;
             var data = null;
+
+            if (g.data && g.data.length)
+            {
+                return find(g.data);
+            }
+
+            function find(items)
+            {
+                for (var i = 0; i < items.length; i++)
+                {
+                    var dataItem = items[i];
+                    if (dataItem[p.idFieldName] == id) return dataItem;
+                    if (dataItem.children && dataItem.children.length)
+                    {
+                        var o = find(dataItem.children);
+                        if (o) return o;
+                    } 
+                }
+                return null;
+            }
+
+
             $("li", g.tree).each(function ()
             {
                 if (data) return;
@@ -631,6 +775,10 @@
             }
             return targetData;
         },
+
+
+
+
         //根据数据索引获取数据
         _getDataNodeByTreeDataIndex: function (data, treedataindex)
         {
@@ -851,6 +999,8 @@
                         treehtmlarr.push(g._getParentNodeClassName(isExpandCurrent ? true : false) + " ");
                         if (p.iconFieldName && o[p.iconFieldName])
                             treehtmlarr.push('l-tree-icon-none');
+                        else if (p.iconClsFieldName && o[p.iconClsFieldName])
+                            treehtmlarr.push('l-tree-icon-' + o[p.iconClsFieldName] + " ");
                         treehtmlarr.push('">');
                         if (p.iconFieldName && o[p.iconFieldName])
                             treehtmlarr.push('<img src="' + o[p.iconFieldName] + '" />');
@@ -875,6 +1025,9 @@
                         treehtmlarr.push(g._getChildNodeClassName() + " ");
                         if (p.iconFieldName && o[p.iconFieldName])
                             treehtmlarr.push('l-tree-icon-none');
+                        else if (p.iconClsFieldName && o[p.iconClsFieldName])
+                            treehtmlarr.push('l-tree-icon-' + o[p.iconClsFieldName] + " ");
+
                         treehtmlarr.push('">');
                         if (p.iconFieldName && o[p.iconFieldName])
                             treehtmlarr.push('<img src="' + o[p.iconFieldName] + '" />');
@@ -1389,13 +1542,8 @@
             var isCheckedComplete = $(".l-checkbox-unchecked", treeitem.parent()).length == 0;
             //当前同级别或低级别的节点是否都没有选中
             var isCheckedNull = $(".l-checkbox-checked", treeitem.parent()).length == 0;
-            if (isCheckedComplete)
-            {
-                treeitem.parent().prev().find(".l-checkbox")
-                                    .removeClass("l-checkbox-unchecked l-checkbox-incomplete")
-                                    .addClass("l-checkbox-checked");
-            }
-            else if (isCheckedNull)
+             
+            if (isCheckedNull)
             {
                 treeitem.parent().prev().find("> .l-checkbox")
                                     .removeClass("l-checkbox-checked l-checkbox-incomplete")
@@ -1403,9 +1551,18 @@
             }
             else
             {
-                treeitem.parent().prev().find("> .l-checkbox")
-                                    .removeClass("l-checkbox-unchecked l-checkbox-checked")
-                                    .addClass("l-checkbox-incomplete");
+                if (isCheckedComplete || !p.enabledCompleteCheckbox)
+                {
+                    treeitem.parent().prev().find(".l-checkbox")
+                                        .removeClass("l-checkbox-unchecked l-checkbox-incomplete")
+                                        .addClass("l-checkbox-checked");
+                }
+                else
+                {
+                    treeitem.parent().prev().find("> .l-checkbox")
+                                        .removeClass("l-checkbox-unchecked l-checkbox-checked")
+                                        .addClass("l-checkbox-incomplete");
+                }
             }
             if (treeitem.parent().parent("li").length > 0)
                 g._setParentCheckboxStatus(treeitem.parent().parent("li"));

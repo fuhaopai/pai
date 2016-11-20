@@ -16,9 +16,11 @@ import com.pai.biz.frame.repository.IRepository;
 import com.pai.base.core.constants.ActionMsgCode;
 import com.pai.base.core.entity.CommonResult;
 import com.pai.app.web.core.framework.util.PageUtil;
+import com.pai.app.web.core.framework.web.context.OuOnlineHolder;
 import com.pai.app.web.core.framework.web.controller.AdminController;
 import com.pai.app.web.core.framework.web.entity.QueryBuilder;
 import com.pai.base.core.util.string.StringUtils;
+import com.pai.base.db.api.constants.OnlineUserIdHolder;
 import com.pai.service.image.utils.RequestUtil;
 import com.pai.biz.auth.domain.AuthUser;
 import com.pai.biz.auth.repository.AuthUserRepository;
@@ -86,8 +88,7 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 	@RequestMapping("edit")
 	public ModelAndView edit(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		//获取主键
-		String id = RequestUtil.getParameterNullSafe(request, "id");
-		
+		String id = OnlineUserIdHolder.getUserId();
 		//装载领域对象
 		//是否新增
 		boolean isNew =StringUtils.isEmpty(id)?true:false; 
@@ -113,6 +114,38 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 	}	
 	
 	/**
+	 * 修改密码
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception 
+	 * ModelAndView
+	 * @exception 
+	 * @since  1.0.0
+	 */	
+	@RequestMapping("editPassword")
+	public ModelAndView editPassword(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		//获取主键
+		String id = OnlineUserIdHolder.getUserId();
+		//是否新增
+		boolean isNew =StringUtils.isEmpty(id)?true:false; 
+		AuthUser authUser = null;
+		if(isNew){
+			authUser = authUserRepository.newInstance();
+		}else{
+			authUser = authUserRepository.load(id);			
+		}		
+		
+		//构造返回对象和视图
+		ModelAndView modelAndView = buildAutoView(request);
+		modelAndView.addObject("isNew",isNew);
+		modelAndView.addObject(poEntityName, authUser.getData());
+		
+		//返回
+		return modelAndView;		
+	}	
+	
+	/**
 	 * 保存【用户】
 	 * @param request
 	 * @param response
@@ -125,7 +158,7 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 	@RequestMapping("save")
 	@ResponseBody
 	public CommonResult save(HttpServletRequest request,HttpServletResponse response,AuthUserPo authUserPo) throws Exception{
-		//是否新增
+		 //是否新增
 		boolean isNew = StringUtils.isEmpty(authUserPo.getId())?true:false;
 		
 		//构造领域对象和保存数据
@@ -142,6 +175,37 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 			result.setMsgCode(ActionMsgCode.UPDATE.name());
 		}			
 		
+		//返回
+		return result;
+	}		
+	
+	/**
+	 * 保存【用户】
+	 * @param request
+	 * @param response
+	 * @param authUserPo
+	 * @throws Exception 
+	 * void
+	 * @exception 
+	 * @since  1.0.0
+	 */	
+	@RequestMapping("savePassword")
+	@ResponseBody
+	public CommonResult savePassword(HttpServletRequest request,HttpServletResponse response,AuthUserPo authUserPo) throws Exception{
+		//构造返回数据
+		CommonResult result = new CommonResult();
+		String passwordConfirm = RequestUtil.getParameterNullSafe(request, "passwordConfirm");
+		if(!authUserPo.getPassword().equals(passwordConfirm)){
+			result.setSuccess(false);
+			result.setMsgCode("两次密码不一致");
+			return result;
+		}
+		//构造领域对象和保存数据
+		AuthUser authUser = authUserRepository.newInstance();
+		authUser.setData(authUserPo);
+		authUser.updatePassword(authUserPo);
+		result.setSuccess(true);
+		result.setMsgCode(ActionMsgCode.UPDATE.name());
 		//返回
 		return result;
 	}		

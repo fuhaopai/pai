@@ -10,4 +10,6 @@ import com.pai.biz.auth.persistence.entity.AuthUserPo;
  */
 public interface AuthUserDao extends IDao<String, AuthUserPo> {
 
+	void updatePassword(AuthUserPo authUserPo);
+
 }

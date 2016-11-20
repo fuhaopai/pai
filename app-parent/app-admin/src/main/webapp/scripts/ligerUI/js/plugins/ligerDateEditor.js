@@ -1,9 +1,9 @@
 ﻿/**
-* jQuery ligerUI 1.2.4
+* jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
 *  
-* Author daomi 2014 [ gd_star@163.com ] 
+* Author daomi 2015 [ gd_star@163.com ] 
 * 
 */
 (function ($)
@@ -695,8 +695,8 @@
         },
         getFormatDate: function (date)
         {
-            var g = this, p = this.options;
-            if (date == "NaN") return null;
+            if (date === null || date == "NaN") return null;
+        	var g = this, p = this.options;
             var format = p.format;
             var o = {
                 "M+": date.getMonth() + 1,
@@ -909,10 +909,8 @@
                     value = value.replace(/^\//, "new ").replace(/\/$/, "");
                     eval("value = " + value);
                 }
-                else
-                {
-                    g.inputText.val(value);
-                }
+                g.inputText.val(value);
+                g.usedDate = value;
             }
             if (typeof value == "object")
             {

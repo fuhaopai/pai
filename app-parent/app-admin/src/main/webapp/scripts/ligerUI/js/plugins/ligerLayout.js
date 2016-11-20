@@ -1,9 +1,9 @@
 ﻿/**
-* jQuery ligerUI 1.2.4
+* jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
 *  
-* Author daomi 2014 [ gd_star@163.com ] 
+* Author daomi 2015 [ gd_star@163.com ] 
 * 
 */
 (function ($)
@@ -42,7 +42,9 @@
         space: 3, //间隔 
         onEndResize: null,          //调整大小结束事件
         minLeftWidth: 80,            //调整左侧宽度时的最小允许宽度
-        minRightWidth: 80           //调整右侧宽度时的最小允许宽度 
+        minRightWidth: 80,           //调整右侧宽度时的最小允许宽度  
+        onLeftToggle: null,  //左边收缩/展开事件
+        onRightToggle: null  //右边收缩/展开事件
     };
 
     $.ligerMethos.Layout = {};
@@ -266,6 +268,8 @@
                 g.left.show();
             }
             g._onResize();
+
+            g.trigger('leftToggle', [isCollapse]);
         },
         setRightCollapse: function (isCollapse)
         {
@@ -286,6 +290,8 @@
                 g.right.show();
             }
             g._onResize();
+
+            g.trigger('rightToggle', [isCollapse]);
         },
         _bulid: function ()
         {

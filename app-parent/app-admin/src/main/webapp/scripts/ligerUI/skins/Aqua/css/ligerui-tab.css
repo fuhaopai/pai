@@ -15,7 +15,11 @@ background:url('../images/layout/tabs-bg.gif') repeat-x; border-bottom:1px solid
 .l-tab-links-right-invalid{ background-position:-85px 0px;}
 
 
-.l-tab-switch { position:absolute; top:1px; right:0;width:17px; height:23px; overflow:hidden;background:url(../images/layout/tabs-tools.gif) -102px 0px;z-index:13; cursor:pointer; display:none; }
+
+
+.l-tab-switch { position:absolute; 
+                top:1px; right:0;width:17px; 
+                height:23px; overflow:hidden;background:url(../images/layout/tabs-tools.gif) -102px 0px;z-index:13; cursor:pointer; display:none; }
 .l-tab-itemswitch
 { 
     width: 26px;border-top-right-radius: 3px;background: #fff; position:relative;
@@ -37,6 +41,13 @@ background:url('../images/layout/tabs-bg.gif') repeat-x; border-bottom:1px solid
 {
     border:1px solid #BED5F3; padding:1px; background:#ffffff;position: absolute;
     z-index: 9900;
+}
+.l-tab-windowsswitch .theline {
+    height:1px;line-height:1px;margin-top:5px; margin-bottom:5px;border:none;
+    border-bottom:1px dashed #DCDCDC;
+}
+.l-tab-windowsswitch .closeall {
+    background:url(../images/layout/closeall.gif);height:16px; line-height:16px;width:16px;
 }
     .l-tab-windowsswitch a
     {

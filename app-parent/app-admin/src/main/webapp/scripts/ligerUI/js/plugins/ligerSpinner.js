@@ -1,9 +1,9 @@
 ﻿/**
-* jQuery ligerUI 1.2.4
+* jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
 *  
-* Author daomi 2014 [ gd_star@163.com ] 
+* Author daomi 2015 [ gd_star@163.com ] 
 * 
 */
 (function ($)
@@ -23,6 +23,7 @@
         decimalplace: 2,   //小数位 type=float时起作用
         step: 0.1,         //每次增加的值
         interval: 50,      //间隔，毫秒
+        value : null,
         onChangeValue: false,    //改变值事件
         minValue: null,        //最小值
         maxValue: null,         //最大值
@@ -186,6 +187,11 @@
                 g.wrapper.removeClass("l-text-over");
             });
             g.set(p);
+        },
+        _setValue: function (value)
+        {
+            if (value != null)
+                this.inputText.val(value);
         },
         _setWidth: function (value)
         {

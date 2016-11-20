@@ -1,9 +1,9 @@
 ﻿/**
-* jQuery ligerUI 1.2.4
+* jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
 *  
-* Author daomi 2014 [ gd_star@163.com ] 
+* Author daomi 2015 [ gd_star@163.com ] 
 * 
 */
 (function ($)
@@ -17,6 +17,7 @@
         width: 120,
         top: 0,
         left: 0,
+        cls : null,
         items: null,
         shadow: true
     };
@@ -50,6 +51,7 @@
             g.menu = g.createMenu();
             g.element = g.menu[0];
             g.menu.css({ top: p.top, left: p.left, width: p.width });
+            p.cls && g.menu.addClass(p.cls);
 
             p.items && $(p.items).each(function (i, item)
             {

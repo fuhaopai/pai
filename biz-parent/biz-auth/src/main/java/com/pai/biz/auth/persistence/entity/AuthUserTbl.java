@@ -1,6 +1,4 @@
 package com.pai.biz.auth.persistence.entity;
-import java.util.Date;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
