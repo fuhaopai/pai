@@ -16,5 +16,5 @@ public interface AuthResourcesQueryDao extends IQueryDao<String, AuthResourcesPo
 	 * @param userId
 	 * @return
 	 */
-	public List<AuthResourcesPo> findResourcesByUserId(String userId);
+	public List<AuthResourcesPo> listResourcesByUserId(String userId);
 }

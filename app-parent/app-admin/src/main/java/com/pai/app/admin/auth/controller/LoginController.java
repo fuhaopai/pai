@@ -85,9 +85,6 @@ public class LoginController extends LigerUIController{
 					} finally {
 						executorService.shutdown();
 					}
-					//权限过滤
-					List<AuthResourcesPo> authResourcesPos = authResourcesRepository.findResourcesByUserId(authUserPo.getId());
-					authUserPo.setAuthResourcesPos(authResourcesPos);
 					//放置session
 					OuOnlineHolder.setUserPo(request.getSession(), authUserPo);
 					//重定向到后台主页

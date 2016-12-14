@@ -13,6 +13,6 @@ import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
  */
 public interface AuthResourcesRepository extends IRepository<String, AuthResourcesPo,AuthResources>{
 
-	List<AuthResourcesPo> findResourcesByUserId(String id);
-	 
+	List<AuthResourcesPo> listResourcesByUserId(String id);
+	
 }

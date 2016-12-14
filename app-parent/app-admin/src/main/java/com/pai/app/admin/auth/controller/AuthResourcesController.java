@@ -6,6 +6,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.util.JSONStringer;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +18,7 @@ import com.pai.biz.frame.repository.IRepository;
 import com.pai.base.core.constants.ActionMsgCode;
 import com.pai.base.core.entity.CommonResult;
 import com.pai.app.web.core.framework.util.PageUtil;
+import com.pai.app.web.core.framework.web.context.OuOnlineHolder;
 import com.pai.app.web.core.framework.web.controller.AdminController;
 import com.pai.app.web.core.framework.web.entity.QueryBuilder;
 import com.pai.base.core.util.string.StringUtils;
@@ -23,6 +26,7 @@ import com.pai.service.image.utils.RequestUtil;
 import com.pai.biz.auth.domain.AuthResources;
 import com.pai.biz.auth.repository.AuthResourcesRepository;
 import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
+import com.pai.biz.auth.persistence.entity.AuthUserPo;
 
 /**
  * 对象功能:资源 控制类
@@ -71,6 +75,65 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		String listData = buildListData(authResourcesPoList,totalRecords);
 		
 		return listData;
+	}
+	
+	/**
+	 * 封装菜单json资源
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("listResources")	
+	@ResponseBody
+	public String listResources(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		AuthUserPo authUserPo=OuOnlineHolder.getUserPo();
+		if(authUserPo==null){
+			return "";
+		}
+		//查询资源列表
+		List<AuthResourcesPo> authResourcesPoList = authResourcesRepository.listResourcesByUserId(authUserPo.getId());
+		//拼装ligerUI返回数据
+		JSONStringer stringer = new JSONStringer();
+		stringer.array();
+		for(AuthResourcesPo authResourcesPo:authResourcesPoList){
+			append(request, stringer, authResourcesPo);
+		}
+		stringer.endArray();				
+		return stringer.toString();
+	}
+	
+	private void append(HttpServletRequest request, JSONStringer stringer, AuthResourcesPo authResourcesPo) {
+		if(StringUtils.isEmpty(authResourcesPo.getUrl()))
+			appendMenu(request, stringer, authResourcesPo);
+		else 
+			appendItem(request, stringer, authResourcesPo);
+	}
+
+	private void appendMenu(HttpServletRequest request, JSONStringer stringer, AuthResourcesPo authResourcesPo) {
+		stringer.object();
+		stringer.key("text");
+		stringer.value(authResourcesPo.getName());
+		stringer.key("isexpand");
+		stringer.value("false");
+		stringer.key("children");
+		stringer.array();
+		for(AuthResourcesPo sub:authResourcesPo.getSubs()){			
+			append(request, stringer, sub);
+		}
+		stringer.endArray();
+		stringer.endObject();
+	}
+
+	private void appendItem(HttpServletRequest request, JSONStringer stringer, AuthResourcesPo authResourcesPo) {
+		stringer.object();
+		stringer.key("url");
+		stringer.value(request.getContextPath() + authResourcesPo.getUrl());
+		stringer.key("text");
+		stringer.value(authResourcesPo.getName());
+		stringer.key("tabid");
+		stringer.value(authResourcesPo.getId()+"TabId");
+		stringer.endObject();
 	}
 	
 	/**

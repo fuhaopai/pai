@@ -66,7 +66,7 @@
             });
             //树
             $("#tree1").ligerTree({
-                url : '${CtxPath}/storeadmin/biz/ou/res/getResources.do',
+                url : '${CtxPath}/admin/pai/auth/authResources/listResources.do',
                 checkbox: false,
                 slide: false,
                 nodeWidth: 120,

@@ -46,8 +46,8 @@ public class AuthResourcesRepositoryImpl extends AbstractRepository<String, Auth
 	}
 
 	@Override
-	public List<AuthResourcesPo> findResourcesByUserId(String userId) {
-		return authResourcesQueryDao.findResourcesByUserId(userId);
+	public List<AuthResourcesPo> listResourcesByUserId(String userId) {
+		return listToTree(authResourcesQueryDao.listResourcesByUserId(userId));
 	}
 	
 }

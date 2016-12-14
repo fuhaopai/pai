@@ -11,14 +11,4 @@ import java.util.List;
  */
 public class AuthUserPo extends AuthUserTbl{
 
-	private List<AuthResourcesPo> authResourcesPos = new ArrayList<AuthResourcesPo>();
-
-	public List<AuthResourcesPo> getAuthResourcesPos() {
-		return authResourcesPos;
-	}
-
-	public void setAuthResourcesPos(List<AuthResourcesPo> authResourcesPos) {
-		this.authResourcesPos = authResourcesPos;
-	}
-
 }

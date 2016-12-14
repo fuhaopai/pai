@@ -12,21 +12,21 @@
         $(function ()
         {
         	searchForm = $("#form1").ligerForm({
-				inputWidth : 190,labelWidth : 0,space : 1,rightToken :'',
+				inputWidth : 180,labelWidth : 90,space : 50,rightToken :'',
 				fields : [
-				{ display: '&nbsp;名称', name: 'Q__S__EQ__name', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;资源类型（1=菜单；2=功能按钮）', name: 'Q__S__EQ__type', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;资源链接', name: 'Q__S__EQ__url', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;父资源Id', name: 'Q__S__EQ__parentId', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;树路劲', name: 'Q__S__EQ__path', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;层次', name: 'Q__S__EQ__depath', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;图标', name: 'Q__S__EQ__icon', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;排序', name: 'Q__S__EQ__sort', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;状态', name: 'Q__S__EQ__status', align: 'left', width: 80, minWidth: 60 },
+				{ display: '名称', name: 'Q__S__EQ__name', newline : false, align: 'left', width: 140 },
+				{ display: '资源类型', name: 'Q__S__EQ__type', newline : false, align: 'left', width: 140 },
+				{ display: '资源链接', name: 'Q__S__EQ__url', newline : false, align: 'left', width: 140 },
+				{ display: '父资源Id', name: 'Q__S__EQ__parentId', newline : false, align: 'left', width: 140 },
+				{ display: '树路劲', name: 'Q__S__EQ__path', newline : false, align: 'left', width: 140 },
+				{ display: '层次', name: 'Q__S__EQ__depath', newline : false, align: 'left', width: 140 },
+				{ display: '图标', name: 'Q__S__EQ__icon', newline : false, align: 'left', width: 140 },
+				{ display: '排序', name: 'Q__S__EQ__sort', newline : false, align: 'left', width: 140 },
+				{ display: '状态', name: 'Q__S__EQ__status', newline : false, align: 'left', width: 140 },
 				{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
-					          	{display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", 
-								name: "searchButton", newline: false, width:0.01}
-							  ]
+	          	{display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' 
+	          		style='width:50px;'>", name: "searchButton", newline: false, width:0.01}
+				  ]
 				});        
         	
            grid = $("#maingrid").ligerGrid({
@@ -39,25 +39,29 @@
 	             } ,
 	             
                 columns: [
-				{ display: '名称', name: 'name', align: 'left', width: 80, minWidth: 60 },
-				{ display: '资源类型（1=菜单；2=功能按钮）', name: 'type', align: 'left', width: 80, minWidth: 60 },
-				{ display: '资源链接', name: 'url', align: 'left', width: 80, minWidth: 60 },
-				{ display: '父资源Id', name: 'parentId', align: 'left', width: 80, minWidth: 60 },
-				{ display: '树路劲', name: 'path', align: 'left', width: 80, minWidth: 60 },
-				{ display: '层次', name: 'depath', align: 'left', width: 80, minWidth: 60 },
-				{ display: '图标', name: 'icon', align: 'left', width: 80, minWidth: 60 },
-				{ display: '排序', name: 'sort', align: 'left', width: 80, minWidth: 60 },
-				{ display: '状态', name: 'status', align: 'left', width: 80, minWidth: 60 }
-                ], url:'${CtxPath}/admin/pai/auth/authResources/listData.do', pageSize:30 ,rownumbers:true,pagesizeParmName:'pageSize',
+					{ display: '名称', name: 'name', align: 'left', width: 80, minWidth: 60 },
+					{ display: '资源类型（1=菜单；2=功能按钮）', name: 'type', align: 'left', width: 80, minWidth: 60 },
+					{ display: '资源链接', name: 'url', align: 'left', width: 80, minWidth: 60 },
+					{ display: '父资源Id', name: 'parentId', align: 'left', width: 80, minWidth: 60 },
+					{ display: '树路劲', name: 'path', align: 'left', width: 80, minWidth: 60 },
+					{ display: '层次', name: 'depath', align: 'left', width: 80, minWidth: 60 },
+					{ display: '图标', name: 'icon', align: 'left', width: 80, minWidth: 60 },
+					{ display: '排序', name: 'sort', align: 'left', width: 80, minWidth: 60 },
+					{ display: '状态', name: 'status', align: 'left', width: 80, minWidth: 60 }
+                ], 
+                url:'${CtxPath}/admin/pai/auth/authResources/listData.do', 
+                pageSize:30 ,
+                rownumbers:true,
+                pagesizeParmName:'pageSize',
                 onReload:setDataToGrid,
                 toolbar: { items: [
-                { id:'add',text: '增加', click: add, icon: 'add' },
-                { line: true },
-                { id:'modify',text: '修改', click: edit, icon: 'modify' },
-                { line: true },
-                { id:'delete',text: '删除', click: deleteRow, img: '${CtxPath}/scripts/ligerUI/skins/icons/delete.gif' },
-                { line: true },
-                { id:'modify',text: '刷新', click: refresh, icon: 'refresh' }                
+	                { id:'add',text: '增加', click: add, icon: 'add' },
+	                { line: true },
+	                { id:'modify',text: '修改', click: edit, icon: 'modify' },
+	                { line: true },
+	                { id:'delete',text: '删除', click: deleteRow, img: '${CtxPath}/scripts/ligerUI/skins/icons/delete.gif' },
+	                { line: true },
+	                { id:'modify',text: '刷新', click: refresh, icon: 'refresh' }                
                 ]
                 }
             });             

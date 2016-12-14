@@ -83,7 +83,7 @@ public abstract class AbstractBaseRepository<PK extends Serializable,P  extends 
 			for(P po:pos){
 				if(po instanceof TreeType){
 					TreeType tPo = (TreeType)po;
-					if(tPo.getDepth()==i){
+					if(tPo.getDepath()==i){
 						if(i==1){	//是根节点资源
 							tree.add(po);
 							tempList.add(po);
@@ -91,7 +91,7 @@ public abstract class AbstractBaseRepository<PK extends Serializable,P  extends 
 							P tempPo = null;
 							for(P inPo:tempList){
 								TreeType tInPo = (TreeType)inPo;
-								if(tInPo.getDepth()==(i-1) && tPo.getParentId().equals(tInPo.getId())){
+								if(tInPo.getDepath()==(i-1) && tPo.getParentId().equals(tInPo.getId())){
 									tInPo.addSub(po);
 									tempPo = po;
 								}
@@ -113,8 +113,8 @@ public abstract class AbstractBaseRepository<PK extends Serializable,P  extends 
 			P po = pos.get(i);
 			if(po instanceof TreeType){
 				TreeType treeType = (TreeType)po;
-				if(treeType.getDepth()>maxDepth){
-					maxDepth = treeType.getDepth();
+				if(treeType.getDepath()>maxDepth){
+					maxDepth = treeType.getDepath();
 				}
 			}
 		} 
