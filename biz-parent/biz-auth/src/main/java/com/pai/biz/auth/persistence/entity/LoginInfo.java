@@ -65,6 +65,10 @@ public class LoginInfo {
 		return PasswordHelper.getEncryptPassword(password);
 	}
 	
+	public String getPassword() {
+		return password;
+	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}

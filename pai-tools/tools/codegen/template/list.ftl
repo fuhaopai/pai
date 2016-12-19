@@ -32,10 +32,9 @@
 				</#if>
 				</#list>			
 					{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
-		          	{display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", 
-						name: "searchButton", newline: false, width:0.01}
-					  ]
-					});        
+		          	{ display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", name: "searchButton", newline: false, width:0.01}
+				 ]
+			 });        
         	
             grid = $("#maingrid").ligerGrid({
                 height:'100%',

@@ -89,6 +89,11 @@ public class LoginController extends LigerUIController{
 					OuOnlineHolder.setUserPo(request.getSession(), authUserPo);
 					//重定向到后台主页
 					redirectUrl(response, request.getAttribute(WebConstants.CONTEXT_PATH)+UrlConstants.MAIN_URL); 
+				}else{
+					commonResult = new CommonResult();
+					commonResult.setSuccess(false);
+					commonResult.setMsgCode(MsgCode.LOGINERROR.getCode());
+					commonResult.setMsg(MsgCode.LOGINERROR.getMsg());
 				}
 			}else{
 				commonResult = new CommonResult();
