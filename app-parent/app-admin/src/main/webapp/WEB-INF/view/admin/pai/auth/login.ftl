@@ -61,7 +61,7 @@
 					<div class="input_space"></div>
 					验证码：<input type="text" id="captchaCode" name="captchaCode"  tabindex="3" class="input_code"/><span><img id="imgCaptchaCode" name="imgCaptchaCode" class="imgCaptchaCode" src="${CtxPath}/generateImage.do" 
 									onclick="refreshImage('imgCaptchaCode')" alt="换一张" title="换一张" /></span>
-					<br /> <input type="submit" class="sub" value="登 录" />
+					<br /> <input type="submit" id="sub" class="sub" value="登 录" />
 			</form>
 		</div>
 	</div>
