@@ -1,6 +1,7 @@
 package com.pai.app.admin.interceptor;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pai.app.web.core.constants.UrlConstants;
 import com.pai.app.web.core.constants.WebConstants;
+import com.pai.app.web.core.framework.web.context.OuOnlineHolder;
 import com.pai.base.api.constants.Constants;
+import com.pai.base.core.util.string.StringUtils;
+import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
+import com.pai.biz.auth.persistence.entity.AuthUserPo;
 
 public class SecurityInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request,
@@ -21,29 +26,37 @@ public class SecurityInterceptor implements HandlerInterceptor {
 			return true;
 		}
 		
-		/*OuOnlineHolder.setSession(request.getSession());				
+		OuOnlineHolder.setSession(request.getSession());				
 		
-		if(OuOnlineHolder.getUserId()==null){	//未登录
+		//登录过滤
+		AuthUserPo authUserPo = OuOnlineHolder.getUserPo();
+		if(authUserPo == null){
 			redirectToLogin(request,response);
+			return true;
 		}
-		//权限过滤
-		UserPo userPo = OuOnlineHolder.getUserPo();
+		
+		//请求权限过滤
 		String uri = request.getRequestURI();
 		boolean pass = false;
-		uri = uri.substring(0, uri.lastIndexOf("/"));
-		for(ResPo resPo : userPo.getResPos()){
-			if(!"menu".equals(resPo.getType()) && StringUtils.isNotBlank(resPo.getContent())){
-				String resContent = resPo.getContent().substring(0, resPo.getContent().lastIndexOf("/"));
-				if(uri.indexOf(resContent) != -1){
-					pass = true;
-					return true;
-				}
-			}
-		}
-		if(!pass)
-			throw new RuntimeException("无此功能权限！");*/
+		List<AuthResourcesPo> authResourcesPos = authUserPo.getAuthResourcesPos();
+		if(!resourceFilter(uri, pass, authResourcesPos))
+			throw new RuntimeException("无此功能权限！");
 		
 		return true;
+	}
+
+	private boolean resourceFilter(String uri, boolean pass,
+			List<AuthResourcesPo> authResourcesPos) {
+		for(AuthResourcesPo authResourcesPo : authResourcesPos){
+			if(StringUtils.isNotEmpty(authResourcesPo.getUrl()) && uri.indexOf(authResourcesPo.getUrl()) != -1){
+				pass = true;
+				break;
+			}
+			if(authResourcesPo.getSubs().size() > 0){
+				resourceFilter(uri, pass, authResourcesPo.getSubs());
+			}
+		}
+		return pass;
 	}
 
 	public void postHandle(HttpServletRequest request,

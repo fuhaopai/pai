@@ -18,7 +18,6 @@ import com.pai.app.web.core.constants.UrlConstants;
 import com.pai.app.web.core.constants.WebConstants;
 import com.pai.app.web.core.framework.web.context.OuOnlineHolder;
 import com.pai.app.web.core.framework.web.controller.LigerUIController;
-import com.pai.base.api.constants.MsgType;
 import com.pai.base.core.entity.CommonResult;
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.string.StringUtils;
@@ -85,6 +84,9 @@ public class LoginController extends LigerUIController{
 					} finally {
 						executorService.shutdown();
 					}
+					//查询资源列表,用于拦截器匹配请求权限
+					List<AuthResourcesPo> authResourcesPoList = authResourcesRepository.listResourcesByUserId(authUserPo.getId());
+					authUserPo.setAuthResourcesPos(authResourcesPoList);
 					//放置session
 					OuOnlineHolder.setUserPo(request.getSession(), authUserPo);
 					//重定向到后台主页

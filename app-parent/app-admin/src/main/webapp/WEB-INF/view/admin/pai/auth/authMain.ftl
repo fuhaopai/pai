@@ -6,7 +6,7 @@
     <link href="${CtxPath}/scripts/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" /> 
     <link href="${CtxPath}/scripts/ligerUI/skins/Gray2014/css/all.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" id="mylink"/>
-    <script src="${CtxPath}/scripts/jquery/jquery-1.11.2.min.js" type="text/javascript"></script>    
+    <script src="${CtxPath}/scripts/jquery/jquery-1.7.2.min.js" type="text/javascript"></script>    
     <script src="${CtxPath}/scripts/ligerUI/js/ligerui.all.js" type="text/javascript"></script> 
     <script src="${CtxPath}/scripts/ligerUI/js/plugins/ligerTab.js"></script>
     <script src="${CtxPath}/scripts/jquery/jquery.cookie.js"></script>

@@ -92,11 +92,12 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 			return "";
 		}
 		//查询资源列表
-		List<AuthResourcesPo> authResourcesPoList = authResourcesRepository.listResourcesByUserId(authUserPo.getId());
+//		List<AuthResourcesPo> authResourcesPoList = authResourcesRepository.listResourcesByUserId(authUserPo.getId());
+		List<AuthResourcesPo> authResourcesPoList = authUserPo.getAuthResourcesPos();
 		//拼装ligerUI返回数据
 		JSONStringer stringer = new JSONStringer();
 		stringer.array();
-		for(AuthResourcesPo authResourcesPo:authResourcesPoList){
+		for(AuthResourcesPo authResourcesPo : authResourcesPoList){
 			append(request, stringer, authResourcesPo);
 		}
 		stringer.endArray();				

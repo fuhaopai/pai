@@ -3,7 +3,7 @@ function add() {
 		height:600,
 		width: 800,
 		title : '新增资源 ',
-		url: __ctxPath + '/storeadmin/pai/auth/authResources/edit.do', 
+		url: __ctxPath + '/admin/pai/auth/authResources/edit.do', 
 		showMax: true,
 		showToggle: true,
 		showMin: true,
@@ -27,7 +27,7 @@ function editDialog(id) {
 		height:600,
 		width: 800,
 		title : '修改资源 ',
-		url: __ctxPath + '/storeadmin/pai/auth/authResources/edit.do?id=' + id, 
+		url: __ctxPath + '/admin/pai/auth/authResources/edit.do?id=' + id, 
 		showMax: true,
 		showToggle: true,
 		showMin: true,
@@ -43,7 +43,7 @@ function deleteRow()
 		$.ligerDialog.confirm('请确认是否删除该记录', function (yes)
 				{
 	            	if(yes){
-	            		var url = __ctxPath + "/storeadmin/pai/auth/authResources/delete.do";
+	            		var url = __ctxPath + "/admin/pai/auth/authResources/delete.do";
 	            		var params = "id="+selected.id;
 	            		$.post(url,params,deleteResponse);            		            		
 	            	}             

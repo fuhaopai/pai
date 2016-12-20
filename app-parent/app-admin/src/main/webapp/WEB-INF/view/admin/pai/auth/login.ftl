@@ -1,5 +1,5 @@
 <link href="${CtxPath}/styles/admin/pai/login.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${CtxPath}/scripts/jquery/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="${CtxPath}/scripts/jquery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript">
 	var __ctxPath = "${CtxPath}";
 	$(document).ready(function(){		

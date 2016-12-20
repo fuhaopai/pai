@@ -38,21 +38,45 @@
 	             } ,
 	             
                 columns: [
-					{ display: '名称', name: 'name', align: 'left', width: 80, minWidth: 60 },
-					{ display: '资源类型', name: 'type', align: 'left', width: 80, minWidth: 60 },
-					{ display: '资源链接', name: 'url', align: 'left', width: 80, minWidth: 60 },
-					{ display: '父资源Id', name: 'parentId', align: 'left', width: 80, minWidth: 60 },
-					{ display: '树路劲', name: 'path', align: 'left', width: 80, minWidth: 60 },
-					{ display: '层次', name: 'depath', align: 'left', width: 80, minWidth: 60 },
-					{ display: '图标', name: 'icon', align: 'left', width: 80, minWidth: 60 },
-					{ display: '排序', name: 'sort', align: 'left', width: 80, minWidth: 60 },
-					{ display: '状态', name: 'status', align: 'left', width: 80, minWidth: 60 }
+					{ display: '名称', name: 'name', id: 'deptname', align: 'left', width: 250, minWidth: 60 },
+					{ display: '资源类型', name: 'type', align: 'left', width: 80, minWidth: 60,
+						render: function(rowdata,index,value){
+							if(value==1)
+								return "左侧菜单";
+							else if(value==2)
+								return "功能按钮";
+						}
+					},
+					{ display: '资源链接', name: 'url', align: 'left', width: 350, minWidth: 60 },
+					{ display: '树路劲', name: 'path', align: 'left', width: 150, minWidth: 60 },
+					{ display: '层次', name: 'depath', align: 'left', width: 60, minWidth: 60 },
+					{ display: '图标', name: 'icon', align: 'left', width: 150, minWidth: 60 },
+					{ display: '排序', name: 'sort', align: 'left', width: 60, minWidth: 60 },
+					{ display: '状态', name: 'status', align: 'left', width: 60, minWidth: 60,
+						render: function(rowdata,index,value){
+							if(value==1)
+								return "有效";
+							else if(value==2)
+								return "无效";
+						}
+					}
                 ], 
                 url:'${CtxPath}/admin/pai/auth/authResources/listData.do', 
-                pageSize:30 ,
+                pageSize:500 ,
+                pageSizeOptions : [ 500, 1000, 2000 ],
                 rownumbers:true,
+                usePager:false,
                 pagesizeParmName:'pageSize',
+                alternatingRow : false,
+				enabledSort : false,
                 onReload:setDataToGrid,
+                tree : {
+					isExpand : false,
+					slide : false,
+					columnId : 'deptname',
+					idField : 'id',
+					parentIDField : 'parentId'
+				},
                 toolbar: { items: [
 	                { id:'add',text: '增加', click: add, icon: 'add' },
 	                { line: true },
