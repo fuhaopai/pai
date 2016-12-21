@@ -32,6 +32,8 @@ public class WebConstants {
 	
 	public final static String PAI_AUTH_USER = "_PAI_AUTH_USER";
 	
+	public final static String PAI_AUTH_RES_URL = "_PAI_AUTH_RES_URL";
+	
 	public final static String ONLINE_MEMBER = "_ONLINE_MEMBER";
 	
 	public final static String ONLINE_CART = "_ONLINE_CART";

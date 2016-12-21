@@ -1,7 +1,6 @@
 package com.pai.app.web.core.framework.web.context;
 
-import java.util.Calendar;
-import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +21,13 @@ public class OuOnlineHolder{
 		OnlineUserIdHolder.setUserId(getUserId());
 	}
 	
+	public static String getUserId() {
+		if(getUserPo()!=null){
+			return getUserPo().getId();
+		}
+		return null;
+	}
+	
 	public static void setUserPo(HttpSession session,AuthUserPo authUserPo) {
 		if(session!=null){
 			session.setAttribute(WebConstants.PAI_AUTH_USER, authUserPo);
@@ -31,13 +37,6 @@ public class OuOnlineHolder{
 		}
 	}
 	
-	public static String getUserId() {
-		if(getUserPo()!=null){
-			return getUserPo().getId();
-		}
-		return null;
-	}
-
 	public static AuthUserPo getUserPo() {
 		if(ouOnlineHolder.get()!=null){
 			Object obj = ouOnlineHolder.get().getAttribute(WebConstants.PAI_AUTH_USER);
@@ -49,7 +48,18 @@ public class OuOnlineHolder{
 		return null;
 	}
 	
-
+	public static void setAuthResUrl(List<String> urls) {
+		if(ouOnlineHolder.get()!=null){
+			ouOnlineHolder.get().setAttribute(WebConstants.PAI_AUTH_RES_URL, urls);
+		}
+	}
+	
+	public static List<String> getAuthResUrls(){
+		if(ouOnlineHolder.get()!=null){
+			return (List<String>) ouOnlineHolder.get().getAttribute(WebConstants.PAI_AUTH_RES_URL);
+		}
+		return null;
+	}
 	/*
 	public static void logout() {
 		//抛出登出事件，进行扩展业务处理
@@ -269,12 +279,12 @@ public class OuOnlineHolder{
 	 * @param intervalTime
 	 * @return
 	 */
-	public static boolean judgeTimeInterval(Long lastTime, Long intervalTime){
+	/*public static boolean judgeTimeInterval(Long lastTime, Long intervalTime){
 		Calendar c = Calendar.getInstance();
 		long now = c.getTimeInMillis();
 		return (now - lastTime) >= intervalTime;
 		
-	}
+	}*/
 	/**
 	 * 
 	 * @param bbsMemberInfoView
@@ -364,7 +374,7 @@ public class OuOnlineHolder{
 		}
 		return null;
 	}*/
-	public static void setBbsRes(HashMap<String, String> bbsRes){
+	/*public static void setBbsRes(HashMap<String, String> bbsRes){
 		if(ouOnlineHolder.get()!=null){
 			ouOnlineHolder.get().setAttribute(WebConstants.BBS_RES,bbsRes);
 		}
@@ -375,7 +385,7 @@ public class OuOnlineHolder{
 			return (HashMap<String, String>) ouOnlineHolder.get().getAttribute(WebConstants.BBS_RES);
 		}
 		return null;
-	}
+	}*/
 	
 	/*public static void setRedisMemberView(String sid, MemberView memberView) throws Exception {
 		if(memberView!=null){
@@ -418,4 +428,5 @@ public class OuOnlineHolder{
 		}
 		return null;
 	}
+
 }

@@ -1,6 +1,5 @@
 package com.pai.biz.auth.repository.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -9,11 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.db.persistence.dao.IQueryDao;
-import com.pai.biz.frame.repository.AbstractRepository;
 import com.pai.biz.auth.domain.AuthResources;
-import com.pai.biz.auth.repository.AuthResourcesRepository;
 import com.pai.biz.auth.persistence.dao.AuthResourcesQueryDao;
 import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
+import com.pai.biz.auth.repository.AuthResourcesRepository;
+import com.pai.biz.frame.repository.AbstractRepository;
 
 /**
  * 对象功能:资源 Repository接口的实现类
@@ -48,6 +47,11 @@ public class AuthResourcesRepositoryImpl extends AbstractRepository<String, Auth
 	@Override
 	public List<AuthResourcesPo> listResourcesByUserId(String userId) {
 		return listToTree(authResourcesQueryDao.listResourcesByUserId(userId));
+	}
+
+	@Override
+	public List<String> findAllUrls() {
+		return authResourcesQueryDao.findAllUrls();
 	}
 	
 }

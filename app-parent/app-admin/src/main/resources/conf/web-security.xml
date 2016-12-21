@@ -13,10 +13,7 @@
             <mvc:mapping path="/admin/pai/auth/**/*.do" />
             <!-- 排除的地址 -->  
             <mvc:exclude-mapping path="/adminLogin.do"/>  
-            <mvc:exclude-mapping path="/admin/pai/**/**/edit.do"/>  
-            <mvc:exclude-mapping path="/admin/pai/**/**/listData.do"/>  
-            <mvc:exclude-mapping path="/admin/pai/auth/authResources/listResources.do"/>  
-            <mvc:exclude-mapping path="/admin/pai/auth/main.do"/>  
+            <!-- <mvc:exclude-mapping path="/admin/pai/auth/main.do"/>   -->
             <!-- 拦截器 -->
             <bean class="com.pai.app.admin.interceptor.SecurityInterceptor" />  
         </mvc:interceptor>              

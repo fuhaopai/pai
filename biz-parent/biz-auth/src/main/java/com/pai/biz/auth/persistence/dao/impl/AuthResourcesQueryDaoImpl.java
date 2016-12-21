@@ -26,5 +26,10 @@ public class AuthResourcesQueryDaoImpl extends MyBatisQueryDaoImpl<String, AuthR
 	public List<AuthResourcesPo> listResourcesByUserId(String userId) {
 		return findByKey("listResourcesByUserId", b().a("userId", userId).p());
 	}
+
+	@Override
+	public List<String> findAllUrls() {
+		return sqlSessionTemplate.selectList(getNamespace() + ".findAllUrls", null);
+	}
 	
 }

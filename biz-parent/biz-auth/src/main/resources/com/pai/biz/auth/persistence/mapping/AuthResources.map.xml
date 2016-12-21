@@ -91,4 +91,8 @@
 		INNER JOIN pai_auth_role_user b ON a.role_id_=b.role_id_ WHERE b.user_id_=#{userId} AND a.`status`=1)b ON a.id_=b.resource_id_
 		WHERE a.`status`=1 AND a.type=1 ORDER BY a.depath,a.parent_id_,a.sort
 	</select>
+	
+	<select id="findAllUrls" resultType="java.lang.String">
+		SELECT url FROM pai_auth_resources WHERE url IS NOT NULL AND url !=''
+	</select>
 </mapper>

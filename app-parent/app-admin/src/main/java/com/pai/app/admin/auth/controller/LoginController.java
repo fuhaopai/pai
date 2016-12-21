@@ -84,11 +84,17 @@ public class LoginController extends LigerUIController{
 					} finally {
 						executorService.shutdown();
 					}
-					//查询资源列表,用于拦截器匹配请求权限
+					
+					//查询用户关联资源列表,用于拦截器匹配请求权限
 					List<AuthResourcesPo> authResourcesPoList = authResourcesRepository.listResourcesByUserId(authUserPo.getId());
 					authUserPo.setAuthResourcesPos(authResourcesPoList);
 					//放置session
 					OuOnlineHolder.setUserPo(request.getSession(), authUserPo);
+					
+					//查询所有资源URL，用于拦截器匹配，需要设置权限的url必须登记在资源表中
+					List<String> urls = authResourcesRepository.findAllUrls();
+					OuOnlineHolder.setAuthResUrl(urls);
+					
 					//重定向到后台主页
 					redirectUrl(response, request.getAttribute(WebConstants.CONTEXT_PATH)+UrlConstants.MAIN_URL); 
 				}else{
