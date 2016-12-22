@@ -57,7 +57,7 @@
                 </td>
                 <td align="left"></td>
             </tr>    
-            <tr>
+            <!-- <tr>
                 <td align="right" class="l-table-edit-td">树路劲:</td>
                 <td align="left" class="l-table-edit-td">
                 	<input name="path" type="text" id="path"  value="${authResourcesPo.path}" ltype="text" />
@@ -70,7 +70,7 @@
                 	<input name="depath" type="text" id="depath"  value="${authResourcesPo.depath}" ltype="text" validate='{digits:true}'/>
                 </td>
                 <td align="left"></td>
-            </tr>    
+            </tr> -->   
             <tr>
                 <td align="right" class="l-table-edit-td">图标:</td>
                 <td align="left" class="l-table-edit-td">

@@ -271,13 +271,14 @@
                     </div>     
         </div>
         <div position="center" id="framecenter"> 
-            <div tabid="home" title="我的主页" style="height:300px" >                
+            <div tabid="home" title="我的主页" style="height:300px" > 
+            	<#include "/admin/pai/auth/home.ftl">               
             </div> 
         </div> 
         
     </div>
     <div  style="height:32px; line-height:32px; text-align:center;">
-            Copyright © 2011-2014 SKG.com
+            Copyright ©2016 π.com
     </div>
     <div style="display:none"></div>
 </body>

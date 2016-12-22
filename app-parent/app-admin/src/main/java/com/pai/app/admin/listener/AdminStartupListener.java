@@ -31,6 +31,7 @@ public class AdminStartupListener extends StartupListener{
 		
 		if(schedulerStartupRegister!=null){
 			schedulerStartupRegister.registerJobs(group);
+			logger.info("定时器启动！！！");
 		}
 	}
 

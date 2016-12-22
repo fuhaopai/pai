@@ -1,9 +1,7 @@
 package com.pai.app.admin.interceptor;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,11 +14,9 @@ import com.pai.app.web.core.constants.UrlConstants;
 import com.pai.app.web.core.constants.WebConstants;
 import com.pai.app.web.core.framework.web.context.OuOnlineHolder;
 import com.pai.base.api.constants.Constants;
-import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
 import com.pai.biz.auth.persistence.entity.AuthUserPo;
-import com.pai.biz.auth.repository.AuthResourcesRepository;
 
 public class SecurityInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request,
@@ -41,34 +37,33 @@ public class SecurityInterceptor implements HandlerInterceptor {
 		
 		//请求权限过滤
 		String path = request.getServletPath();
+		//列表数据也拦截一下，edit单挑数据类型就算了
+		if(path.endsWith("/listData.do"))
+			path = path.replace("/listData.do", "/list.do");
 		//查询请求链接是否需要拦截
 		List<String> urls = OuOnlineHolder.getAuthResUrls();
-		if(!path.endsWith("/listData.do") && !urls.contains(path))
+		if(!urls.contains(path))
 			return true;
-		boolean pass = false;
 		List<AuthResourcesPo> authResourcesPos = authUserPo.getAuthResourcesPos();
-		if(!resourceFilter(path, pass, authResourcesPos))
+		if(!resourceFilter(path, authResourcesPos))
 			throw new RuntimeException("无此功能权限！");
 		
 		return true;
 	}
 
-	private boolean resourceFilter(String path, boolean pass,
-			List<AuthResourcesPo> authResourcesPos) {
+	private boolean resourceFilter(String path, List<AuthResourcesPo> authResourcesPos) {
 		for(AuthResourcesPo authResourcesPo : authResourcesPos){
 			if(StringUtils.isNotEmpty(authResourcesPo.getUrl())){
-				if(path.endsWith("/listData.do"))
-					authResourcesPo.setUrl(authResourcesPo.getUrl().replace("listData.do", "list.do"));
 				if(path.indexOf(authResourcesPo.getUrl()) != -1){
-					pass = true;
-					break;
+					return true;
 				}
 			}
 			if(authResourcesPo.getSubs().size() > 0){
-				resourceFilter(path, pass, authResourcesPo.getSubs());
+				//递归不能设置一个变量做判断返回
+				return resourceFilter(path, authResourcesPo.getSubs());
 			}
 		}
-		return pass;
+		return false;
 	}
 
 	public void postHandle(HttpServletRequest request,
