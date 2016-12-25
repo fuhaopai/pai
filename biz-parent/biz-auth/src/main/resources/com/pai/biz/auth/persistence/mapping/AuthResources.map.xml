@@ -51,7 +51,7 @@
 			ORDER BY ${orderBySql}
 		</if>
 		<if test="orderBySql==null">
-			ORDER BY id_ DESC
+			ORDER BY depath,parent_id_,sort
 		</if>
 	</select>
 	

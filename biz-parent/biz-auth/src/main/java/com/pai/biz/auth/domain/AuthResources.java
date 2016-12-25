@@ -24,6 +24,10 @@ public class AuthResources extends AbstractDomain<String, AuthResourcesPo>{
 	protected void init(){
 		authResourcesDao = SpringHelper.getBean(AuthResourcesDao.class);
 		setDao(authResourcesDao);
+	}
+
+	public void save(AuthResourcesPo authResourcesPo) {
+		
 	}	 
 	 
 }

@@ -15,7 +15,7 @@ import com.pai.service.image.utils.RequestUtil;
 
 /**
  * 查询构造类
- * @author Administrator
+ * @author fuhao
  *
  */
 public class QueryBuilder {
@@ -30,8 +30,8 @@ public class QueryBuilder {
 	public final static String COMPARE_EQ="EQ";
 	public final static String COMPARE_LIKE="LK";
 	public final static String COMPARE_NEQ="NEQ";
-	public final static String COMPARE_GT="GT";//>
-	public final static String COMPARE_LT="LT";//>
+	public final static String COMPARE_GT="GT";
+	public final static String COMPARE_LT="LT";
 	public final static String COMPARE_BETWEEN="BW";
 	
 	public final static String CAL_TYPE_NAME = "CAL_TYPE";
@@ -39,25 +39,25 @@ public class QueryBuilder {
 	public final static String CAL_TYPE_OR = " or ";
 	
 	//后台请求的通用路径
-	public final static String STOREADMIN="/storeadmin";
+	public final static String ADMIN="/admin";
 	
 	/**
 	 * 查询参数
 	 * 每一个参数的结构是： Q__[TYPE]__[COMPARE]__[参数名] 或 Q__[TYPE]__[COMPARE]__[表别名]__[参数名]
 	 * （中间为两条下划线）
-	 * 如Q__S__LK__product_name_ 或 Q__S__LK__t1__product_name_ 
-	 * 现在的格式是默认4段，可选5段。
-	 * Q 为前缀，没有业务意义。
+	 * 如Q__S__LK__id_ 或 Q__EQ__LK__t1__id_ 
+	 * 现在的格式是默认4段，可加表别名t1选5段。
+	 * Q 为前缀，没有业务意义。A 也是前缀无实际意义，只是作为一个表关联查询时的标注，如表AA aa join 表BB bb,我们前端页设置A__aa__AA注明给你自己看的，不设置也行
 	 * S  表示数据类型。
      * LK 表示比较方式。
      * t1表示别名，即当是多表查询时，可以写别名。 
-     * product_name_ 表示字段 
-     * 构造时，即形成：t1.product_name_
+     * id_ 表示字段 
+     * 构造时，即形成：t1.id_
 	 */
 	
 	/**
 	 * 表别名参数
-	 * A__[别名]__[实体名，第一个字母小写]，如：A__t1__productMedia
+	 * A__[别名]__[实体名，第一个字母小写]，如：A__t1__id_
 	 */
 	
 	private Map<String, Object> paramValueMap = new HashMap<String, Object>();
@@ -154,11 +154,11 @@ public class QueryBuilder {
 	
 	private String getTblNameFromUri(String uri){
 		String[] array = uri.split("/");
-		if(uri.startsWith(STOREADMIN)){
+		if(uri.startsWith(ADMIN)){
 			if(array.length>5){
 				return array[4];
 			}	
-		}else if(uri.indexOf(STOREADMIN)>0){
+		}else if(uri.indexOf(ADMIN)>0){
 			if(array.length>6){
 				return array[5];
 			}

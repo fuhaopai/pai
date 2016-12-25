@@ -7,8 +7,12 @@
 	<link href="${CtxPath}/styles/admin/pai/form.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${CtxPath}/scripts/admin/pai/common.js" ></script>		    	            	    	
     <script type="text/javascript">  
-	$(function(){		
-		bindFormValidation("authResourcesEditForm","${CtxPath}/admin/pai/auth/authResources/save.do");								
+	$(function(){	
+		var options=new Object();
+		options.value="${bbsForumPo.parentId}";
+		options.text="${bbsForumPo.parentName}";	
+		bindFormValidation("authResourcesEditForm","${CtxPath}/admin/pai/auth/authResources/save.do");	
+		bindSelectTree("parentIdSelect","parentId",options);							
 		$("#authResourcesEditForm").ligerForm();           
 	});
 	var __ctxPath = "${CtxPath}";	   
@@ -37,9 +41,11 @@
                 <td align="left"></td>
             </tr>    
             <tr>
-                <td align="right" class="l-table-edit-td">资源类型（1=菜单；2=功能按钮）:</td>
+                <td align="right" class="l-table-edit-td">资源类型:</td>
                 <td align="left" class="l-table-edit-td">
-                	<input name="type" type="text" id="type"  value="${authResourcesPo.type}" ltype="text" validate='{required:true,digits:true}'/>
+                	<input id="type_1" type="radio" name="type" value="1" <#if authResourcesPo.type != 2>checked="checked"</#if>/><label for="type_1">左侧菜单</label> 
+                	&nbsp;&nbsp;&nbsp;&nbsp;
+                	<input id="type_2" type="radio" name="type" value="2" <#if authResourcesPo.type == 2>checked="checked"</#if>/><label for="type_2">功能按钮</label>
                 </td>
                 <td align="left"></td>
             </tr>    
@@ -51,9 +57,11 @@
                 <td align="left"></td>
             </tr>    
             <tr>
-                <td align="right" class="l-table-edit-td">父资源Id:</td>
+                <td align="right" class="l-table-edit-td">父资源:</td>
                 <td align="left" class="l-table-edit-td">
-                	<input name="parentId" type="text" id="parentId"  value="${authResourcesPo.parentId}" ltype="text" />
+                	<input name="parentIdSelect" type="text" id="parentIdSelect" ltype="text" validate='{required:true}'/>
+		            <input name="parentId" type="hidden" id="parentId"  value="${authResourcesPo.parentId}" ltype="text" />
+		            <input id="depath" type="hidden" name="depath" value="${authResourcesPo.depath}" ltype="text"/>
                 </td>
                 <td align="left"></td>
             </tr>    
@@ -70,14 +78,14 @@
                 	<input name="depath" type="text" id="depath"  value="${authResourcesPo.depath}" ltype="text" validate='{digits:true}'/>
                 </td>
                 <td align="left"></td>
-            </tr> -->   
+            </tr>   
             <tr>
                 <td align="right" class="l-table-edit-td">图标:</td>
                 <td align="left" class="l-table-edit-td">
                 	<input name="icon" type="text" id="icon"  value="${authResourcesPo.icon}" ltype="text" />
                 </td>
                 <td align="left"></td>
-            </tr>    
+            </tr> -->    
             <tr>
                 <td align="right" class="l-table-edit-td">排序:</td>
                 <td align="left" class="l-table-edit-td">
@@ -88,7 +96,9 @@
             <tr>
                 <td align="right" class="l-table-edit-td">状态:</td>
                 <td align="left" class="l-table-edit-td">
-                	<input name="status" type="text" id="status"  value="${authResourcesPo.status}" ltype="text" validate='{required:true,digits:true}'/>
+                	<input id="status_1" type="radio" name="status" value="1" <#if authResourcesPo.status != 2>checked="checked"</#if>/><label for="status_1">有效</label> 
+                	&nbsp;&nbsp;&nbsp;&nbsp;
+                	<input id="status_2" type="radio" name="status" value="2" <#if authResourcesPo.status == 2>checked="checked"</#if>/><label for="status_2">无效</label>
                 </td>
                 <td align="left"></td>
             </tr>    

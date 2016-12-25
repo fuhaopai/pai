@@ -194,8 +194,7 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		
 		//构造领域对象和保存数据
 		AuthResources authResources = authResourcesRepository.newInstance();
-		authResources.setData(authResourcesPo);
-		authResources.save();
+		authResources.save(authResourcesPo);
 		
 		//构造返回数据
 		CommonResult result = new CommonResult();

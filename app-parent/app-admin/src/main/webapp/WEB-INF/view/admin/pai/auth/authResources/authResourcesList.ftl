@@ -50,7 +50,7 @@
 					{ display: '资源链接', name: 'url', align: 'left', width: 350, minWidth: 60 },
 					{ display: '树路劲', name: 'path', align: 'left', width: 150, minWidth: 60 },
 					{ display: '层次', name: 'depath', align: 'left', width: 60, minWidth: 60 },
-					{ display: '图标', name: 'icon', align: 'left', width: 150, minWidth: 60 },
+					//{ display: '图标', name: 'icon', align: 'left', width: 150, minWidth: 60 },
 					{ display: '排序', name: 'sort', align: 'left', width: 60, minWidth: 60 },
 					{ display: '状态', name: 'status', align: 'left', width: 60, minWidth: 60,
 						render: function(rowdata,index,value){
