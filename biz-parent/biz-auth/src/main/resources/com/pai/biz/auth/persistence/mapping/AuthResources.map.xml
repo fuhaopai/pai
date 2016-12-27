@@ -8,7 +8,7 @@
 		<result property="url" column="url" jdbcType="VARCHAR"/>
 		<result property="parentId" column="parent_id_" jdbcType="VARCHAR"/>
 		<result property="path" column="path" jdbcType="VARCHAR"/>
-		<result property="depath" column="depath" jdbcType="NUMERIC"/>
+		<result property="depth" column="depth" jdbcType="NUMERIC"/>
 		<result property="icon" column="icon" jdbcType="VARCHAR"/>
 		<result property="sort" column="sort" jdbcType="NUMERIC"/>
 		<result property="status" column="status" jdbcType="NUMERIC"/>
@@ -16,9 +16,9 @@
 	
 	<insert id="create" parameterType="com.pai.biz.auth.persistence.entity.AuthResourcesPo">
 		INSERT INTO pai_auth_resources
-		(id_,name,type,url,parent_id_,path,depath,icon,sort,status)
+		(id_,name,type,url,parent_id_,path,depth,icon,sort,status)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=NUMERIC}, #{url,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{depath,jdbcType=NUMERIC}, #{icon,jdbcType=VARCHAR}, #{sort,jdbcType=NUMERIC}, #{status,jdbcType=NUMERIC})
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=NUMERIC}, #{url,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{depth,jdbcType=NUMERIC}, #{icon,jdbcType=VARCHAR}, #{sort,jdbcType=NUMERIC}, #{status,jdbcType=NUMERIC})
 	</insert>
 	
 	<select id="get"   parameterType="java.lang.String" resultMap="AuthResourcesPo">
@@ -51,7 +51,7 @@
 			ORDER BY ${orderBySql}
 		</if>
 		<if test="orderBySql==null">
-			ORDER BY depath,parent_id_,sort
+			ORDER BY depth,parent_id_,sort
 		</if>
 	</select>
 	
@@ -71,7 +71,7 @@
 		url=#{url,jdbcType=VARCHAR},
 		parent_id_=#{parentId,jdbcType=VARCHAR},
 		path=#{path,jdbcType=VARCHAR},
-		depath=#{depath,jdbcType=NUMERIC},
+		depth=#{depth,jdbcType=NUMERIC},
 		icon=#{icon,jdbcType=VARCHAR},
 		sort=#{sort,jdbcType=NUMERIC},
 		status=#{status,jdbcType=NUMERIC}
@@ -89,7 +89,11 @@
 		SELECT a.* FROM pai_auth_resources a INNER JOIN 
 		(SELECT a.resource_id_ FROM pai_auth_role_resources a 
 		INNER JOIN pai_auth_role_user b ON a.role_id_=b.role_id_ WHERE b.user_id_=#{userId} AND a.`status`=1)b ON a.id_=b.resource_id_
-		WHERE a.`status`=1 AND a.type=1 ORDER BY a.depath,a.parent_id_,a.sort
+		WHERE a.`status`=1 
+		<if test="type != null" >
+			AND a.type=#{type} 
+			ORDER BY a.depth,a.parent_id_,a.sort
+		</if>
 	</select>
 	
 	<select id="findAllUrls" resultType="java.lang.String">

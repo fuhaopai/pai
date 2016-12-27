@@ -28,8 +28,8 @@ public class AuthResourcesTbl extends AbstractPo<String>{
 	protected String  parentId; 		/*父资源Id*/
 	@IField(name="path",column="path")
 	protected String  path; 		/*树路劲*/
-	@IField(name="depath",column="depath")
-	protected Integer  depath; 		/*层次*/
+	@IField(name="depth",column="depth")
+	protected Integer  depth; 		/*层次*/
 	@IField(name="icon",column="icon")
 	protected String  icon; 		/*图标*/
 	@IField(name="sort",column="sort")
@@ -110,17 +110,17 @@ public class AuthResourcesTbl extends AbstractPo<String>{
 	{
 		return this.path;
 	}
-	public void setDepath(Integer depath) 
+	public void setDepth(Integer depth) 
 	{
-		this.depath = depath;
+		this.depth = depth;
 	}
 	/**
 	 * 返回 层次
 	 * @return
 	 */
-	public Integer getDepath() 
+	public Integer getDepth() 
 	{
-		return this.depath;
+		return this.depth;
 	}
 	public void setIcon(String icon) 
 	{
@@ -170,7 +170,7 @@ public class AuthResourcesTbl extends AbstractPo<String>{
 		.append("url", this.url) 
 		.append("parentId", this.parentId) 
 		.append("path", this.path) 
-		.append("depath", this.depath) 
+		.append("depth", this.depth) 
 		.append("icon", this.icon) 
 		.append("sort", this.sort) 
 		.append("status", this.status) 

@@ -85,7 +85,7 @@ function bindSelectTree(id,valueFieldId,options){
 	            columns: [				
 	            { display: 'ID' ,hide:'1', name: 'id',id:"id", align: 'left', width: 10, minWidth: 60 },          
 	            { display: '菜单名称', name: 'name',id:"name", align: 'left', width: 150, minWidth: 60 },
-	    		{ display: '层次', name: 'depath', align: 'left', width: 100, minWidth: 60 },
+	    		{ display: '层次', name: 'depth', align: 'left', width: 100, minWidth: 60 },
 	    		{ display: '排序', name: 'sort', align: 'left', width: 100, minWidth: 60 },
 	    		{ display: '状态', name: 'status', align: 'left', width: 120, minWidth: 60, render: function(rowdata,index,value){if(value==1)return "有效";else if(value==2)return "无效";} }
 	            ]
@@ -98,7 +98,7 @@ function bindSelectTree(id,valueFieldId,options){
         valueField: 'id',
         textField: 'name',
         heigth:800,
-        onSelected:function(rowdata){$("#depath").val(parseInt(rowdata.data.depath)+1)},
+        onSelected:function(rowdata){$("#depth").val(parseInt(rowdata.data[0].depth)+1);},
         valueFieldID :valueFieldId
     });
 

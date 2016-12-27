@@ -92,8 +92,7 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 			return "";
 		}
 		//查询资源列表
-//		List<AuthResourcesPo> authResourcesPoList = authResourcesRepository.listResourcesByUserId(authUserPo.getId());
-		List<AuthResourcesPo> authResourcesPoList = authUserPo.getAuthResourcesPos();
+		List<AuthResourcesPo> authResourcesPoList = authResourcesRepository.listResourcesByUserId(authUserPo.getId());
 		//拼装ligerUI返回数据
 		JSONStringer stringer = new JSONStringer();
 		stringer.array();
@@ -192,12 +191,19 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		//是否新增
 		boolean isNew = StringUtils.isEmpty(authResourcesPo.getId())?true:false;
 		
+		CommonResult result = new CommonResult();
+		
+		if(authResourcesPo.getType() == 2 && StringUtils.isNotEmpty(authResourcesPo.getUrl())){
+			result.setSuccess(false);
+			result.setMsgCode("请输入资源路劲");
+			return result;
+		}
 		//构造领域对象和保存数据
 		AuthResources authResources = authResourcesRepository.newInstance();
 		authResources.save(authResourcesPo);
 		
 		//构造返回数据
-		CommonResult result = new CommonResult();
+		
 		result.setSuccess(true);
 		if(isNew){
 			result.setMsgCode(ActionMsgCode.CREATE.name());	

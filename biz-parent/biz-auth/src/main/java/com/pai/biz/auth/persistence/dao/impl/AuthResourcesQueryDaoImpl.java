@@ -23,8 +23,8 @@ public class AuthResourcesQueryDaoImpl extends MyBatisQueryDaoImpl<String, AuthR
     }
 
 	@Override
-	public List<AuthResourcesPo> listResourcesByUserId(String userId) {
-		return findByKey("listResourcesByUserId", b().a("userId", userId).p());
+	public List<AuthResourcesPo> listResourcesByUserId(String userId, Integer type) {
+		return findByKey("listResourcesByUserId", b().a("userId", userId).a("type", type).p());
 	}
 
 	@Override

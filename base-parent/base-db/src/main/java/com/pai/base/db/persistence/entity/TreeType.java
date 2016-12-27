@@ -35,7 +35,7 @@ public interface TreeType<P extends PO> {
 	 * 返回当前节点在树中的层次，根节点为1，下面的每层加1.
 	 * @return
 	 */
-	public Integer getDepath();
+	public Integer getDepth();
 	
 	/**
 	 * 返回排序号

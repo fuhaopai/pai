@@ -48,6 +48,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
 		if(!resourceFilter(path, authResourcesPos))
 			throw new RuntimeException("无此功能权限！");
 		
+		
 		return true;
 	}
 
@@ -58,9 +59,22 @@ public class SecurityInterceptor implements HandlerInterceptor {
 					return true;
 				}
 			}
+		}
+		return false;
+	}
+	
+	//树结构list
+	@Deprecated
+	private boolean resourceTreeFilter(String path, List<AuthResourcesPo> authResourcesPos) {
+		for(AuthResourcesPo authResourcesPo : authResourcesPos){
+			if(StringUtils.isNotEmpty(authResourcesPo.getUrl())){
+				if(path.indexOf(authResourcesPo.getUrl()) != -1){
+					return true;
+				}
+			}
 			if(authResourcesPo.getSubs().size() > 0){
 				//递归不能设置一个变量做判断返回
-				return resourceFilter(path, authResourcesPo.getSubs());
+				return resourceTreeFilter(path, authResourcesPo.getSubs());
 			}
 		}
 		return false;

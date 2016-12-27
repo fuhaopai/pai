@@ -30,7 +30,7 @@ import com.${sys}.biz.${module}.persistence.entity.${class}Po;
 @Scope("prototype")
 public class ${class} extends AbstractDomain<String, ${class}Po>{
 	 
-	 private ${class}Dao ${classVar}Dao = null;
+	private ${class}Dao ${classVar}Dao = null;
 
 	protected void init(){
 		${classVar}Dao = SpringHelper.getBean(${class}Dao.class);

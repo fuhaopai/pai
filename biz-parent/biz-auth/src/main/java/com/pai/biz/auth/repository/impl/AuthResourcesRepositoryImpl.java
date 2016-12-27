@@ -43,15 +43,27 @@ public class AuthResourcesRepositoryImpl extends AbstractRepository<String, Auth
 	protected IQueryDao<String, AuthResourcesPo> getQueryDao() {
 		return authResourcesQueryDao;
 	}
-
+	
+	//查询菜单资源，用于后台主页树菜单操作
 	@Override
 	public List<AuthResourcesPo> listResourcesByUserId(String userId) {
-		return listToTree(authResourcesQueryDao.listResourcesByUserId(userId));
+		return listToTree(listResourcesByUserId(userId, AuthResourcesPo.ResourceType.MENU.getType()));
 	}
-
+	
+	//查询所有url用于权限过滤
 	@Override
 	public List<String> findAllUrls() {
 		return authResourcesQueryDao.findAllUrls();
+	}
+	
+	//查询带有按钮的资源链接，用于权限过滤
+	@Override
+	public List<AuthResourcesPo> findResourcesByUserId(String userId) {
+		return listResourcesByUserId(userId, null);
+	}
+	
+	private List<AuthResourcesPo> listResourcesByUserId(String userId, Integer type){
+		return authResourcesQueryDao.listResourcesByUserId(userId, type);
 	}
 	
 }

@@ -59,9 +59,9 @@
             <tr>
                 <td align="right" class="l-table-edit-td">父资源:</td>
                 <td align="left" class="l-table-edit-td">
-                	<input name="parentIdSelect" type="text" id="parentIdSelect" ltype="text" validate='{required:true}'/>
+                	<input name="parentIdSelect" type="text" id="parentIdSelect" ltype="text"/>
 		            <input name="parentId" type="hidden" id="parentId"  value="${authResourcesPo.parentId}" ltype="text" />
-		            <input id="depath" type="hidden" name="depath" value="${authResourcesPo.depath}" ltype="text"/>
+		            <input id="depth" type="hidden" name="depth" value="${authResourcesPo.depth}" ltype="text"/>
                 </td>
                 <td align="left"></td>
             </tr>    
@@ -75,7 +75,7 @@
             <tr>
                 <td align="right" class="l-table-edit-td">层次:</td>
                 <td align="left" class="l-table-edit-td">
-                	<input name="depath" type="text" id="depath"  value="${authResourcesPo.depath}" ltype="text" validate='{digits:true}'/>
+                	<input name="depth" type="text" id="depth"  value="${authResourcesPo.depth}" ltype="text" validate='{digits:true}'/>
                 </td>
                 <td align="left"></td>
             </tr>   

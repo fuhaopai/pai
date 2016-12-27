@@ -1,11 +1,16 @@
 package com.pai.biz.auth.domain;
 
+import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.pai.biz.frame.domain.AbstractDomain;
+import com.pai.base.api.service.IdGenerator;
 import com.pai.base.core.helper.SpringHelper;
+import com.pai.base.core.util.string.StringUtils;
 import com.pai.biz.auth.persistence.dao.AuthResourcesDao;
+import com.pai.biz.auth.persistence.dao.AuthResourcesQueryDao;
 import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
 
 /**
@@ -19,15 +24,36 @@ import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
 @Scope("prototype")
 public class AuthResources extends AbstractDomain<String, AuthResourcesPo>{
 	 
-	 private AuthResourcesDao authResourcesDao = null;
-
+	private AuthResourcesDao authResourcesDao = null;
+	
+	@Resource
+	private AuthResourcesQueryDao authResourcesQueryDao;
+	
+	@Resource
+	private IdGenerator idGenerator;
+	
 	protected void init(){
 		authResourcesDao = SpringHelper.getBean(AuthResourcesDao.class);
 		setDao(authResourcesDao);
 	}
 
 	public void save(AuthResourcesPo authResourcesPo) {
-		
+		String id = idGenerator.genSid();
+		StringBuilder sb = new StringBuilder();
+		//查找父节点的树分支
+		if(StringUtils.isNotEmpty(authResourcesPo.getParentId())){
+			AuthResourcesPo parentResourcePo = authResourcesQueryDao.get(authResourcesPo.getParentId());
+			if(StringUtils.isNotEmpty(parentResourcePo.getPath())){
+				sb.append(parentResourcePo.getPath()).append(".").append(id);
+				authResourcesPo.setPath(sb.toString());
+			}
+		}else {
+			authResourcesPo.setPath(id);
+			authResourcesPo.setDepth(1);
+		}
+		authResourcesPo.setId(id);
+		this.setData(authResourcesPo);
+		this.create();	
 	}	 
 	 
 }

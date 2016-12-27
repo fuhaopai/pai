@@ -87,7 +87,7 @@ public abstract class AbstractRepository<PK extends Serializable,P  extends PO<P
 			for(P po:pos){
 				if(po instanceof TreeType){
 					TreeType tPo = (TreeType)po;
-					if(tPo.getDepath()==i){
+					if(tPo.getDepth()==i){
 						//先找出一级菜单
 						if(i==1){	//是根节点资源
 							tree.add(po);
@@ -96,7 +96,7 @@ public abstract class AbstractRepository<PK extends Serializable,P  extends PO<P
 							P tempPo = null;
 							for(P inPo:tempList){
 								TreeType tInPo = (TreeType)inPo;
-								if(tInPo.getDepath()==(i-1) && tPo.getParentId().equals(tInPo.getId())){
+								if(tInPo.getDepth()==(i-1) && tPo.getParentId().equals(tInPo.getId())){
 									tInPo.addSub(po);
 									tempPo = po;
 								}
@@ -119,8 +119,8 @@ public abstract class AbstractRepository<PK extends Serializable,P  extends PO<P
 			P po = pos.get(i);
 			if(po instanceof TreeType){
 				TreeType treeType = (TreeType)po;
-				if(treeType.getDepath()>maxDepth){
-					maxDepth = treeType.getDepath();
+				if(treeType.getDepth()>maxDepth){
+					maxDepth = treeType.getDepth();
 				}
 			}
 		} 
@@ -143,21 +143,21 @@ public abstract class AbstractRepository<PK extends Serializable,P  extends PO<P
 		for(int j=0; j<pos.size(); j++){
 			if(pos.get(j) instanceof TreeType){
 				TreeType tPo = (TreeType)pos.get(j);
-				if(tPo.getDepath() == 1){
+				if(tPo.getDepth() == 1){
 					tree.add(pos.get(j));
 					subTree.add(pos.get(j));
 				}else{
 					//层次切换判断
 					TreeType ptPo = (TreeType)pos.get(j-1);
-					if(tPo.getDepath() != ptPo.getDepath()){
+					if(tPo.getDepth() != ptPo.getDepth()){
 						//每次层次切换时把父节点的集合存储起来
-						map.put(ptPo.getDepath(), subTree);
+						map.put(ptPo.getDepth(), subTree);
 						subTree = new ArrayList<P>();
 					}
 					//无层次切换则说明同级
 					subTree.add(pos.get(j));
 					//子节点放入父节点下
-					List<P> parentTree = map.get(tPo.getDepath()-1);
+					List<P> parentTree = map.get(tPo.getDepth()-1);
 					for(int i=0; i<parentTree.size(); i++){
 						TreeType pPo = (TreeType)parentTree.get(i);
 						//父节点判断

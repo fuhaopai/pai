@@ -86,7 +86,7 @@ public class LoginController extends LigerUIController{
 					}
 					
 					//查询用户关联资源列表,用于拦截器匹配请求权限，资源放在session中，当放置添加新的资源是，必须使session失效，或者重新放置session
-					List<AuthResourcesPo> authResourcesPoList = authResourcesRepository.listResourcesByUserId(authUserPo.getId());
+					List<AuthResourcesPo> authResourcesPoList = authResourcesRepository.findResourcesByUserId(authUserPo.getId());
 					authUserPo.setAuthResourcesPos(authResourcesPoList);
 					//放置session
 					OuOnlineHolder.setUserPo(request.getSession(), authUserPo);

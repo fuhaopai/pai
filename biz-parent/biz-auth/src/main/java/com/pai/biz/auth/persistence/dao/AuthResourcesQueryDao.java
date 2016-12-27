@@ -16,7 +16,7 @@ public interface AuthResourcesQueryDao extends IQueryDao<String, AuthResourcesPo
 	 * @param userId
 	 * @return
 	 */
-	public List<AuthResourcesPo> listResourcesByUserId(String userId);
+	public List<AuthResourcesPo> listResourcesByUserId(String userId, Integer type);
 	
 	/**
 	 * 查询所有url用于拦截器做匹配
