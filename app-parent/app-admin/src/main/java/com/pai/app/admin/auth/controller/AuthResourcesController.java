@@ -216,7 +216,7 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 	}		
 	
 	/**
-	 * 删除【资源】
+	 * 删除【资源】 -- 资源一般不删除，只有下架 --
 	 * @param request
 	 * @param response
 	 * @param id
@@ -231,13 +231,21 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 	public CommonResult delete(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		//获得待删除的id
 		String id = RequestUtil.getParameterNullSafe(request, "id");
+		CommonResult result = new CommonResult();
+		
+		//先判断时候有子节点，有则需要先删除子节点
+		List<AuthResourcesPo> authResourcesPos = authResourcesRepository.findChildsByParentId(id);
+		if(authResourcesPos.size() > 0){
+			result.setSuccess(false);
+			result.setMsgCode("请先删除子节点");	
+			return result;
+		}
 		
 		//构造领域对象和进行删除操作
 		AuthResources authResources = authResourcesRepository.newInstance();				
-		authResources.destroy(id);
+		authResources.delete(id);
 		
 		//构造返回数据
-		CommonResult result = new CommonResult();
 		result.setSuccess(true);
 		result.setMsgCode(ActionMsgCode.DELETE.name());		
 		

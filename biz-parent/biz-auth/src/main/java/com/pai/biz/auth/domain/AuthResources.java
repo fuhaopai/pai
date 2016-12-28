@@ -11,6 +11,7 @@ import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.biz.auth.persistence.dao.AuthResourcesDao;
 import com.pai.biz.auth.persistence.dao.AuthResourcesQueryDao;
+import com.pai.biz.auth.persistence.dao.AuthRoleResourcesDao;
 import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
 
 /**
@@ -31,6 +32,9 @@ public class AuthResources extends AbstractDomain<String, AuthResourcesPo>{
 	
 	@Resource
 	private IdGenerator idGenerator;
+	
+	@Resource
+	private AuthRoleResourcesDao authRoleResourcesDao;
 	
 	protected void init(){
 		authResourcesDao = SpringHelper.getBean(AuthResourcesDao.class);
@@ -54,6 +58,12 @@ public class AuthResources extends AbstractDomain<String, AuthResourcesPo>{
 		authResourcesPo.setId(id);
 		this.setData(authResourcesPo);
 		this.create();	
+	}
+
+	public void delete(String id) {
+		this.destroy(id);
+		//删除角色-资源关联
+		authRoleResourcesDao.deleteByResourceId(id);
 	}	 
 	 
 }

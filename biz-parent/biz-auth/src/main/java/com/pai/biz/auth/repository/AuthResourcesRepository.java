@@ -18,5 +18,7 @@ public interface AuthResourcesRepository extends IRepository<String, AuthResourc
 	List<String> findAllUrls();
 
 	List<AuthResourcesPo> findResourcesByUserId(String userId);
+
+	List<AuthResourcesPo> findChildsByParentId(String id);
 	
 }

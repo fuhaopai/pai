@@ -54,11 +54,14 @@ function deleteRow()
 }		
         
 function deleteResponse(responseText){        
-	grid.deleteSelectedRow();            		
 	var result = JSON.parse(responseText);
-	if(result.success){		
+	if(result.success){	
 		var msg = getMsg(result.msgCode);				
-		$.ligerDialog.success(msg);    	 	
+		$.ligerDialog.success(msg);   
+		grid.deleteSelectedRow();
+	} else {
+		var msg = getMsg(result.msgCode);
+		$.ligerDialog.error(msg);
 	}        	
 }
 

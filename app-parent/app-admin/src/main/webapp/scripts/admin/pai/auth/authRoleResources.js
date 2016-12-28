@@ -1,19 +1,9 @@
-<#import "function.ftl" as func>
-<#assign comment=model.tabComment>
-<#assign class=model.variables.class>
-<#assign classVar=class?uncap_first>
-<#assign sys=model.variables.sys>
-<#assign module=model.variables.module>
-<#assign commonList=model.commonList>
-<#assign pkModel=model.pkModel>
-<#assign pk=func.getPk(model) >
-<#assign pkVar=func.convertUnderLine(pk) >
 function add() {
 	$.ligerDialog.open({
 		height:600,
 		width: 800,
-		title : '新增${model.tabComment} ',
-		url: __ctxPath + '/admin/${sys}/${module}/${classVar}/edit.do', 
+		title : '新增角色-授权 ',
+		url: __ctxPath + '/admin/pai/auth/authRoleResources/edit.do', 
 		showMax: true,
 		showToggle: true,
 		showMin: true,
@@ -36,8 +26,8 @@ function editDialog(id) {
 	$.ligerDialog.open({
 		height:600,
 		width: 800,
-		title : '修改${model.tabComment} ',
-		url: __ctxPath + '/admin/${sys}/${module}/${classVar}/edit.do?id=' + id, 
+		title : '修改角色-授权 ',
+		url: __ctxPath + '/admin/pai/auth/authRoleResources/edit.do?id=' + id, 
 		showMax: true,
 		showToggle: true,
 		showMin: true,
@@ -53,7 +43,7 @@ function deleteRow()
 		$.ligerDialog.confirm('请确认是否删除该记录', function (yes)
 				{
 	            	if(yes){
-	            		var url = __ctxPath + "/admin/${sys}/${module}/${classVar}/delete.do";
+	            		var url = __ctxPath + "/admin/pai/auth/authRoleResources/delete.do";
 	            		var params = "id="+selected.id;
 	            		$.post(url,params,deleteResponse);            		            		
 	            	}             

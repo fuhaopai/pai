@@ -46,7 +46,7 @@
 		        <tr>
 		            <td align="right" class="l-table-edit-td">${col.getComment()}:</td>
 		            <td align="left" class="l-table-edit-td">
-		            	<input name="${colName}" type="text" id="${colName}" <#if col.colType="java.util.Date">class="time" value="<#noparse>${</#noparse>${(classVar}Po.${colName})?string("yyyy-MM-dd HH:mm:ss")}"</#if><#else> value="<#noparse>${</#noparse>${classVar}Po.${colName}}"</#else> ltype="text" <#if needValidate=="Y">validate='{<#if col.isNotNull>required:true</#if><#if col.colType="Integer"><#if col.isNotNull>,</#if>digits:true</#if><#if col.colType="Float"><#if col.isNotNull>,</#if>number:true</#if><#if col.colType="java.util.Date"><#if col.isNotNull>,</#if>date:true</#if>}'</#if>/>
+		            	<input name="${colName}" type="text" id="${colName}" <#if col.colType="java.util.Date">class="wdateTime" onFocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})"</#if> value="<#noparse>${</#noparse>${classVar}Po.${colName}}" ltype="text" <#if needValidate=="Y">validate='{<#if col.isNotNull>required:true</#if><#if col.colType="Integer"><#if col.isNotNull>,</#if>digits:true</#if><#if col.colType="Float"><#if col.isNotNull>,</#if>number:true</#if><#if col.colType="java.util.Date"><#if col.isNotNull>,</#if>date:true</#if>}'</#if>/>
 		            </td>
 		            <td align="left"></td>
 		        </tr> 

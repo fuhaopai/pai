@@ -99,4 +99,8 @@
 	<select id="findAllUrls" resultType="java.lang.String">
 		SELECT url FROM pai_auth_resources WHERE url IS NOT NULL AND url !=''
 	</select>
+	
+	<select id="findChildsByParentId" parameterType="java.util.Map" resultMap="AuthResourcesPo">
+		SELECT * FROM pai_auth_resources WHERE parent_id_=#{parentId}
+	</select>
 </mapper>
