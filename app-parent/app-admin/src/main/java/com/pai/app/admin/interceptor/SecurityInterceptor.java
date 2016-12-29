@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pai.app.web.core.constants.UrlConstants;
 import com.pai.app.web.core.constants.WebConstants;
-import com.pai.app.web.core.framework.web.context.OuOnlineHolder;
+import com.pai.app.web.core.framework.web.context.WebOnlineHolder;
 import com.pai.base.api.constants.Constants;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
@@ -26,10 +26,10 @@ public class SecurityInterceptor implements HandlerInterceptor {
 			return true;
 		}
 		
-		OuOnlineHolder.setSession(request.getSession());				
+		WebOnlineHolder.setSession(request.getSession());				
 		
 		//登录过滤
-		AuthUserPo authUserPo = OuOnlineHolder.getUserPo();
+		AuthUserPo authUserPo = WebOnlineHolder.getUserPo();
 		if(authUserPo == null){
 			redirectToLogin(request,response);
 			return true;
@@ -40,11 +40,12 @@ public class SecurityInterceptor implements HandlerInterceptor {
 		//列表数据也拦截一下，edit单挑数据类型就算了
 		if(path.endsWith("/listData.do"))
 			path = path.replace("/listData.do", "/list.do");
-		//查询请求链接是否需要拦截
-		List<String> urls = OuOnlineHolder.getAuthResUrls();
+		//查询请求链接是否需要拦截，因为url是登录时放置在session中保存了，所以对于给角色新配置的资源，并不会拦截，只有重新登录才回拦截
+		List<String> urls = WebOnlineHolder.getAuthResUrls();
 		if(!urls.contains(path))
 			return true;
 		List<AuthResourcesPo> authResourcesPos = authUserPo.getAuthResourcesPos();
+		
 		if(!resourceFilter(path, authResourcesPos))
 			throw new RuntimeException("无此功能权限！");
 		

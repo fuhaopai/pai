@@ -118,4 +118,12 @@
 		WHERE
 		resource_id_=#{resourceId}
 	</delete>
+	
+	<insert id="createAdminResource" parameterType="java.util.Map">
+		INSERT INTO pai_auth_role_resources
+		(id_,role_id_,resource_id_,status,create_by,create_time)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, (select id_ from pai_auth_role where name='超级管理员'), #{resourceId,jdbcType=VARCHAR}, 1, #{createBy,jdbcType=VARCHAR}, now())
+	</insert>
+	
 </mapper>

@@ -16,7 +16,7 @@ import com.octo.captcha.service.image.ImageCaptchaService;
 import com.pai.app.web.core.constants.MsgCode;
 import com.pai.app.web.core.constants.UrlConstants;
 import com.pai.app.web.core.constants.WebConstants;
-import com.pai.app.web.core.framework.web.context.OuOnlineHolder;
+import com.pai.app.web.core.framework.web.context.WebOnlineHolder;
 import com.pai.app.web.core.framework.web.controller.LigerUIController;
 import com.pai.base.core.entity.CommonResult;
 import com.pai.base.core.helper.SpringHelper;
@@ -43,12 +43,12 @@ public class LoginController extends LigerUIController{
 	private final static String LOGIN_INFO = "loginInfo";
 	
 	@Resource
-	private ImageCaptchaService imageCaptchaService = null;
+	private ImageCaptchaService imageCaptchaService;
 	
 	@Resource
-	AuthUserRepository authUserRepository = null;	
+	AuthUserRepository authUserRepository;	
 	@Resource
-	AuthResourcesRepository authResourcesRepository = null;
+	AuthResourcesRepository authResourcesRepository;
 	@Override
 	protected void initController() {
 		// TODO Auto-generated method stub
@@ -85,15 +85,15 @@ public class LoginController extends LigerUIController{
 						executorService.shutdown();
 					}
 					
-					//查询用户关联资源列表,用于拦截器匹配请求权限，资源放在session中，当放置添加新的资源是，必须使session失效，或者重新放置session
+					//查询用户关联资源列表,用于拦截器匹配请求权限，资源放在session中，（当放置添加新的资源或配置角色资源时，必须使session失效，或者重新放置session-这个不需要了）
 					List<AuthResourcesPo> authResourcesPoList = authResourcesRepository.findResourcesByUserId(authUserPo.getId());
 					authUserPo.setAuthResourcesPos(authResourcesPoList);
 					//放置session
-					OuOnlineHolder.setUserPo(request.getSession(), authUserPo);
+					WebOnlineHolder.setUserPo(request.getSession(), authUserPo);
 					
-					//查询所有资源URL，用于拦截器匹配，需要设置权限的url必须登记在资源表中
+					//查询所有资源URL，用于拦截器匹配，需要设置权限的url必须登记在资源表中，当添加资源或给角色配置资源时，在重新登录前新加的资源不在session中所以并不会被拦截
 					List<String> urls = authResourcesRepository.findAllUrls();
-					OuOnlineHolder.setAuthResUrl(urls);
+					WebOnlineHolder.setAuthResUrl(urls);
 					
 					//重定向到后台主页
 					redirectUrl(response, request.getAttribute(WebConstants.CONTEXT_PATH)+UrlConstants.MAIN_URL); 

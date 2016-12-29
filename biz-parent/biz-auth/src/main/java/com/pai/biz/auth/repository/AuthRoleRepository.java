@@ -1,0 +1,15 @@
+package com.pai.biz.auth.repository;
+
+import com.pai.biz.frame.repository.IRepository;
+import com.pai.biz.auth.domain.AuthRole;
+import com.pai.biz.auth.persistence.entity.AuthRolePo;
+/**
+ * 对象功能:角色 Repository接口
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-12-29 09:36:49
+ */
+public interface AuthRoleRepository extends IRepository<String, AuthRolePo,AuthRole>{
+	  
+	 
+}

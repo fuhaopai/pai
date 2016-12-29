@@ -5,14 +5,15 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.pai.biz.frame.domain.AbstractDomain;
 import com.pai.base.api.service.IdGenerator;
+import com.pai.base.api.session.OnlineUserIdHolder;
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.biz.auth.persistence.dao.AuthResourcesDao;
 import com.pai.biz.auth.persistence.dao.AuthResourcesQueryDao;
 import com.pai.biz.auth.persistence.dao.AuthRoleResourcesDao;
 import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
+import com.pai.biz.frame.domain.AbstractDomain;
 
 /**
  * 对象功能:资源 领域对象实体
@@ -58,6 +59,25 @@ public class AuthResources extends AbstractDomain<String, AuthResourcesPo>{
 		authResourcesPo.setId(id);
 		this.setData(authResourcesPo);
 		this.create();	
+		
+		//角色-资源，配置超级管理员权限
+		authRoleResourcesDao.createAdminResource(idGenerator.genSid(), id, OnlineUserIdHolder.getUserId());
+		//给管理员session配置权限。因为拦截器中新药拦截的url也放在Session中的，所以对新加的url并不会拦截
+		/*HashSet sessionsHashSet = (HashSet) OnlineHolder.getSession().getServletContext().getAttribute("sessions");
+		for(Iterator it=sessionsHashSet.iterator();it.hasNext();){
+			HttpSession session = (HttpSession) it.next();
+			Object obj = OnlineHolder.getSession().getAttribute(Constants.PAI_AUTH_USER);
+			if(obj instanceof AuthUserPo){
+				AuthUserPo authUserPo = (AuthUserPo)obj;
+				if(authUserPo.getName().equals("admin")){
+					List<AuthResourcesPo> authResourcesPoList = authResourcesQueryDao.listResourcesByUserId(authUserPo.getId(), null);
+					authUserPo.setAuthResourcesPos(authResourcesPoList);
+					session.setAttribute(Constants.PAI_AUTH_USER, authUserPo);
+					OnlineHolder.setSession(session);
+					break;
+				}
+			}			
+		}*/
 	}
 
 	public void delete(String id) {

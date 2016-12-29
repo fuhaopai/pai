@@ -24,5 +24,10 @@ public class AuthRoleResourcesDaoImpl extends MyBatisDaoImpl<String, AuthRoleRes
 	public void deleteByResourceId(String resourceId) {
 		super.deleteByKey("deleteByResourceId", b().a("resourceId", resourceId).p());
 	}
+
+	@Override
+	public void createAdminResource(String id, String resourceId, String userId) {
+		sqlSessionTemplate.insert(getNamespace() + ".createAdminResource", b().a("id", id).a("resourceId", resourceId).a("createBy", userId).p());
+	}
 	
 }

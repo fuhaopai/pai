@@ -4,7 +4,7 @@ public enum RedisDb {
 	DBZERO(0),  //会员信息
 	DBONE(1),	//帖子库
 	DBTWO(2),	//专栏库
-	DBTHREE(3),
+	DBTHREE(3), //后台信息
 	DBFOUR(4),
 	DBFIVE(5),
 	DBSIX(6),
@@ -17,6 +17,10 @@ public enum RedisDb {
 	DBTHIRTEEN(13),
 	DBFOURTEEN(14),
 	DBFIFTEEN(15); //表id,万万不能清除
+	
+	public final static String EVICT_ALL_TYPE="all";
+	public final static String EVICT_KEY_TYPE="key";
+	public final static String EVICT_PREFIX_TYPE="prefix";
 	
 	private RedisDb(int db) {
 		this.db = db;

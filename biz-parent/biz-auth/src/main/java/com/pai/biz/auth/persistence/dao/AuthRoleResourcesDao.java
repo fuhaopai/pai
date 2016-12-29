@@ -12,4 +12,6 @@ public interface AuthRoleResourcesDao extends IDao<String, AuthRoleResourcesPo> 
 
 	void deleteByResourceId(String id);
 
+	void createAdminResource(String id, String resourceId, String userId);
+
 }

@@ -5,19 +5,27 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import com.pai.app.web.core.constants.WebConstants;
-import com.pai.base.api.constants.RedisConstants;
-import com.pai.base.core.util.string.StringUtils;
-import com.pai.base.db.api.constants.OnlineUserIdHolder;
+import com.pai.base.api.constants.Constants;
+import com.pai.base.api.session.OnlineHolder;
+import com.pai.base.api.session.OnlineUserIdHolder;
 import com.pai.biz.auth.persistence.entity.AuthUserPo;
-import com.pai.service.redis.JedisUtil;
 
-public class OuOnlineHolder{
+/**
+ * web层的session
+ * <pre> 
+ * 构建组：app-web
+ * 作者：fuhao
+ * 日期：2016年12月29日-上午9:31:13
+ * </pre>
+ */
+public class WebOnlineHolder{
 	
 	//每一个客户端主线程和session是保持一致的，把session放入线程共享中，方便获取session
-	protected static final ThreadLocal<HttpSession> ouOnlineHolder	= new ThreadLocal<HttpSession>();	
+//	protected static final ThreadLocal<HttpSession> ouOnlineHolder	= new ThreadLocal<HttpSession>();	
 	
 	public static void setSession(HttpSession session) {
-		ouOnlineHolder.set(session);
+		OnlineHolder.setSession(session);
+		//底层需要用的session
 		OnlineUserIdHolder.setUserId(getUserId());
 	}
 	
@@ -30,16 +38,16 @@ public class OuOnlineHolder{
 	
 	public static void setUserPo(HttpSession session,AuthUserPo authUserPo) {
 		if(session!=null){
-			session.setAttribute(WebConstants.PAI_AUTH_USER, authUserPo);
-			ouOnlineHolder.set(session);
+			session.setAttribute(Constants.PAI_AUTH_USER, authUserPo);
+			OnlineHolder.setSession(session);
 			//数据库插入userId
 			OnlineUserIdHolder.setUserId(authUserPo.getId());
 		}
 	}
 	
 	public static AuthUserPo getUserPo() {
-		if(ouOnlineHolder.get()!=null){
-			Object obj = ouOnlineHolder.get().getAttribute(WebConstants.PAI_AUTH_USER);
+		if(OnlineHolder.getSession()!=null){
+			Object obj = OnlineHolder.getSession().getAttribute(Constants.PAI_AUTH_USER);
 			if(obj instanceof AuthUserPo){
 				AuthUserPo userPo = (AuthUserPo)obj;
 				return userPo;
@@ -49,14 +57,14 @@ public class OuOnlineHolder{
 	}
 	
 	public static void setAuthResUrl(List<String> urls) {
-		if(ouOnlineHolder.get()!=null){
-			ouOnlineHolder.get().setAttribute(WebConstants.PAI_AUTH_RES_URL, urls);
+		if(OnlineHolder.getSession()!=null){
+			OnlineHolder.getSession().setAttribute(Constants.PAI_AUTH_RES_URL, urls);
 		}
 	}
 	
 	public static List<String> getAuthResUrls(){
-		if(ouOnlineHolder.get()!=null){
-			return (List<String>) ouOnlineHolder.get().getAttribute(WebConstants.PAI_AUTH_RES_URL);
+		if(OnlineHolder.getSession()!=null){
+			return (List<String>) OnlineHolder.getSession().getAttribute(Constants.PAI_AUTH_RES_URL);
 		}
 		return null;
 	}
@@ -74,12 +82,12 @@ public class OuOnlineHolder{
 	*/
 	
 	public  static HttpSession getSession(){
-		return ouOnlineHolder.get();
+		return OnlineHolder.getSession();
 	}
 
 	public static String getSid(){
-		if(ouOnlineHolder.get()!=null){
-			Object sid = ouOnlineHolder.get().getAttribute(WebConstants.ONLINE_MEMBER);
+		if(OnlineHolder.getSession()!=null){
+			Object sid = OnlineHolder.getSession().getAttribute(WebConstants.ONLINE_MEMBER);
 			if(sid!=null && sid instanceof String){
 				return (String)sid;
 			}
@@ -92,8 +100,8 @@ public class OuOnlineHolder{
 	 * @param sid
 	 */
 	public static void setSid(String sid){
-		if(ouOnlineHolder.get()!=null){
-			ouOnlineHolder.get().setAttribute(WebConstants.ONLINE_MEMBER,sid);
+		if(OnlineHolder.getSession()!=null){
+			OnlineHolder.getSession().setAttribute(WebConstants.ONLINE_MEMBER,sid);
 		}
 	}
 	
@@ -118,12 +126,12 @@ public class OuOnlineHolder{
 		ouOnlineHolder.get().setAttribute(WebConstants.PRE_LOGIN_URL,perLoginUrl);
 	}	*/
 	
-	public static String getWapPerLoginUrl( ) {
-		if(ouOnlineHolder.get()!=null){
-			return (String) ouOnlineHolder.get().getAttribute(WebConstants.PRE_LOGIN_URL);
+	/*public static String getWapPerLoginUrl( ) {
+		if(OnlineHolder.getSession()!=null){
+			return (String) OnlineHolder.getSession().getAttribute(WebConstants.PRE_LOGIN_URL);
 		}
 		return "";
-	}	
+	}*/	
 	
 	
 	
@@ -153,44 +161,44 @@ public class OuOnlineHolder{
 		return null;
 	}*/
 	public static void setDirectLogin(HttpSession session,String direct){
-		if(ouOnlineHolder.get()==null){
-			ouOnlineHolder.set(session);
+		if(OnlineHolder.getSession()==null){
+			OnlineHolder.setSession(session);
 		}
-		ouOnlineHolder.get().setAttribute(WebConstants.DIRECT_LOGIN,direct);
+		OnlineHolder.getSession().setAttribute(WebConstants.DIRECT_LOGIN,direct);
 	}
 
-	public static void setCheckoutFlag(String checkFlag) {
+	/*public static void setCheckoutFlag(String checkFlag) {
 		if(ouOnlineHolder.get()!=null){
 			ouOnlineHolder.get().setAttribute(WebConstants.CHECK_FLAG,checkFlag);
 		}
-	}
+	}*/
 	
-	public static String getCheckoutFlag() {
+	/*public static String getCheckoutFlag() {
 		String checkFlag = null;
 		if(ouOnlineHolder.get()!=null){
 			checkFlag = (String)ouOnlineHolder.get().getAttribute(WebConstants.CHECK_FLAG);			
 		}
 		return checkFlag;	
-	}
+	}*/
 	
 	/**
 	 * 判断前端会员是否登录
 	 * @return
 	 */
-	public static boolean isLogin(){
-		/*if(getMemberView()==null){
+	/*public static boolean isLogin(){
+		if(getMemberView()==null){
 			return false;
-		}*/
+		}
 		return true;
-	}
+	}*/
 	
 	/**
 	 * 判断前端会员是否未登录
 	 * @return
 	 */
-	public static boolean isNotLogin(){
+	/*public static boolean isNotLogin(){
 		return !isLogin();
-	}
+	}*/
 	
 	/**
 	 * 设置游客ID 
@@ -198,7 +206,7 @@ public class OuOnlineHolder{
 	 * @exception 
 	 * @since  1.0.0
 	 */
-	public static void setVid(String vid){
+	/*public static void setVid(String vid){
 		if(ouOnlineHolder.get()!=null){
 			ouOnlineHolder.get().setAttribute(WebConstants.VISITOR_ID,vid);
 		}
@@ -211,8 +219,8 @@ public class OuOnlineHolder{
 			}
 		}
 		return "";
-	}
-	public static void setSource(String source){
+	}*/
+	/*public static void setSource(String source){
 		if(ouOnlineHolder.get()!=null){
 			ouOnlineHolder.get().setAttribute("source", source);
 		}
@@ -222,8 +230,8 @@ public class OuOnlineHolder{
 			return (String)ouOnlineHolder.get().getAttribute("source");
 		}
 		return "";
-	}
-	public static void setWapSource(String source){
+	}*/
+	/*public static void setWapSource(String source){
 		if(ouOnlineHolder.get()!=null){
 			ouOnlineHolder.get().setAttribute("wapsource", source);
 		}
@@ -233,7 +241,7 @@ public class OuOnlineHolder{
 			return (String)ouOnlineHolder.get().getAttribute("wapsource");
 		}
 		return "";
-	}	
+	}*/	
 	
 	
 	/*public static void setFromTrackPoSession(HttpSession session,FromTrackPo fromTrackPo){
@@ -259,7 +267,7 @@ public class OuOnlineHolder{
 			return null;
 		return JedisUtil.getObject(_cartId,RedisConstants.CART);
 	}*/
-	public static String getIsReMeLogin(){
+	/*public static String getIsReMeLogin(){
 		if(ouOnlineHolder.get()!=null){
 			String isReMeLogin=(String) ouOnlineHolder.get().getAttribute(WebConstants.IS_RE_ME_LOGIN);
 			return isReMeLogin;
@@ -271,7 +279,7 @@ public class OuOnlineHolder{
 		if(ouOnlineHolder.get()!=null){
 			ouOnlineHolder.get().setAttribute(WebConstants.IS_RE_ME_LOGIN, isReMeLogin);
 		}
-	}
+	}*/
 	
 	/**
 	 * 判断时间戳间隔是否大于某个值
@@ -410,7 +418,7 @@ public class OuOnlineHolder{
 		return null;
 	}*/
 	
-	public static void setRedisSid(String sid, String wxSid) throws Exception {
+	/*public static void setRedisSid(String sid, String wxSid) throws Exception {
 		if(wxSid!=null){
 			JedisUtil.getInstance().set("RediasSid"+sid,wxSid,RedisConstants.ONLINE_ENTITY);
 			JedisUtil.getInstance().expire("RediasSid"+sid, 7*24*60*60);
@@ -427,6 +435,6 @@ public class OuOnlineHolder{
 			return JedisUtil.getInstance().get("RediasSid"+sid,RedisConstants.ONLINE_ENTITY);
 		}
 		return null;
-	}
+	}*/
 
 }

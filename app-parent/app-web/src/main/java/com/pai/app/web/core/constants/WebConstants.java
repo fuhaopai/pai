@@ -1,6 +1,13 @@
 package com.pai.app.web.core.constants;
 
-
+/**
+ * web层的常量设置
+ * <pre> 
+ * 构建组：app-web
+ * 作者：fuhao
+ * 日期：2016年12月28日-下午3:23:48
+ * </pre>
+ */
 public class WebConstants {
 	public final static String ACTION_POSTFIX=".do";
 	public final static String FRONT_ACTION_POSTFIX=".htm";
@@ -29,10 +36,6 @@ public class WebConstants {
 	public final static String DEFAULT_COOKIE_PATH_VALUE = "/";//默认的cookie path
 	
 	public final static String DEFAULT_CATEGORY = "others";
-	
-	public final static String PAI_AUTH_USER = "_PAI_AUTH_USER";
-	
-	public final static String PAI_AUTH_RES_URL = "_PAI_AUTH_RES_URL";
 	
 	public final static String ONLINE_MEMBER = "_ONLINE_MEMBER";
 	

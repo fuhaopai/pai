@@ -18,7 +18,7 @@ import com.pai.biz.frame.repository.IRepository;
 import com.pai.base.core.constants.ActionMsgCode;
 import com.pai.base.core.entity.CommonResult;
 import com.pai.app.web.core.framework.util.PageUtil;
-import com.pai.app.web.core.framework.web.context.OuOnlineHolder;
+import com.pai.app.web.core.framework.web.context.WebOnlineHolder;
 import com.pai.app.web.core.framework.web.controller.AdminController;
 import com.pai.app.web.core.framework.web.entity.QueryBuilder;
 import com.pai.base.core.util.string.StringUtils;
@@ -87,7 +87,7 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 	@RequestMapping("listResources")	
 	@ResponseBody
 	public String listResources(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		AuthUserPo authUserPo=OuOnlineHolder.getUserPo();
+		AuthUserPo authUserPo=WebOnlineHolder.getUserPo();
 		if(authUserPo==null){
 			return "";
 		}

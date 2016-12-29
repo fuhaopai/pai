@@ -40,6 +40,7 @@
 	<dom4j.version>1.6.1</dom4j.version>
 	<aspectjweaver.version>1.6.11</aspectjweaver.version>
 	<jackson-databind.version>2.7.4</jackson-databind.version>
+	<servlet-api.version>2.5</servlet-api.version>
   </properties>
 
   <modules>
@@ -160,11 +161,11 @@
 			<artifactId>fastjson</artifactId>
 			<version>${fastjson.version}</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>1.0</version>			
-		</dependency> -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet-api.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>	

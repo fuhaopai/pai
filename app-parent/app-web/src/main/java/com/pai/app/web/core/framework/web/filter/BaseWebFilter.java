@@ -12,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.pai.app.web.core.constants.WebConstants;
-import com.pai.app.web.core.framework.web.context.OuOnlineHolder;
+import com.pai.app.web.core.framework.web.context.WebOnlineHolder;
 import com.pai.app.web.core.framework.web.context.RequestHolder;
 import com.pai.app.web.core.framework.web.xss.XssHttpServletRequestWrapper;
 import com.pai.base.core.util.ConfigHelper;
@@ -41,7 +41,7 @@ public class BaseWebFilter extends OncePerRequestFilter{
 		}
 		request.setAttribute(WebConstants.CONTEXT_PATH,_ctxPath);
 		
-		OuOnlineHolder.setSession(request.getSession());
+		WebOnlineHolder.setSession(request.getSession());
 				
 		/*if(OuOnlineHolder.isNotLogin()){
 			Cookie cookie = RequestUtil.getCookie(request, WebConstants.VISITOR_ID);
