@@ -12,25 +12,20 @@
         $(function ()
         {
         	searchForm = $("#form1").ligerForm({
-				inputWidth : 190,labelWidth : 0,space : 1,rightToken :'',
+				inputWidth : 180,labelWidth : 90,space : 50,rightToken :'',
 				fields : [
-				{ display: '&nbsp;昵称', name: 'Q__S__EQ__name', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;手机号', name: 'Q__S__EQ__phone', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;密码', name: 'Q__S__EQ__password', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;邮箱', name: 'Q__S__EQ__mail', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;头像', name: 'Q__S__EQ__profile', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;专业', name: 'Q__S__EQ__profession', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;属性（0=前端用户；1=后端用户；2：前后端用户）', name: 'Q__S__EQ__type', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;状态（1=正常；2=冻结）', name: 'Q__S__EQ__status', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;是否第三方登陆账号', name: 'Q__S__EQ__isThird', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;创建人', name: 'Q__S__EQ__createBy', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;创建时间', name: 'Q__S__EQ__createTime', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;修改人', name: 'Q__S__EQ__updateBy', align: 'left', width: 80, minWidth: 60 },
-				{ display: '&nbsp;修改时间', name: 'Q__S__EQ__updateTime', align: 'left', width: 80, minWidth: 60 },
-				{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
-					          	{display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", 
-								name: "searchButton", newline: false, width:0.01}
-							  ]
+					{ display: '&nbsp;昵称', name: 'Q__S__EQ__name', newline : false, align: 'left', width: 140, minWidth: 60 },
+					{ display: '&nbsp;手机号', name: 'Q__S__EQ__phone', newline : false, align: 'left', width: 140, minWidth: 60 },
+					{ display: '&nbsp;密码', name: 'Q__S__EQ__password', newline : false, align: 'left', width: 140, minWidth: 60 },
+					{ display: '&nbsp;邮箱', name: 'Q__S__EQ__mail', newline : false, align: 'left', width: 140, minWidth: 60 },
+					{ display: '&nbsp;头像', name: 'Q__S__EQ__profile', newline : false, align: 'left', width: 140, minWidth: 60 },
+					{ display: '&nbsp;专业', name: 'Q__S__EQ__profession', newline : false, align: 'left', width: 140, minWidth: 60 },
+					{ display: '&nbsp;属性', name: 'Q__S__EQ__type', newline : false, align: 'left', width: 140, minWidth: 60 },
+					{ display: '&nbsp;状态', name: 'Q__S__EQ__status', newline : false, align: 'left', width: 140, minWidth: 60 },
+					{ display: '&nbsp;是否第三方登陆账号', name: 'Q__S__EQ__isThird', newline : false, align: 'left', width: 140, minWidth: 60 },
+					{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},
+					{display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>",name: "searchButton", newline: false, width:0.01}
+				  ]
 				});        
         	
            grid = $("#maingrid").ligerGrid({
@@ -43,30 +38,60 @@
 	             } ,
 	             
                 columns: [
-				{ display: '昵称', name: 'name', align: 'left', width: 80, minWidth: 60 },
-				{ display: '手机号', name: 'phone', align: 'left', width: 80, minWidth: 60 },
-				{ display: '密码', name: 'password', align: 'left', width: 80, minWidth: 60 },
-				{ display: '邮箱', name: 'mail', align: 'left', width: 80, minWidth: 60 },
-				{ display: '头像', name: 'profile', align: 'left', width: 80, minWidth: 60 },
-				{ display: '专业', name: 'profession', align: 'left', width: 80, minWidth: 60 },
-				{ display: '属性（0=前端用户；1=后端用户；2：前后端用户）', name: 'type', align: 'left', width: 80, minWidth: 60 },
-				{ display: '状态（1=正常；2=冻结）', name: 'status', align: 'left', width: 80, minWidth: 60 },
-				{ display: '是否第三方登陆账号', name: 'isThird', align: 'left', width: 80, minWidth: 60 },
-				{ display: '创建人', name: 'createBy', align: 'left', width: 80, minWidth: 60 },
-				{ display: '创建时间', name: 'createTime', align: 'left', width: 80, minWidth: 60 },
-				{ display: '修改人', name: 'updateBy', align: 'left', width: 80, minWidth: 60 },
-				{ display: '修改时间', name: 'updateTime', align: 'left', width: 80, minWidth: 60 }
-                ], url:'${CtxPath}/admin/pai/auth/authUser/listData.do', pageSize:30 ,rownumbers:true,pagesizeParmName:'pageSize',
+					{ display: '昵称', name: 'name', align: 'left', width: 120, minWidth: 60 },
+					{ display: '手机号', name: 'phone', align: 'left', width: 150, minWidth: 60 },
+					{ display: '邮箱', name: 'mail', align: 'left', width: 150, minWidth: 60 },
+					{ display: '头像', name: 'profile', align: 'left', width: 80, minWidth: 60, render:function(rowdata,index,value){
+					        if(value != null && value != ""){
+					        	return '<img src="'+value+'@!80x80">';
+					        }else{
+					       		return '<font color="#00c">默认图</font>';
+					        }
+					    }
+				  	},
+					{ display: '专业', name: 'profession', align: 'left', width: 100, minWidth: 60 },
+					{ display: '属性', name: 'type', align: 'left', width: 80, minWidth: 60, render:function(rowdata,index,value){
+							if(value == 0)
+								return "前端用户";
+							else if(value == 1)
+								return "后端用户";
+							else 
+								return "前后端用户";
+						} 
+					},
+					{ display: '状态', name: 'status', align: 'left', width: 80, minWidth: 60, render:function(rowdata,index,value){
+							if(value == 1)
+								return "正常";
+							else if(value == 2)
+								return "冻结";
+						} 
+					},
+					{ display: '是否第三方登陆账号', name: 'isThird', align: 'left', width: 120, minWidth: 60, render:function(rowdata,index,value){
+							if(value == 'Y')
+								return "是";
+							else if(value == 'N')
+								return "否";
+						} 
+					}
+              	  ], 
+              	url:'${CtxPath}/admin/pai/auth/authUser/listData.do', 
+              	pageSize:30 ,
+              	rownumbers:true,
+              	pagesizeParmName:'pageSize',
+              	rowHeight:80,
                 onReload:setDataToGrid,
+                /*onDblClickRow : function (rowdata,index,value){
+                     editDialog(rowdata.id);
+                },*/
                 toolbar: { items: [
-                { id:'add',text: '增加', click: add, icon: 'add' },
-                { line: true },
-                { id:'modify',text: '修改', click: edit, icon: 'modify' },
-                { line: true },
-                { id:'delete',text: '删除', click: deleteRow, img: '${CtxPath}/scripts/ligerUI/skins/icons/delete.gif' },
-                { line: true },
-                { id:'modify',text: '刷新', click: refresh, icon: 'refresh' }                
-                ]
+	                { id:'add',text: '增加', click: add, icon: 'add' },
+	                { line: true },
+	                /*{ id:'modify',text: '修改', click: edit, icon: 'modify' },
+	                { line: true },*/
+	                { id:'delete',text: '删除', click: deleteRow, img: '${CtxPath}/scripts/ligerUI/skins/icons/delete.gif' },
+	                { line: true },
+	                { id:'modify',text: '刷新', click: refresh, icon: 'refresh' }                
+               	 ]
                 }
             });             
 

@@ -60,6 +60,9 @@
                 rownumbers:true,
                 pagesizeParmName:'pageSize',
                 onReload:setDataToGrid,
+                onDblClickRow : function (rowdata,index,value){
+                     editDialog(rowdata.id);
+                },
                 toolbar: { items: [
 	                { id:'add',text: '增加', click: add, icon: 'add' },
 	                { line: true },
@@ -68,7 +71,7 @@
 	                { id:'delete',text: '删除', click: deleteRow, img: '<#noparse>${</#noparse>CtxPath}/scripts/ligerUI/skins/icons/delete.gif' },
 	                { line: true },
 	                { id:'modify',text: '刷新', click: refresh, icon: 'refresh' }                
-                ]
+              	  ]
                 }
             });             
 

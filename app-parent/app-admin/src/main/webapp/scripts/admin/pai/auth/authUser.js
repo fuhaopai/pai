@@ -3,7 +3,7 @@ function add() {
 		height:600,
 		width: 800,
 		title : '新增用户 ',
-		url: __ctxPath + '/storeadmin/pai/auth/authUser/edit.do', 
+		url: __ctxPath + '/admin/pai/auth/authUser/edit.do', 
 		showMax: true,
 		showToggle: true,
 		showMin: true,
@@ -27,7 +27,7 @@ function editDialog(id) {
 		height:600,
 		width: 800,
 		title : '修改用户 ',
-		url: __ctxPath + '/storeadmin/pai/auth/authUser/edit.do?id=' + id, 
+		url: __ctxPath + '/admin/pai/auth/authUser/edit.do?id=' + id, 
 		showMax: true,
 		showToggle: true,
 		showMin: true,
@@ -43,7 +43,7 @@ function deleteRow()
 		$.ligerDialog.confirm('请确认是否删除该记录', function (yes)
 				{
 	            	if(yes){
-	            		var url = __ctxPath + "/storeadmin/pai/auth/authUser/delete.do";
+	            		var url = __ctxPath + "/admin/pai/auth/authUser/delete.do";
 	            		var params = "id="+selected.id;
 	            		$.post(url,params,deleteResponse);            		            		
 	            	}             

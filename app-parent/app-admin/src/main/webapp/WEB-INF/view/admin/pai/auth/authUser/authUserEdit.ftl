@@ -44,13 +44,6 @@
 		            <td align="left"></td>
 		        </tr> 
 		        <tr>
-		            <td align="right" class="l-table-edit-td">密码:</td>
-		            <td align="left" class="l-table-edit-td">
-		            	<input name="password" type="text" id="password"  value="${authUserPo.password}" ltype="text" validate='{required:true}'/>
-		            </td>
-		            <td align="left"></td>
-		        </tr> 
-		        <tr>
 		            <td align="right" class="l-table-edit-td">邮箱:</td>
 		            <td align="left" class="l-table-edit-td">
 		            	<input name="mail" type="text" id="mail"  value="${authUserPo.mail}" ltype="text" />

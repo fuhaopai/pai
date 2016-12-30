@@ -70,6 +70,9 @@
                 alternatingRow : false,
 				enabledSort : false,
                 onReload:setDataToGrid,
+                onDblClickRow : function (rowdata,index,value){
+                     editDialog(rowdata.id);
+                },
                 tree : {
 					isExpand : false,
 					slide : false,
@@ -85,7 +88,7 @@
 	                { id:'delete',text: '删除', click: deleteRow, img: '${CtxPath}/scripts/ligerUI/skins/icons/delete.gif' },
 	                { line: true },
 	                { id:'modify',text: '刷新', click: refresh, icon: 'refresh' }                
-                ]
+               	  ]
                 }
             });             
 
