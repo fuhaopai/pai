@@ -6,12 +6,7 @@
 		<result property="name" column="name" jdbcType="VARCHAR"/>
 		<result property="phone" column="phone" jdbcType="VARCHAR"/>
 		<result property="password" column="password" jdbcType="VARCHAR"/>
-		<result property="mail" column="mail" jdbcType="VARCHAR"/>
-		<result property="profile" column="profile" jdbcType="VARCHAR"/>
-		<result property="profession" column="profession" jdbcType="VARCHAR"/>
-		<result property="type" column="type" jdbcType="NUMERIC"/>
 		<result property="status" column="status" jdbcType="NUMERIC"/>
-		<result property="isThird" column="is_third" jdbcType="VARCHAR"/>
 		<result property="createBy" column="create_by" jdbcType="VARCHAR"/>
 		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
 		<result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
@@ -20,9 +15,9 @@
 	
 	<insert id="create" parameterType="com.pai.biz.auth.persistence.entity.AuthUserPo">
 		INSERT INTO pai_auth_user
-		(id_,name,phone,password,mail,profile,profession,type,status,is_third,create_by,create_time,update_by,update_time)
+		(id_,name,phone,password,status,create_by,create_time,update_by,update_time)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{type,jdbcType=NUMERIC}, #{status,jdbcType=NUMERIC}, #{isThird,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
 	</insert>
 	
 	<select id="get"   parameterType="java.lang.String" resultMap="AuthUserPo">
@@ -36,7 +31,7 @@
     </select>
 	
 	<select id="countAll" resultType="int">
-    	select count(*) _total from pai_auth_user
+    	select count(*) _total from pai_auth_user a
 		<where>
 			<if test="whereSql!=null">
 				${whereSql}
@@ -45,7 +40,10 @@
     </select>	
 	
 	<select id="find" parameterType="java.util.Map" resultMap="AuthUserPo">
-		SELECT * FROM pai_auth_user
+		SELECT a.* FROM pai_auth_user a
+		<if test="roleId != null">
+			INNER JOIN pai_auth_role_user b ON a.id_=b.user_id_ AND b.role_id_=#{roleId}
+		</if>
 		<where>
 			<if test="whereSql!=null">
 				${whereSql}
@@ -72,13 +70,10 @@
 		UPDATE pai_auth_user SET
 		name=#{name,jdbcType=VARCHAR},
 		phone=#{phone,jdbcType=VARCHAR},
-		password=#{password,jdbcType=VARCHAR},
-		mail=#{mail,jdbcType=VARCHAR},
-		profile=#{profile,jdbcType=VARCHAR},
-		profession=#{profession,jdbcType=VARCHAR},
-		type=#{type,jdbcType=NUMERIC},
+		<if test="password != null">
+			password=#{password,jdbcType=VARCHAR},
+		</if>
 		status=#{status,jdbcType=NUMERIC},
-		is_third=#{isThird,jdbcType=VARCHAR},
 		create_by=#{createBy,jdbcType=VARCHAR},
 		create_time=#{createTime,jdbcType=TIMESTAMP},
 		update_by=#{updateBy,jdbcType=VARCHAR},
@@ -93,51 +88,33 @@
 		id_=#{id}
 	</delete>
 	
-	<select id="getAccount" parameterType="java.util.Map" resultMap="AuthUserPo">
-		select * from pai_auth_user where name=#{name} and password=#{password}
-	</select>
 	
 	<update id="updateByExampleSelective" parameterType="java.util.Map">
-		UPDATE pai_auth_user
+		UPDATE pai_auth_user 
 		<set>
-			<if test="entity.name != null" >
-				name = #{entity.name,jdbcType=VARCHAR},
+			<if test="entity.name!=null">
+				name=#{name,jdbcType=VARCHAR},
 			</if>
-			<if test="entity.phone != null" >
-				phone = #{entity.phone,jdbcType=VARCHAR},
+			<if test="entity.phone!=null">
+				phone=#{phone,jdbcType=VARCHAR},
 			</if>
-			<if test="entity.password != null" >
-				password = #{entity.password,jdbcType=VARCHAR},
+			<if test="entity.password!=null">
+				password=#{password,jdbcType=VARCHAR},
 			</if>
-			<if test="entity.mail != null" >
-				mail = #{entity.mail,jdbcType=VARCHAR},
+			<if test="entity.status!=null">
+				status=#{status,jdbcType=NUMERIC},
 			</if>
-			<if test="entity.profile != null" >
-				profile = #{entity.profile,jdbcType=VARCHAR},
+			<if test="entity.createBy!=null">
+				create_by=#{createBy,jdbcType=VARCHAR},
 			</if>
-			<if test="entity.profession != null" >
-				profession = #{entity.profession,jdbcType=VARCHAR},
+			<if test="entity.createTime!=null">
+				create_time=#{createTime,jdbcType=TIMESTAMP},
 			</if>
-			<if test="entity.type != null" >
-				type = #{entity.type,jdbcType=INTEGER},
+			<if test="entity.updateBy!=null">
+				update_by=#{updateBy,jdbcType=VARCHAR},
 			</if>
-			<if test="entity.status != null" >
-				status = #{entity.status,jdbcType=INTEGER},
-			</if>
-			<if test="entity.isThird != null" >
-				is_third = #{entity.isThird,jdbcType=INTEGER},
-			</if>
-			<if test="entity.createBy != null" >
-				create_by = #{entity.createBy,jdbcType=VARCHAR},
-			</if>
-			<if test="entity.createTime != null" >
-				create_time = #{entity.createTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="entity.updateBy != null" >
-				update_by = #{entity.updateBy,jdbcType=VARCHAR},
-			</if>
-			<if test="entity.updateTime != null" >
-				update_time = #{entity.updateTime,jdbcType=TIMESTAMP},
+			<if test="entity.updateTime!=null">
+				update_time=#{updateTime,jdbcType=TIMESTAMP}
 			</if>
 		</set>
 		<where>
@@ -146,4 +123,8 @@
 			</if>
 		</where>
 	</update>
+	
+	<select id="getAccount" parameterType="java.util.Map" resultMap="AuthUserPo">
+		select * from pai_auth_user where name=#{name} and password=#{password}
+	</select>
 </mapper>

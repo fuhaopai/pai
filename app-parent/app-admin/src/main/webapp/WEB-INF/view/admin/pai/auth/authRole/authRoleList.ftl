@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>用户管理</title>
+    <title>角色管理</title>
 	<#include "/WEB-INF/view/common/jquery.ftl">
 	<#include "/WEB-INF/view/common/ligerUI.ftl">		 
 	<script type="text/javascript" src="${CtxPath}/scripts/admin/pai/common.js" ></script>					    					    
@@ -12,19 +12,15 @@
         $(function ()
         {
         	searchForm = $("#form1").ligerForm({
-				inputWidth : 180, labelWidth : 50, space : 50, rightToken :'',
+				inputWidth : 180, labelWidth : 90, space : 50, rightToken :'',
 				fields : [
-					{ display: '用户名:', name: 'Q__S__LK__a__name', newline : true, align: 'left', width: 140 },
-					{ display: '角色:', name: 'roleId', newline : false, align: 'left', width: 140, type:'combobox', options:{
-							valueField: 'id',
-	                        textField: 'name',
-	                        slide: false,
-	                        selectBoxWidth: 400,
-	                        selectBoxHeight: 290,
-	                        grid: roleGridOptions(false),
-	                        hideGridOnLoseFocus: true
-						} 
-					},
+					{ display: '名称', name: 'Q__S__EQ__name', newline : true, align: 'left', width: 140 },
+					{ display: '描述', name: 'Q__S__EQ__descript', newline : false, align: 'left', width: 140 },
+					{ display: '状态（1=有效，2=无效）', name: 'Q__S__EQ__status', newline : false, align: 'left', width: 140 },
+					{ display: '创建人', name: 'Q__S__EQ__createBy', newline : false, align: 'left', width: 140 },
+					{ display: '创建时间', name: 'Q__S__EQ__createTime', newline : true, align: 'left', width: 140 },
+					{ display: '修改人', name: 'Q__S__EQ__updateBy', newline : false, align: 'left', width: 140 },
+					{ display: '修改时间', name: 'Q__S__EQ__updateTime', newline : false, align: 'left', width: 140 },
 					{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
 		          	{ display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", name: "searchButton", newline: false, width:0.01}
 				 ]
@@ -40,23 +36,15 @@
 	             } ,
 	             
                 columns: [
-					{ display: '用户名', name: 'name', align: 'left', width: 80, minWidth: 60 },
-					{ display: '手机号', name: 'phone', align: 'left', width: 150, minWidth: 60 },
-					/* { display: '密码', name: 'password', align: 'left', width: 80, minWidth: 60 }, */
-					{ display: '状态', name: 'status', align: 'left', width: 80, minWidth: 60, render: function(rowdata,index,value){
-							if(value==1)
-								return "正常";
-							else if(value==2)
-								return "冻结";
-						} 
-					},
-					{ display: '所属角色', name: 'roleNames', align: 'left', width: 150, minWidth: 60 },
+					{ display: '名称', name: 'name', align: 'left', width: 80, minWidth: 60 },
+					{ display: '描述', name: 'descript', align: 'left', width: 80, minWidth: 60 },
+					{ display: '状态（1=有效，2=无效）', name: 'status', align: 'left', width: 80, minWidth: 60 },
 					{ display: '创建人', name: 'createBy', align: 'left', width: 80, minWidth: 60 },
 					{ display: '创建时间', name: 'createTime', align: 'left', type:'date', options:{showTime: true,format:'yyyy-MM-dd hh:mm:ss'}, width: 180, minWidth: 60 },
 					{ display: '修改人', name: 'updateBy', align: 'left', width: 80, minWidth: 60 },
 					{ display: '修改时间', name: 'updateTime', align: 'left', type:'date', options:{showTime: true,format:'yyyy-MM-dd hh:mm:ss'}, width: 180, minWidth: 60 }
                 ], 
-                url:'${CtxPath}/admin/pai/auth/authUser/listData.do', 
+                url:'${CtxPath}/admin/pai/auth/authRole/listData.do', 
                 pageSize:30 ,
                 rownumbers:true,
                 pagesizeParmName:'pageSize',
@@ -100,33 +88,8 @@
 				}
 			}			
 		}
-		function roleGridOptions(checkbox){
-            var options = {
-                url: __ctxPath+"/admin/pai/auth/authRole/listData.do",
-	    		switchPageSizeApplyComboBox: false,
-	    		checkbox:checkbox,
-	    		width:500,
-                selectBoxWidth:500,	   
-                usePager:false,
-                autoCheckChildren:false,
-                allowUnSelectRow:true,
-	            columns: [				
-		            { display: 'ID',hide:'1', name: 'id',id:"id", align: 'left', width: 100, minWidth: 60 },          
-		            { display: '角色名称', name: 'name',id:"name", align: 'left', width: 150, minWidth: 60 },
-		    		{ display: '描述', name: 'descript', align: 'left', width: 100, minWidth: 60 },
-		    		{ display: '状态', name: 'status', align: 'left', width: 120, minWidth: 60, render: function(rowdata,index,value){
-								if(value==1)
-									return "正常";
-								else if(value==2)
-									return "冻结";
-							}
-					 }
-	           ]
-            };
-            return options;
-		}
     </script>
-    <script type="text/javascript" src="${CtxPath}/scripts/admin/pai/auth/authUser.js" ></script>
+    <script type="text/javascript" src="${CtxPath}/scripts/admin/pai/auth/authRole.js" ></script>
 </head>
 <body style="overflow-x:hidden; padding:2px;">
 	<div class="l-loading" style="display:block" id="pageloading"></div>

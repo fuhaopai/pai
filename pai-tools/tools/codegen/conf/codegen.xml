@@ -113,7 +113,7 @@
 		<variable name="company" value="π" />
 		<!--keys值必须小写，且用,隔开-->
 		<variable name="keys" value="db,dao,domain,controller,view,apiBase,api"/>
-		<variable name="workspace" value="E:\github\pai\" />
+		<variable name="workspace" value="d:\github\pai\" />
 	</variables>
         <!--可以有多个<table>标签-->
 	<table tableName="pai_auth_role" >
@@ -122,7 +122,7 @@
 		<variable name="class" value="AuthRole" />		
 		<variable name="baseClass" value="AuthRole" />
 		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
-		<variable name="doType" value="db,dao,domain" />
+		<variable name="doType" value="controller,view" />
 		 <!--
 		<subtable tablename="pai_auth_resources"  foreignKey="report_id_">
 			<variable name="sys" value="pai" />

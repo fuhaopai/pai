@@ -12,12 +12,32 @@ import java.util.List;
 public class AuthUserPo extends AuthUserTbl{
 	
 	private List<AuthResourcesPo> authResourcesPos = new ArrayList<AuthResourcesPo>();
-
+	
+	private String roleNames;
+	
+	private String roleIds;
+	
 	public List<AuthResourcesPo> getAuthResourcesPos() {
 		return authResourcesPos;
 	}
 
 	public void setAuthResourcesPos(List<AuthResourcesPo> authResourcesPos) {
 		this.authResourcesPos = authResourcesPos;
+	}
+
+	public String getRoleNames() {
+		return roleNames;
+	}
+
+	public void setRoleNames(String roleNames) {
+		this.roleNames = roleNames;
+	}
+
+	public String getRoleIds() {
+		return roleIds;
+	}
+
+	public void setRoleIds(String roleIds) {
+		this.roleIds = roleIds;
 	}
 }

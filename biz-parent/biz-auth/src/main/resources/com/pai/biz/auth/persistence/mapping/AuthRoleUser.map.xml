@@ -7,15 +7,15 @@
 		<result property="userId" column="user_id_" jdbcType="VARCHAR"/>
 		<result property="createBy" column="create_by" jdbcType="VARCHAR"/>
 		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-		<result property="updateTime" column="update_time" jdbcType="VARCHAR"/>
-		<result property="updateBy" column="update_by" jdbcType="TIMESTAMP"/>
+		<result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.pai.biz.auth.persistence.entity.AuthRoleUserPo">
 		INSERT INTO pai_auth_role_user
 		(id_,role_id_,user_id_,create_by,create_time,update_time,update_by)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=VARCHAR}, #{updateBy,jdbcType=TIMESTAMP})
+		(#{id,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="get"   parameterType="java.lang.String" resultMap="AuthRoleUserPo">
@@ -67,8 +67,8 @@
 		user_id_=#{userId,jdbcType=VARCHAR},
 		create_by=#{createBy,jdbcType=VARCHAR},
 		create_time=#{createTime,jdbcType=TIMESTAMP},
-		update_time=#{updateTime,jdbcType=VARCHAR},
-		update_by=#{updateBy,jdbcType=TIMESTAMP}
+		update_time=#{updateTime,jdbcType=TIMESTAMP},
+		update_by=#{updateBy,jdbcType=VARCHAR}
 		WHERE
 		id_=#{id}
 	</update>
@@ -96,10 +96,10 @@
 			create_time=#{createTime,jdbcType=TIMESTAMP},
 		</if>
 		<if test="entity.updateTime!=null">
-			update_time=#{updateTime,jdbcType=VARCHAR},
+			update_time=#{updateTime,jdbcType=TIMESTAMP},
 		</if>
 		<if test="entity.updateBy!=null">
-			update_by=#{updateBy,jdbcType=TIMESTAMP}
+			update_by=#{updateBy,jdbcType=VARCHAR}
 		</if>
 		</set>
 		<where>

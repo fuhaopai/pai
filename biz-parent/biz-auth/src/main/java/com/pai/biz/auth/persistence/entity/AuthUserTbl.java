@@ -1,4 +1,6 @@
 package com.pai.biz.auth.persistence.entity;
+import java.util.Date;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -8,9 +10,9 @@ import com.pai.base.db.persistence.entity.AbstractPo;
 
 /**
  * 对象功能:用户 Tbl对象
- * 开发公司:PAI.COM
+ * 开发公司:π
  * 开发人员:FUHAO
- * 创建时间:2016-09-29 18:00:11
+ * 创建时间:2017-01-01 18:41:40
  */
  @ITable(name="authUser",code="pai_auth_user")
 public class AuthUserTbl extends AbstractPo<String>{
@@ -22,18 +24,8 @@ public class AuthUserTbl extends AbstractPo<String>{
 	protected String  phone; 		/*手机号*/
 	@IField(name="password",column="password")
 	protected String  password; 		/*密码*/
-	@IField(name="mail",column="mail")
-	protected String  mail; 		/*邮箱*/
-	@IField(name="profile",column="profile")
-	protected String  profile; 		/*头像*/
-	@IField(name="profession",column="profession")
-	protected String  profession; 		/*专业*/
-	@IField(name="type",column="type")
-	protected Integer  type; 		/*属性（0=前端用户；1=后端用户；2：前后端用户）*/
 	@IField(name="status",column="status")
 	protected Integer  status; 		/*状态（1=正常；2=冻结）*/
-	@IField(name="isThird",column="is_third")
-	protected char  isThird; 		/*是否第三方登陆账号*/
 	@IField(name="createBy",column="create_by")
 	protected String  createBy; 		/*创建人*/
 	@IField(name="createTime",column="create_time")
@@ -94,54 +86,6 @@ public class AuthUserTbl extends AbstractPo<String>{
 	{
 		return this.password;
 	}
-	public void setMail(String mail) 
-	{
-		this.mail = mail;
-	}
-	/**
-	 * 返回 邮箱
-	 * @return
-	 */
-	public String getMail() 
-	{
-		return this.mail;
-	}
-	public void setProfile(String profile) 
-	{
-		this.profile = profile;
-	}
-	/**
-	 * 返回 头像
-	 * @return
-	 */
-	public String getProfile() 
-	{
-		return this.profile;
-	}
-	public void setProfession(String profession) 
-	{
-		this.profession = profession;
-	}
-	/**
-	 * 返回 专业
-	 * @return
-	 */
-	public String getProfession() 
-	{
-		return this.profession;
-	}
-	public void setType(Integer type) 
-	{
-		this.type = type;
-	}
-	/**
-	 * 返回 属性（0=前端用户；1=后端用户；2：前后端用户）
-	 * @return
-	 */
-	public Integer getType() 
-	{
-		return this.type;
-	}
 	public void setStatus(Integer status) 
 	{
 		this.status = status;
@@ -153,18 +97,6 @@ public class AuthUserTbl extends AbstractPo<String>{
 	public Integer getStatus() 
 	{
 		return this.status;
-	}
-	public void setIsThird(char isThird) 
-	{
-		this.isThird = isThird;
-	}
-	/**
-	 * 返回 是否第三方登陆账号
-	 * @return
-	 */
-	public char getIsThird() 
-	{
-		return this.isThird;
 	}
 	public void setCreateBy(String createBy) 
 	{
@@ -224,12 +156,7 @@ public class AuthUserTbl extends AbstractPo<String>{
 		.append("name", this.name) 
 		.append("phone", this.phone) 
 		.append("password", this.password) 
-		.append("mail", this.mail) 
-		.append("profile", this.profile) 
-		.append("profession", this.profession) 
-		.append("type", this.type) 
 		.append("status", this.status) 
-		.append("isThird", this.isThird) 
 		.append("createBy", this.createBy) 
 		.append("createTime", this.createTime) 
 		.append("updateBy", this.updateBy) 

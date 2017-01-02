@@ -9,8 +9,8 @@
     <script type="text/javascript">  
 	$(function(){	
 		var options=new Object();
-		options.value="${bbsForumPo.parentId}";
-		options.text="${bbsForumPo.parentName}";	
+		options.value="${authResourcesPo.parentId}";
+		options.text="${authResourcesPo.parentName}";	
 		bindFormValidation("authResourcesEditForm","${CtxPath}/admin/pai/auth/authResources/save.do");	
 		bindSelectTree("parentIdSelect","parentId",options);							
 		$("#authResourcesEditForm").ligerForm();           

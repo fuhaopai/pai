@@ -110,12 +110,12 @@
 	<update id="updateByExampleSelective" parameterType="java.util.Map">
 		UPDATE ${tableName} 
 		<set>
-		<#list commonList as col>
-		<#assign colName=func.convertUnderLine(col.columnName)>
-		<if test="entity.${colName}!=null">
-			${col.columnName}=<#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>,</#if>
-		</if>
-		</#list>
+			<#list commonList as col>
+			<#assign colName=func.convertUnderLine(col.columnName)>
+			<if test="entity.${colName}!=null">
+				${col.columnName}=<#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>,</#if>
+			</if>
+			</#list>
 		</set>
 		<where>
 			<if test="whereSql!=null">

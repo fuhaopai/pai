@@ -81,9 +81,9 @@ public class AuthResources extends AbstractDomain<String, AuthResourcesPo>{
 	}
 
 	public void delete(String id) {
-		this.destroy(id);
 		//删除角色-资源关联
 		authRoleResourcesDao.deleteByResourceId(id);
+		this.destroy(id);
 	}	 
 	 
 }

@@ -1,6 +1,7 @@
 package com.pai.app.admin.auth.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +19,12 @@ import com.pai.base.api.model.Page;
 import com.pai.base.api.session.OnlineUserIdHolder;
 import com.pai.base.core.constants.ActionMsgCode;
 import com.pai.base.core.entity.CommonResult;
+import com.pai.base.core.helper.PasswordHelper;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.biz.auth.domain.AuthUser;
+import com.pai.biz.auth.persistence.entity.AuthRolePo;
 import com.pai.biz.auth.persistence.entity.AuthUserPo;
+import com.pai.biz.auth.repository.AuthRoleRepository;
 import com.pai.biz.auth.repository.AuthUserRepository;
 import com.pai.biz.frame.repository.IRepository;
 import com.pai.service.image.utils.RequestUtil;
@@ -38,11 +42,14 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 	@Resource
 	private AuthUserRepository authUserRepository;
 	
+	@Resource
+	private AuthRoleRepository authRoleRepository;
+	
 	@Override
 	protected IRepository<String, AuthUserPo, AuthUser> getRepository() {
 		return authUserRepository;
 	}
-
+	
 	@Override
 	protected String getPoEntityComment() {		
 		return "用户";
@@ -60,12 +67,19 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 	 */
 	@RequestMapping("listData")	
 	@ResponseBody
-	public String listData(HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public String listData(HttpServletRequest request,HttpServletResponse response,String roleId) throws Exception{
 		//构造分页对象
 		QueryBuilder queryBuilder = new QueryBuilder(request);
 		Page page = PageUtil.buildPage(request);
+		Map<String, Object> map = queryBuilder.buildMap();
+		if(StringUtils.isNotEmpty(roleId)){
+			map.put("roleId", roleId);
+		}
 		//查询用户列表
-		List<AuthUserPo> authUserPoList = getRepository().findPaged(queryBuilder.buildMap(),page);
+		List<AuthUserPo> authUserPoList = getRepository().findPaged(map,page);
+		for(AuthUserPo authUserPo : authUserPoList){
+			setRoleUser(authUserPo);
+		}
 		//查询总数
 		Integer totalRecords = getRepository().count(queryBuilder.buildWhereSqlMap());
 		//构造返回数据
@@ -73,7 +87,7 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 		
 		return listData;
 	}
-	
+
 	/**
 	 * 进入【用户】编辑页面
 	 * @param request
@@ -87,15 +101,18 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 	@RequestMapping("edit")
 	public ModelAndView edit(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		//获取主键
-		String id = OnlineUserIdHolder.getUserId();
+		String id = RequestUtil.getParameterNullSafe(request, "id");
 		//装载领域对象
 		//是否新增
 		boolean isNew =StringUtils.isEmpty(id)?true:false; 
 		AuthUser authUser = null;
+		
 		if(isNew){
 			authUser = authUserRepository.newInstance();
 		}else{
-			authUser = authUserRepository.load(id);			
+			authUser = authUserRepository.load(id);		
+			AuthUserPo authUserPo = authUser.getData();
+			setRoleUser(authUserPo);
 		}		
 		
 		//根据新增或更新，进行若干业务处理
@@ -162,8 +179,10 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 		
 		//构造领域对象和保存数据
 		AuthUser authUser = authUserRepository.newInstance();
-		authUser.setData(authUserPo);
-		authUser.save();
+		if(StringUtils.isNotEmpty(authUserPo.getPassword())){
+			authUserPo.setPassword(PasswordHelper.getEncryptPassword(authUserPo.getPassword()));
+		}
+		authUser.save(authUserPo);
 		
 		//构造返回数据
 		CommonResult result = new CommonResult();
@@ -174,37 +193,6 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 			result.setMsgCode(ActionMsgCode.UPDATE.name());
 		}			
 		
-		//返回
-		return result;
-	}		
-	
-	/**
-	 * 保存【用户】
-	 * @param request
-	 * @param response
-	 * @param authUserPo
-	 * @throws Exception 
-	 * void
-	 * @exception 
-	 * @since  1.0.0
-	 */	
-	@RequestMapping("savePassword")
-	@ResponseBody
-	public CommonResult savePassword(HttpServletRequest request,HttpServletResponse response,AuthUserPo authUserPo) throws Exception{
-		//构造返回数据
-		CommonResult result = new CommonResult();
-		String passwordConfirm = RequestUtil.getParameterNullSafe(request, "passwordConfirm");
-		if(!authUserPo.getPassword().equals(passwordConfirm)){
-			result.setSuccess(false);
-			result.setMsgCode("两次密码不一致");
-			return result;
-		}
-		//构造领域对象和保存数据
-		AuthUser authUser = authUserRepository.newInstance();
-		authUser.setData(authUserPo);
-		authUser.updatePassword(authUserPo);
-		result.setSuccess(true);
-		result.setMsgCode(ActionMsgCode.UPDATE.name());
 		//返回
 		return result;
 	}		
@@ -237,6 +225,53 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 		
 		//返回
 		return result;
+	}
+
+	/**
+	 * 保存【用户】
+	 * @param request
+	 * @param response
+	 * @param authUserPo
+	 * @throws Exception 
+	 * void
+	 * @exception 
+	 * @since  1.0.0
+	 */	
+	@RequestMapping("savePassword")
+	@ResponseBody
+	public CommonResult savePassword(HttpServletRequest request,HttpServletResponse response,AuthUserPo authUserPo) throws Exception{
+		//构造返回数据
+		CommonResult result = new CommonResult();
+		String passwordConfirm = RequestUtil.getParameterNullSafe(request, "passwordConfirm");
+		if(!authUserPo.getPassword().equals(passwordConfirm)){
+			result.setSuccess(false);
+			result.setMsgCode("两次密码不一致");
+			return result;
+		}
+		//构造领域对象和保存数据
+		AuthUser authUser = authUserRepository.newInstance();
+		authUser.setData(authUserPo);
+		authUser.updatePassword(authUserPo);
+		result.setSuccess(true);
+		result.setMsgCode(ActionMsgCode.UPDATE.name());
+		//返回
+		return result;
+	}	
+	
+	private void setRoleUser(AuthUserPo authUserPo) {
+		String roleNames = "";
+		String roleIds = "";
+		List<AuthRolePo> authRolePos = authRoleRepository.findRoleByUserId(authUserPo.getId());
+		for(AuthRolePo authRolePo : authRolePos){
+			roleNames += ";" + authRolePo.getName();
+			roleIds += ";" + authRolePo.getId();
+		}
+		if(roleIds.length() >= 1){
+			roleIds = roleIds.substring(1);
+			roleNames = roleNames.substring(1);
+		}
+		authUserPo.setRoleIds(roleIds);
+		authUserPo.setRoleNames(roleNames);
 	}
 
 }

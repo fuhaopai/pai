@@ -92,8 +92,9 @@
 		WHERE a.`status`=1 
 		<if test="type != null" >
 			AND a.type=#{type} 
-			ORDER BY a.depth,a.parent_id_,a.sort
 		</if>
+		GROUP BY a.id_
+		ORDER BY a.depth,a.parent_id_,a.sort
 	</select>
 	
 	<select id="findAllUrls" resultType="java.lang.String">
