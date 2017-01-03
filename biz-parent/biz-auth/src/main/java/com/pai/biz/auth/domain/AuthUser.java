@@ -28,7 +28,7 @@ public class AuthUser extends AbstractDomain<String, AuthUserPo>{
 	}
 
 	public void updatePassword(AuthUserPo authUserPo) {
-		authUserPo.setPassword(PasswordHelper.getEncryptPassword(authUserPo.getPassword()));
+		authUserPo.setPassword(PasswordHelper.getEncryptPassword(authUserPo.getName()+authUserPo.getPassword()));
 		authUserDao.updatePassword(authUserPo);
 	}
 

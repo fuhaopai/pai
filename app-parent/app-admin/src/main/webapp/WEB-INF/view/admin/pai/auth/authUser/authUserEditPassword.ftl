@@ -26,7 +26,7 @@
 		        <tr>
 		            <td align="right" class="l-table-edit-td">用户名:</td>
 		            <td align="left" class="l-table-edit-td">
-		            	<input name="name" type="text" id="name"  value="${authUserPo.name}" ltype="text" validate='{required:true}'/>
+		            	<input name="name" type="text" id="name"  value="${authUserPo.name}" ltype="text" validate='{required:true}' readonly="true"/>
 		            </td>
 		            <td align="left"></td>
 		        </tr> 

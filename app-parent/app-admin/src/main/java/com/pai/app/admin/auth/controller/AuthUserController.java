@@ -180,7 +180,7 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 		//构造领域对象和保存数据
 		AuthUser authUser = authUserRepository.newInstance();
 		if(StringUtils.isNotEmpty(authUserPo.getPassword())){
-			authUserPo.setPassword(PasswordHelper.getEncryptPassword(authUserPo.getPassword()));
+			authUserPo.setPassword(PasswordHelper.getEncryptPassword(authUserPo.getName()+authUserPo.getPassword()));
 		}
 		authUser.save(authUserPo);
 		

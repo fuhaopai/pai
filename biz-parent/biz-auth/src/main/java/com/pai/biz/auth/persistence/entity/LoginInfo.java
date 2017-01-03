@@ -62,7 +62,7 @@ public class LoginInfo {
 	}
 	
 	public String getEncryptPassword() {
-		return PasswordHelper.getEncryptPassword(password);
+		return PasswordHelper.getEncryptPassword(userName+password);
 	}
 	
 	public String getPassword() {
