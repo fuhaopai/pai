@@ -1,7 +1,11 @@
 package com.pai.biz.auth.repository.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Repository;
+
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.db.persistence.dao.IQueryDao;
 import com.pai.biz.frame.repository.AbstractRepository;
@@ -38,6 +42,11 @@ public class AuthRoleUserRepositoryImpl extends AbstractRepository<String, AuthR
 	@Override
 	protected IQueryDao<String, AuthRoleUserPo> getQueryDao() {
 		return authRoleUserQueryDao;
+	}
+
+	@Override
+	public List<AuthRoleUserPo> findByUserId(String userId) {
+		return authRoleUserQueryDao.findByKey("findByUserId", b().a("userId", userId).p());
 	}
 	
 }

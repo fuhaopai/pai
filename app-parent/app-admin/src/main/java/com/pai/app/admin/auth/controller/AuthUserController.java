@@ -31,7 +31,7 @@ import com.pai.service.image.utils.RequestUtil;
 
 /**
  * 对象功能:用户 控制类
- * 开发公司:PAI.COM
+ * 开发公司:π
  * 开发人员:FUHAO
  * 创建时间:2016-09-29 18:00:11
  */
@@ -179,9 +179,6 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 		
 		//构造领域对象和保存数据
 		AuthUser authUser = authUserRepository.newInstance();
-		if(StringUtils.isNotEmpty(authUserPo.getPassword())){
-			authUserPo.setPassword(PasswordHelper.getEncryptPassword(authUserPo.getName()+authUserPo.getPassword()));
-		}
 		authUser.save(authUserPo);
 		
 		//构造返回数据

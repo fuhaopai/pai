@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.pai.base.api.session.OnlineUserIdHolder;
@@ -69,6 +68,18 @@ public abstract class MyBatisDaoImpl<PK extends java.io.Serializable,T extends A
            	po.setUpdateBy(OnlineUserIdHolder.getUserId());
         }
 		params.put("entity", entity);
+		/*String condition = "1=1";
+		Iterator<String> keys = params.keySet().iterator(); 
+		while(keys.hasNext()){
+			String key = keys.next(); 
+			Object value = params.get(key); 
+			condition += " and " + key + "=";
+			if (value instanceof String) {
+				condition += "'"+value+"'";
+			}else {
+				condition += value;
+			}
+		}*/
 		sqlSessionTemplate.update(getNamespace() + ".updateByExampleSelective", params);		
 	}
 }

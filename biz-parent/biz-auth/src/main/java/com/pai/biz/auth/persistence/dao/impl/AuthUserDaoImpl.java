@@ -8,7 +8,7 @@ import com.pai.biz.auth.persistence.entity.AuthUserPo;
 
 /**
  * 对象功能:用户 Dao接口的实现类
- * 开发公司:PAI.COM
+ * 开发公司:π
  * 开发人员:FUHAO
  * 创建时间:2016-09-29 18:00:11
  */

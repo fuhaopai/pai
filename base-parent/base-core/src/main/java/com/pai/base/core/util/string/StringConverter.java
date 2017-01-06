@@ -6,10 +6,10 @@ import java.util.Date;
 import com.pai.base.core.util.date.DateConverter;
 
 /**
- * @功能描述：字符串转换器
- * @开发公司：唯心六艺软件 - Craft6.cn
- * @作者：颜超敏
- * @创建时间：2014-06-04 15:58:45
+ * 功能描述：字符串转换器
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  */
 public class StringConverter {
 	/**

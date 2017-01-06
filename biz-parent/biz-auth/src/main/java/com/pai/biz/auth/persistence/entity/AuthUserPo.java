@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * 对象功能:用户 entity对象
- * 开发公司:PAI.COM
+ * 开发公司:π
  * 开发人员:FUHAO
  * 创建时间:2016-09-29 18:00:11
  */

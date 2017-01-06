@@ -1,5 +1,7 @@
 /**
- * 广州宏天软件有限公司版权所有
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  */
 package org.mybatis.spring.mapping.entity;
 

@@ -20,11 +20,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import com.pai.base.db.mybatis.mapping.MappingUtil;
 
 /**
- * @功能描述：TODO
- * @开发公司：广州宏天软件有限公司
- * @作者：Winston Yan
- * @邮箱：yancm@jee-soft.cn
- * @创建时间：2013-12-5 上午11:06:43
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  */
 public class HtSqlSessionFactoryBean extends SqlSessionFactoryBean {
 	private final Log htLogger = LogFactory.getLog(getClass());

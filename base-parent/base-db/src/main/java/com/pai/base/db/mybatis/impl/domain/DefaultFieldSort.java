@@ -14,11 +14,9 @@ import com.pai.base.db.api.model.FieldSort;
 /**
  * 字段排序。
  * <pre> 
- * 构建组：base-db-mybatis
- * 作者：唯心
- * 邮箱:craft6@qq.com
- * 日期:2013-12-22-上午11:49:37
- * 版权：唯心六艺软件工作室
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 public class DefaultFieldSort implements FieldSort, Serializable {

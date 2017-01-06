@@ -6,11 +6,9 @@ import java.util.Map;
 /**
  * <pre> 
  * 描述：使用例子：buildMapBuilder().addParam("procDefId",procDefId).addParam("nodeId",nodeId).getParams()
- * 构建组：x5-base-db
- * 作者：winston yan
- * 邮箱:yancm@jee-soft.cn
- * 日期:2014-1-18-上午10:47:36
- * 版权：广州宏天软件有限公司版权所有
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 public class MapBuilder{

@@ -4,11 +4,9 @@ package com.pai.base.db.mybatis.impl.domain;
  * 分页结果，根据page,limit,totalCount用于页面上分页显示多项内容，计算页码和当前页的偏移量，方便页面分页使用.
  * <pre> 
  * 分页器，根据page,limit,totalCount用于页面上分页显示多项内容，计算页码和当前页的偏移量，方便页面分页使用.
- * 构建组：base-db-mybatis
- * 作者：唯心
- * 邮箱:craft6@qq.com
- * 日期:2014-1-3-下午3:58:09
- * 版权：唯心六艺软件工作室
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 public class PageResult implements java.io.Serializable {

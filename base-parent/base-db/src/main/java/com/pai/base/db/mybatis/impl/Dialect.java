@@ -10,10 +10,9 @@ import com.pai.base.db.api.model.IDialect;
  * 
  * <pre>
  * 构建组：base-db-mybatis
- * 作者：唯心
- * 邮箱:craft6@qq.com
- * 日期:2014-1-3-下午4:01:02
- * 版权：唯心六艺软件工作室
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 public class Dialect implements IDialect {

@@ -1,5 +1,7 @@
 package com.pai.biz.auth.repository;
 
+import java.util.List;
+
 import com.pai.biz.frame.repository.IRepository;
 import com.pai.biz.auth.domain.AuthRoleUser;
 import com.pai.biz.auth.persistence.entity.AuthRoleUserPo;
@@ -10,6 +12,8 @@ import com.pai.biz.auth.persistence.entity.AuthRoleUserPo;
  * 创建时间:2016-12-28 20:59:27
  */
 public interface AuthRoleUserRepository extends IRepository<String, AuthRoleUserPo,AuthRoleUser>{
+
+	List<AuthRoleUserPo> findByUserId(String id);
 	  
 	 
 }

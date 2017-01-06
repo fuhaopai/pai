@@ -40,11 +40,9 @@ import com.pai.base.db.mybatis.impl.support.SQLHelp;
 /**
  * 为MyBatis提供基于方言(Dialect)的分页查询的插件,将拦截Executor.query()方法实现分页方言的插入.
  * <pre> 
- * 构建组：x5-base-db
- * 作者：ray
- * 邮箱:zhangyg@jee-soft.cn
- * 日期:2014-1-3-下午4:03:56
- * 版权：广州宏天软件有限公司版权所有
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 @Intercepts({@Signature(

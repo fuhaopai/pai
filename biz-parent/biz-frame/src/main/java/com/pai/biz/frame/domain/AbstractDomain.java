@@ -4,6 +4,7 @@ package com.pai.biz.frame.domain;
 import java.io.Serializable;
 
 import com.pai.base.api.service.IdGenerator;
+import com.pai.base.core.entity.MapBuilder;
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.base.db.persistence.dao.IDao;
@@ -20,6 +21,10 @@ public abstract class AbstractDomain<PK extends Serializable,P extends PO<PK>> i
 	private IdGenerator idGenerator = SpringHelper.getBean(IdGenerator.class);
 	
 	private boolean isNewFlag = false; 
+	
+	public MapBuilder b(){
+		return new MapBuilder();
+	}
 	
 	public P getData() {
 		return data;
