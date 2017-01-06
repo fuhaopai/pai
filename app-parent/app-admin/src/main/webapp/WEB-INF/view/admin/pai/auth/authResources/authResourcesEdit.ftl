@@ -8,11 +8,11 @@
 	<script type="text/javascript" src="${CtxPath}/scripts/admin/pai/common.js" ></script>		    	            	    	
     <script type="text/javascript">  
 	$(function(){	
+		bindFormValidation("authResourcesEditForm","${CtxPath}/admin/pai/auth/authResources/save.do");
 		var options=new Object();
 		options.value="${authResourcesPo.parentId}";
 		options.text="${authResourcesPo.parentName}";	
-		bindFormValidation("authResourcesEditForm","${CtxPath}/admin/pai/auth/authResources/save.do");	
-		bindSelectTree("parentIdSelect","parentId",options);							
+		bindSelectTree("parentIdSelect","parentId",options);	
 		$("#authResourcesEditForm").ligerForm();           
 	});
 	var __ctxPath = "${CtxPath}";	   

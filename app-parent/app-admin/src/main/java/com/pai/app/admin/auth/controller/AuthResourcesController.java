@@ -193,9 +193,9 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		
 		CommonResult result = new CommonResult();
 		
-		if(authResourcesPo.getType() == 2 && StringUtils.isNotEmpty(authResourcesPo.getUrl())){
+		if(authResourcesPo.getType() == 2 && StringUtils.isEmpty(authResourcesPo.getUrl())){
 			result.setSuccess(false);
-			result.setMsgCode("请输入资源路劲");
+			result.setMsg("请输入资源路劲");
 			return result;
 		}
 		//构造领域对象和保存数据
@@ -237,7 +237,7 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		List<AuthResourcesPo> authResourcesPos = authResourcesRepository.findChildsByParentId(id);
 		if(authResourcesPos.size() > 0){
 			result.setSuccess(false);
-			result.setMsgCode("请先删除子节点");	
+			result.setMsg("请先删除子节点");	
 			return result;
 		}
 		

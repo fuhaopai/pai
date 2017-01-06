@@ -120,7 +120,7 @@ function showResponse(responseText) {
 		if(result.msgCode){
 			msg = getMsg(result.msgCode);
 			if(result.msg){
-				msg = msg + ".  " + result.msg;
+				msg = msg + "." + result.msg;
 			}
 		}else{
 			msg = result.msg;
@@ -168,7 +168,6 @@ function bindFormValidation(formId,url,directPost){
         			return false;
         		}else{
         			var params=$(form).serialize();	    		
-        			//alert(params);
         			$.post(url,params,showResponse);    			
         		}
     		}

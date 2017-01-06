@@ -242,7 +242,7 @@ public class AuthUserController extends AdminController<String, AuthUserPo, Auth
 		String passwordConfirm = RequestUtil.getParameterNullSafe(request, "passwordConfirm");
 		if(!authUserPo.getPassword().equals(passwordConfirm)){
 			result.setSuccess(false);
-			result.setMsgCode("两次密码不一致");
+			result.setMsg("两次密码不一致");
 			return result;
 		}
 		//构造领域对象和保存数据

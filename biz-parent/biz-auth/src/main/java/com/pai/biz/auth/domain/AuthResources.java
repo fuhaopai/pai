@@ -43,25 +43,21 @@ public class AuthResources extends AbstractDomain<String, AuthResourcesPo>{
 	}
 
 	public void save(AuthResourcesPo authResourcesPo) {
-		String id = idGenerator.genSid();
-		StringBuilder sb = new StringBuilder();
-		//查找父节点的树分支
-		if(StringUtils.isNotEmpty(authResourcesPo.getParentId())){
-			AuthResourcesPo parentResourcePo = authResourcesQueryDao.get(authResourcesPo.getParentId());
-			if(StringUtils.isNotEmpty(parentResourcePo.getPath())){
-				sb.append(parentResourcePo.getPath()).append(".").append(id);
-				authResourcesPo.setPath(sb.toString());
-			}
-		}else {
-			authResourcesPo.setPath(id);
-			authResourcesPo.setDepth(1);
+		//新增
+		if(StringUtils.isEmpty(authResourcesPo.getId())){
+			String id = idGenerator.genSid();
+			setPath(authResourcesPo, id);
+			authResourcesPo.setId(id);
+			super.setData(authResourcesPo);
+			super.create();	
+			//角色-资源，配置超级管理员权限
+			authRoleResourcesDao.createAdminResource(idGenerator.genSid(), id, OnlineUserIdHolder.getUserId());
+		}else{
+			setPath(authResourcesPo, authResourcesPo.getId());
+			super.setData(authResourcesPo);
+			super.update();
 		}
-		authResourcesPo.setId(id);
-		this.setData(authResourcesPo);
-		this.create();	
 		
-		//角色-资源，配置超级管理员权限
-		authRoleResourcesDao.createAdminResource(idGenerator.genSid(), id, OnlineUserIdHolder.getUserId());
 		//给管理员session配置权限。因为拦截器中新药拦截的url也放在Session中的，所以对新加的url并不会拦截
 		/*HashSet sessionsHashSet = (HashSet) OnlineHolder.getSession().getServletContext().getAttribute("sessions");
 		for(Iterator it=sessionsHashSet.iterator();it.hasNext();){
@@ -78,6 +74,21 @@ public class AuthResources extends AbstractDomain<String, AuthResourcesPo>{
 				}
 			}			
 		}*/
+	}
+
+	private void setPath(AuthResourcesPo authResourcesPo, String id) {
+		StringBuilder sb = new StringBuilder();
+		//查找父节点的树分支
+		if(StringUtils.isNotEmpty(authResourcesPo.getParentId())){
+			AuthResourcesPo parentResourcePo = authResourcesQueryDao.get(authResourcesPo.getParentId());
+			if(StringUtils.isNotEmpty(parentResourcePo.getPath())){
+				sb.append(parentResourcePo.getPath()).append(".").append(id);
+				authResourcesPo.setPath(sb.toString());
+			}
+		}else {
+			authResourcesPo.setPath(id);
+			authResourcesPo.setDepth(1);
+		}
 	}
 
 	public void delete(String id) {
