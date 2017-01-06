@@ -109,7 +109,7 @@
 		</where>
 	</update>
 	
-	<select id="find" parameterType="java.util.Map" resultMap="AuthRoleUserPo">
+	<select id="findByUserId" parameterType="java.util.Map" resultMap="AuthRoleUserPo">
 		SELECT * FROM pai_auth_role_user WHERE user_id_=#{userId}
 	</select>
 </mapper>
