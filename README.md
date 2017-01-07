@@ -1,7 +1,7 @@
 #项目模块分层图
 ![image](https://github.com/fuhaojun/pai/blob/master/doc/image/module.png)
 #系统结构设计图
-![image](https://github.com/fuhaojun/pai/tree/master/doc/image/code.png)
+![image](https://github.com/fuhaojun/pai/blob/master/doc/image/code.png)
 #代码生成器
 [someLabel](https://github.com/fuhaojun/pai/codegen.md)
 
