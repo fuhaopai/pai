@@ -43,7 +43,7 @@
     <aop:config proxy-target-class="true">
 		<aop:advisor advice-ref="txAdvice" pointcut="execution(* com.pai.*.*.domain.*.*(..))"  />
 		<!-- <aop:aspect ref="auditAopAspect">
-			<aop:pointcut expression="execution(* com.skg.*.*.web.controller.*.*(..))"  id="auditAopPointcut"/>
+			<aop:pointcut expression="execution(* com.pai.*.*.*.controller.*.*(..))"  id="auditAopPointcut"/>
 			<aop:around pointcut-ref="auditAopPointcut" method="doAudit"/>
 		</aop:aspect> -->		
 	</aop:config>
