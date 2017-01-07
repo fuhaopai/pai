@@ -1,11 +1,11 @@
 package com.pai.base.api.model;
 
-import com.pai.base.api.annotion.SKGValidate;
+import com.pai.base.api.annotion.PAIValidate;
 
 
 public class ValidateInfo {
-	public ValidateInfo(SKGValidate skgValidate){
-		key = skgValidate.key();
+	public ValidateInfo(PAIValidate paiValidate){
+		key = paiValidate.key();
 	}
 	private String key;
 

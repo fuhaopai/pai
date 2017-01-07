@@ -59,7 +59,7 @@
 //	@Test
 //	public void testNotificationToSingle(){
 //		try {
-//			geTuiService.notificationToSingle("测试","测试", CID, 1,"测试","icon.png","http://img.skg.com/skgBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
+//			geTuiService.notificationToSingle("测试","测试", CID, 1,"测试","icon.png","http://img.pai.com/paiBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
@@ -78,7 +78,7 @@
 //			geTuiPushTemplate.setTitle("沃日");
 //			geTuiPushTemplate.setText("尼玛");
 //			geTuiPushTemplate.setLogo("icon.png");
-//			//geTuiPushTemplate.setLogoUrl("http://img.skg.com/skgBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
+//			//geTuiPushTemplate.setLogoUrl("http://img.pai.com/paiBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
 //			geTuiPushTemplate.setTransmissionType(1);
 //			geTuiPushTemplate.setIsClearable(false);
 //			geTuiPushTemplate.setIsRing(false);
@@ -93,7 +93,7 @@
 //		try {
 //			List<String> cids=new ArrayList<String>();
 //			cids.add(CID);
-//			geTuiService.notificationToList("你妈逼","尼玛",cids, 1,"标题","icon.png","http://img.skg.com/skgBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
+//			geTuiService.notificationToList("你妈逼","尼玛",cids, 1,"标题","icon.png","http://img.pai.com/paiBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
@@ -101,7 +101,7 @@
 //	@Test
 //	public void testLinkTemplateToSingle(){
 //		try {
-//			geTuiService.LinkTemplateToSingle("你妈逼", CID,"标题","icon.png","http://img.skg.com/skgBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif","http://q.skg.com");
+//			geTuiService.LinkTemplateToSingle("你妈逼", CID,"标题","icon.png","http://img.pai.com/paiBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif","http://q.pai.com");
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
@@ -120,11 +120,11 @@
 //			geTuiPushTemplate.setTitle("沃日");
 //			geTuiPushTemplate.setText("尼玛");
 //			geTuiPushTemplate.setLogo("icon.png");
-//			geTuiPushTemplate.setLogoUrl("http://img.skg.com/skgBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
+//			geTuiPushTemplate.setLogoUrl("http://img.pai.com/paiBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
 //			geTuiPushTemplate.setIsClearable(false);
 //			geTuiPushTemplate.setIsRing(false);
 //			geTuiPushTemplate.setIsVibrate(true);
-//			geTuiPushTemplate.setUrl("http://q.skg.com");
+//			geTuiPushTemplate.setUrl("http://q.pai.com");
 //			geTuiService.LinkTemplateToSingleOrList(null,geTuiPushMessage,geTuiPushTemplate);
 //		} catch (Exception e) {
 //			e.printStackTrace();
@@ -133,7 +133,7 @@
 //	@Test
 //	public void testLinkTemplateToList(){
 //		try {
-//			geTuiService.LinkTemplateToSingle("你妈逼", CID,"标题","icon.png","http://img.skg.com/skgBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif","http://q.skg.com");
+//			geTuiService.LinkTemplateToSingle("你妈逼", CID,"标题","icon.png","http://img.pai.com/paiBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif","http://q.pai.com");
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
@@ -157,13 +157,12 @@
 //			geTuiPushTemplate.setVibrationed(true);
 //			geTuiPushTemplate.setPopTitle("弹出框标题");
 //			geTuiPushTemplate.setPopContent("弹出框内容");
-//			geTuiPushTemplate.setPopImage("http://img.skg.com/skgBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
+//			geTuiPushTemplate.setPopImage("http://img.pai.com/paiBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
 //			geTuiPushTemplate.setPopButton1("左边按钮");
 //			geTuiPushTemplate.setPopButton2("右边按钮");
 //			geTuiPushTemplate.setLoadIcon("下载图标");
 //			geTuiPushTemplate.setLoadTitle("下载标题");
-////			geTuiPushTemplate.setLoadUrl("http://skgdownload.oss-cn-hangzhou.aliyuncs.com/app/SKGShop_1.2.4.apk");
-//			geTuiPushTemplate.setLoadUrl("http://skgdownload.oss-cn-hangzhou.aliyuncs.com/headline/SKGHeadline_v1.0stage.apk");
+//			geTuiPushTemplate.setLoadUrl("http://paidownload.oss-cn-hangzhou.aliyuncs.com/pai.apk");
 //			geTuiPushTemplate.setAutoInstall(true);
 //			geTuiPushTemplate.setActived(true);
 //			geTuiPushTemplate.setAndroidMark("");
@@ -224,7 +223,7 @@
 //			geTuiPushTemplate.setTitle("沃日");
 //			geTuiPushTemplate.setText("尼玛");
 //			geTuiPushTemplate.setLogo("icon.png");
-//			geTuiPushTemplate.setLogoUrl("http://img.skg.com/skgBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
+//			geTuiPushTemplate.setLogoUrl("http://img.pai.com/paiBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
 //			geTuiPushTemplate.setTransmissionType(1);
 //			geTuiPushTemplate.setTransmissionContent("哇哈哈哈啊哈哈哈");
 //			geTuiPushTemplate.setIsClearable(false);
@@ -257,11 +256,11 @@
 //			geTuiPushTemplate.setTitle("沃日");
 //			geTuiPushTemplate.setText("尼玛");
 //			geTuiPushTemplate.setLogo("icon.png");
-//			geTuiPushTemplate.setLogoUrl("http://img.skg.com/skgBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
+//			geTuiPushTemplate.setLogoUrl("http://img.pai.com/paiBbs/BbsMemberProfile/C4XDD7TY-VFDJ-O1P3-1446028363264-O8PTUICQ4T1F.gif");
 //			geTuiPushTemplate.setIsClearable(false);
 //			geTuiPushTemplate.setIsRing(false);
 //			geTuiPushTemplate.setIsVibrate(true);
-//			geTuiPushTemplate.setUrl("http://q.skg.com");
+//			geTuiPushTemplate.setUrl("http://q.pai.com");
 //			geTuiService.linkToApp(geTuiPushMessage,geTuiPushTemplate);
 //		} catch (Exception e) {
 //			e.printStackTrace();

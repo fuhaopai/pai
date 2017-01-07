@@ -3,26 +3,26 @@ package com.pai.service.ftp.impl;
 import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
 
-import com.pai.service.ftp.SKGFTPool;
-import com.pai.service.ftp.common.SKGFTPClient;
+import com.pai.service.ftp.PAIFTPool;
+import com.pai.service.ftp.common.PAIFTPClient;
 
 /**
- *   SKGFTP连接池
+ *   PAIFTP连接池
  *   @author Suoron
  *   @since 2015-10-22  
  * 
  */
 
-public class SKGFTPoolImpl implements SKGFTPool<SKGFTPClient>{
+public class PAIFTPoolImpl implements PAIFTPool<PAIFTPClient>{
 	
-	   private GenericObjectPool<SKGFTPClient> ftPool = null;  
+	   private GenericObjectPool<PAIFTPClient> ftPool = null;  
        	    
-	    public SKGFTPoolImpl(GenericObjectPool.Config poolConfig, PoolableObjectFactory factory)    
+	    public PAIFTPoolImpl(GenericObjectPool.Config poolConfig, PoolableObjectFactory factory)    
 	    {  
-	    	  this.ftPool = new GenericObjectPool<SKGFTPClient>(factory, poolConfig);   
+	    	  this.ftPool = new GenericObjectPool<PAIFTPClient>(factory, poolConfig);   
 	    }  
 	      
-	    public SKGFTPClient getResource(){  
+	    public PAIFTPClient getResource(){  
 	        try{  	        	
 	            return this.ftPool.borrowObject();  
 	        }catch(Exception e){  
@@ -31,7 +31,7 @@ public class SKGFTPoolImpl implements SKGFTPool<SKGFTPClient>{
 	        }  
 	    }  
 	      
-	    public void returnResource(SKGFTPClient resource){  
+	    public void returnResource(PAIFTPClient resource){  
 	        try {  
 	            this.ftPool.returnObject(resource);  
 	        }catch (Exception e) {  

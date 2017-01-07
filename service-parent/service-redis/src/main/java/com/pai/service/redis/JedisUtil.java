@@ -945,23 +945,5 @@ public class JedisUtil {
 		 }
 		 return 0l;
 	}
-	public static void main(String[] args) {
-
-		JedisUtil.getInstance()
-				.set("com.skg.biz.gl.repository.impl.GlCateRepositoryImpl.findAllTreeCache_90000000070001",
-						"wwwwwwwwwwwwww", 0);
-		System.out
-				.println(JedisUtil.getInstance()
-						.get("com.skg.biz.gl.repository.impl.GlCateRepositoryImpl.findAllTreeCache_90000000070001",
-								0));
-		
-		JedisUtil.getInstance().flushAll();
-		
-		// JedisUtil.delByPrefix("test", 0);
-		// System.out.println(JedisUtil.get("test1",0));
-		// System.out.println(JedisUtil.get("test2",0));
-		// System.out.println(JedisUtil.get("test3",0));
-
-	}
 
 }

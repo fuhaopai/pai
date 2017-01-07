@@ -10,11 +10,9 @@ import org.slf4j.LoggerFactory;
  * 
  * <pre> 
  * 描述：Solr服务连接类
- * 构建组：service-skgsolr
- * 作者：徐浩文
- * 邮箱: xuhaowen@skg.com
- * 日期:Jun 19, 2015-4:44:43 PM
- * 版权：SKG 公司版权所有
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 public class SolrServer {

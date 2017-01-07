@@ -34,7 +34,9 @@ import com.pai.base.db.mybatis.impl.Dialect;
 
 /**
  * 统计总数，分页插件中使用。
- * @author 唯心
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  */
 public class SQLHelp {
     private static Logger logger = LoggerFactory.getLogger(SQLHelp.class);

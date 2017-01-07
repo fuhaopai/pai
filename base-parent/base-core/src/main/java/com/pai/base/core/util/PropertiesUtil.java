@@ -12,10 +12,9 @@ import java.util.Properties;
  * <pre> 
  * 描述：配置对象工具类
  * 构建组：base-core
- * 作者：唯心
- * 邮箱:  craft6@qq.com
- * 日期:2014-6-28-下午8:21:10
- * 版权：唯心六艺工作室版权所有
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 public class PropertiesUtil {

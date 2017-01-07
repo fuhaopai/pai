@@ -5,10 +5,9 @@ package com.pai.service.quartz;
  * <pre> 
  * 描述：供应用启动时，根据持久化的定时任务进行任务启动使用。
  * 构建组：service-quartz
- * 作者：winston
- * 邮箱: yanchaomin@skg.com
- * 日期:Mar 25, 2015-9:18:52 AM
- * 版权：SKG 公司版权所有
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 public interface SchedulerStartupRegister {

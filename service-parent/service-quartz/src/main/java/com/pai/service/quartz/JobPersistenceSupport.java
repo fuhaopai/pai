@@ -9,10 +9,9 @@ import com.pai.service.quartz.entity.IJobParamPo;
  * <pre> 
  * 描述：本模块需要的持久化支持
  * 构建组：service-quartz
- * 作者：winston
- * 邮箱: yanchaomin@skg.com
- * 日期:Mar 21, 2015-6:32:07 PM
- * 版权：SKG 公司版权所有
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 public interface JobPersistenceSupport {

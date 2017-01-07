@@ -20,7 +20,6 @@ import com.pai.app.web.core.framework.constants.AopExecOrder;
 @Documented  
 @Inherited 
 public @interface Audit {
-	//TODO 按skg_gl_audit 来加
 	String  name() default ""; 		/*操作名称*/
 	//String  execTime() default  ""; 		/*执行时间*/
 	//String  execMethod() default ""; 		/*执行方法。格式为  类名.方法名*/

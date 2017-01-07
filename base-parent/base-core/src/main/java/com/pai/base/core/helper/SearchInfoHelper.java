@@ -10,7 +10,7 @@ import org.springframework.core.io.Resource;
 
 import com.pai.base.api.annotion.IField;
 import com.pai.base.api.annotion.ITable;
-import com.pai.base.api.annotion.SKGValidate;
+import com.pai.base.api.annotion.PAIValidate;
 import com.pai.base.api.model.FieldInfo;
 import com.pai.base.api.model.TableInfo;
 import com.pai.base.api.model.ValidateInfo;
@@ -45,7 +45,7 @@ public class SearchInfoHelper implements InitializingBean{
 							tableInfo.addFieldInfo(fieldInfo);
 						}
 						
-						SKGValidate validate = (SKGValidate) field.getAnnotation(SKGValidate.class);
+						PAIValidate validate = (PAIValidate) field.getAnnotation(PAIValidate.class);
 						if(validate!=null){
 							ValidateInfo valiadteInfo = new ValidateInfo(validate);				
 							validateInfo.put(tableInfo.getName()+valiadteInfo.getKey(), valiadteInfo);

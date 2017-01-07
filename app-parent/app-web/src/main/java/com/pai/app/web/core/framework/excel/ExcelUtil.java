@@ -314,16 +314,8 @@ public class ExcelUtil<T> extends AbstractXlsOperator<T>{
         style3.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
          // 把字体应用到当前的样式
         style3.setFont(font2);
-		
         // 声明一个画图的顶级管理器
         XSSFDrawing patriarch = hssfsheet.createDrawingPatriarch();
-        
-        
-        // 定义注释的大小和位置,详见文档
-        //XSSFComment comment = patriarch.createCellComment(new XSSFClientAnchor(0,0, 0, 0, (short) 4, 2, (short) 6, 5));
-        // 设置注释作者，当鼠标移动到单元格上是可以在状态栏中看到该内容.
-        //comment.setAuthor("SKG生活");
-        
         int index = 0;
         // 产生查询条件行
         if(filters != null){

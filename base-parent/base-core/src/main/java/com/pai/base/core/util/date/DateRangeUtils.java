@@ -12,10 +12,9 @@ import com.pai.base.core.constants.DateField;
  * <pre> 
  * 描述：TODO
  * 构建组：base-core
- * 作者：唯心
- * 邮箱:  craft6@qq.com
- * 日期:2014-4-6-下午1:31:24
- * 版权：唯心六艺工作室版权所有
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 public class DateRangeUtils {		

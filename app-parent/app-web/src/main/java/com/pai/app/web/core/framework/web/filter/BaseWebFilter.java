@@ -43,26 +43,6 @@ public class BaseWebFilter extends OncePerRequestFilter{
 		
 		WebOnlineHolder.setSession(request.getSession());
 				
-		/*if(OuOnlineHolder.isNotLogin()){
-			Cookie cookie = RequestUtil.getCookie(request, WebConstants.VISITOR_ID);
-			if(cookie!=null){
-				String vid = cookie.getValue();			
-				if(StringUtils.isNotEmpty(vid)){
-					OuOnlineHolder.setVid(vid);
-				}
-			}else {
-				if(StringUtils.isEmpty(OuOnlineHolder.getVid())){
-					IdGenerator idGenerator = SpringHelper.getBean(IdGenerator.class);
-					String vid = idGenerator.genSid();
-					OuOnlineHolder.setVid(vid);
-					cookie = new Cookie(WebConstants.VISITOR_ID, vid);
-					cookie.setMaxAge(60*60*24*3);
-					response.addCookie(cookie);
-				}
-			}				
-		}else {
-			OuOnlineHolder.setVid("");
-		}*/
 		chain.doFilter(new XssHttpServletRequestWrapper((HttpServletRequest) request), response);		
 	}		
 	private boolean ignore(String url){

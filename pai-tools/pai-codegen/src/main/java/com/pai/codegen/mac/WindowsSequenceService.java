@@ -9,7 +9,7 @@ import java.io.PrintStream;
 
 public final class WindowsSequenceService extends AbstractSequenceService
 {
-  private static String BASE_KEY = "SKgCOdeGEN";
+  private static String BASE_KEY = "PAiCOdeGEN";
 
   public void execute() { String cpuID = getCPUSerial();
     String machineCode = EncryptUtil.md5(new StringBuilder().append(cpuID).append(BASE_KEY).toString());

@@ -29,11 +29,9 @@ import com.pai.service.solr.solr.util.SolrUtil;
 
 /**
  * 描述：Solr API 接口实现类
- * 构建组：service-skgsolr
- * 作者：徐浩文
- * 邮箱: xuhaowen@skg.com
- * 日期:Jun 18, 2015-1:50:01 PM
- * 版权：SKG 公司版权所有
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 public class SolrAPIImpl implements SolrAPI {

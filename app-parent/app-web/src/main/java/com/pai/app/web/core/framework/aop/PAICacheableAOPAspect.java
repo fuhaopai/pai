@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import com.pai.app.web.core.framework.engine.FreemarkEngine;
-import com.pai.base.api.annotion.SKGCacheable;
+import com.pai.base.api.annotion.PAICacheable;
 import com.pai.base.core.util.string.StringCollections;
 import com.pai.base.core.util.string.StringConverter;
 import com.pai.base.core.util.string.StringUtils;
@@ -66,10 +66,10 @@ public class PAICacheableAOPAspect {
 		if (method == null)
 			return point.proceed();
 				
-		SKGCacheable skgCacheable = method.getAnnotation(SKGCacheable.class);
+		PAICacheable paiCacheable = method.getAnnotation(PAICacheable.class);
 		
-		if(skgCacheable!=null){
-			int seconds = skgCacheable.seconds();
+		if(paiCacheable!=null){
+			int seconds = paiCacheable.seconds();
 			try {
 				String defaultSecondPriority = ConfigHelper.getInstance().getParamValue("cache.defaultSecondPriority");
 				if("Y".equals(defaultSecondPriority)){
@@ -83,7 +83,7 @@ public class PAICacheableAOPAspect {
 				// TODO: handle exception
 			}
 			
-			List<String> paramNames = StringCollections.toList(skgCacheable.params(), ",");
+			List<String> paramNames = StringCollections.toList(paiCacheable.params(), ",");
 			Map<String, Object> map=new HashMap<String, Object>();
 			map.putAll(STATIC_CLASSES);		
 			if(point.getArgs()!=null && point.getArgs().length>0 && paramNames!=null && paramNames.size()>0){
@@ -95,19 +95,19 @@ public class PAICacheableAOPAspect {
 			}
 			try {
 				String key="";
-				String annotationKey=skgCacheable.key();
+				String annotationKey=paiCacheable.key();
 				if(annotationKey!=null&&!annotationKey.equals("")){
 					key=targetClass.getName() + "_" + freemarkEngine.parseByStringTemplate(annotationKey, map);					
 				}
 				  
-				Object objcet=JedisUtil.getInstance().getObject(key,skgCacheable.db());
+				Object objcet=JedisUtil.getInstance().getObject(key,paiCacheable.db());
 				if(isEmpty(objcet)){
 					returnVal= point.proceed();
 					
 					if(returnVal!=null){
 						if(returnVal instanceof Serializable){
-							JedisUtil.getInstance().set(key, returnVal, skgCacheable.db());
-							//JedisUtil.set(key,JsonUtil.getJSONString(returnVal),skgCacheable.db());
+							JedisUtil.getInstance().set(key, returnVal, paiCacheable.db());
+							//JedisUtil.set(key,JsonUtil.getJSONString(returnVal),paiCacheable.db());
 							JedisUtil.getInstance().expire(key, seconds);
 						}else {
 							log.warn(returnVal.getClass().getName() + " must implements Serializable!!");
@@ -124,7 +124,7 @@ public class PAICacheableAOPAspect {
 				e.printStackTrace();
 			}		
 		}else {
-			//如果方法上没有注解@SKGCacheable，返回
+			//如果方法上没有注解@PAICacheable，返回
 			return point.proceed();
 		}
 		

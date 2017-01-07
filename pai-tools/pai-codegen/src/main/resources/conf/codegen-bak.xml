@@ -222,23 +222,23 @@
 	</apiDirs>
 
 	<variables>
-		<variable name="developer" value="YCM" />
-		<variable name="company" value="SKG.COM" />
+		<variable name="developer" value="fuhao" />
+		<variable name="company" value="π" />
 		<!--keys值必须小写，且用,隔开-->
 		<variable name="keys" value="db,dao,domain,controller,view,apiBase,api"/>
-		<variable name="workspace" value="D:\workspace\V1.2_pre\" />
+		<variable name="workspace" value="D:\workspace" />
 	</variables>
         <!--可以有多个<table>标签-->
-	<table tableName="skg_stock2" >
-		<variable name="sys" value="ec" />
-		<variable name="module" value="stock" />
-		<variable name="class" value="Stock2" />		
-		<variable name="baseClass" value="Stock2" />
+	<table tableName="pai_auth_resources" >
+		<variable name="sys" value="pai" />
+		<variable name="module" value="auth" />
+		<variable name="class" value="AuthResources" />		
+		<variable name="baseClass" value="AuthResources" />
 		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
 		<variable name="doType" value="db,dao,domain,controller,view,api" />
 		<!-- 
 		<subtable tablename=""  foreignKey="">
-			<variable name="sys" value="ec" />
+			<variable name="sys" value="pai" />
 			<variable name="module" value="stock" />
 			<variable name="class" value="Stock2" />		
 			<variable name="baseClass" value="Stock2" /> 			

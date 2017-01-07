@@ -38,10 +38,9 @@ import com.pai.base.core.helper.SpringHelper;
  * 描述：提供两种测试方式：
  *    一：构造request和response，通过excuteAction 执行获得ModelAndView
  *    二：通过mockMvc 直接执行。
- * 构建组：base-web
- * 作者：唯心
- * 邮箱:  yanchaomin@skg.com
- * 日期:2014-7-16-下午10:05:04
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 @RunWith(SpringJUnit4ClassRunner.class)

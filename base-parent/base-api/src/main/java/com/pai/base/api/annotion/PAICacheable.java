@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)   
 @Documented  
 @Inherited
-public @interface SKGCacheable {
+public @interface PAICacheable {
 	public String key();
 	public int db();
 	public String params() default "" ;

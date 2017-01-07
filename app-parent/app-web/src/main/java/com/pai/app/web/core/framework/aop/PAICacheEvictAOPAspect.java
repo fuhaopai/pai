@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import com.pai.app.web.core.framework.engine.FreemarkEngine;
-import com.pai.base.api.annotion.SKGCacheEvict;
+import com.pai.base.api.annotion.PAICacheEvict;
 import com.pai.base.core.util.string.StringCollections;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.service.redis.JedisUtil;
@@ -60,11 +60,11 @@ public class PAICacheEvictAOPAspect {
 		if (method == null)
 			return point.proceed();
 
-		SKGCacheEvict skgCacheEvict = method.getAnnotation(SKGCacheEvict.class);
+		PAICacheEvict paiCacheEvict = method.getAnnotation(PAICacheEvict.class);
 		 
-		if(skgCacheEvict!=null){
+		if(paiCacheEvict!=null){
 			
-			List<String> paramNames = StringCollections.toList(skgCacheEvict.params(), ",");
+			List<String> paramNames = StringCollections.toList(paiCacheEvict.params(), ",");
 			
 			Map<String, Object> map=new HashMap<String, Object>();
 			map.putAll(STATIC_CLASSES);
@@ -76,18 +76,18 @@ public class PAICacheEvictAOPAspect {
 				}
 			}
 			try {
-				String type=skgCacheEvict.type();
-				int db=skgCacheEvict.db();
+				String type=paiCacheEvict.type();
+				int db=paiCacheEvict.db();
 				if(type.equals(RedisDb.EVICT_ALL_TYPE)){//清空当前数据库
 					JedisUtil.getInstance().flushDB(db);
 				}else if(type.equals(RedisDb.EVICT_KEY_TYPE)) {//根据key删除缓存
-					if(skgCacheEvict.key()!=null&&!skgCacheEvict.key().equals("")){
-						String key=freemarkEngine.parseByStringTemplate(skgCacheEvict.key(), map);
+					if(paiCacheEvict.key()!=null&&!paiCacheEvict.key().equals("")){
+						String key=freemarkEngine.parseByStringTemplate(paiCacheEvict.key(), map);
 						JedisUtil.getInstance().delByKey(key,db);
 					}
 					
 				}else if(type.equals(RedisDb.EVICT_PREFIX_TYPE)){//根据前缀匹配删除
-					String key = skgCacheEvict.key();
+					String key = paiCacheEvict.key();
 					JedisUtil.getInstance().delByPrefix(key,db);
 				}
 				

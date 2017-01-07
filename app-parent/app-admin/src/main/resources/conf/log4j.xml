@@ -11,7 +11,7 @@
     </appender>  
     
     <appender name="APPLOGFILE" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${webapp.root}/WEB-INF/logs/skg-platform.log"/>
+		<param name="File" value="${webapp.root}/WEB-INF/logs/pai-platform.log"/>
 		<!-- 重启了服务器之后，是否在原有文件的后面追加？true(默认):追加;false:不追加 -->
 		<param name="Append" value="true"/>
 		<!-- 最大文件的size,单位:Kb,Mb... -->
@@ -140,7 +140,7 @@
         <level value="WARN"/>
     </logger>
     
-    <logger name="com.skg.web.servlet.SpringMvcServlet">
+    <logger name="com.pai.app.web.core.framework.web.servlet.SpringMvcServlet">
     	<level value="ERROR" />
     </logger>
     
@@ -154,7 +154,7 @@
      <logger name="org.displaytag">
         <level value="ERROR"/>
     </logger>
-    <logger name="com.skg">
+    <logger name="com.pai">
         <level value="WARN"/>
     </logger>
 

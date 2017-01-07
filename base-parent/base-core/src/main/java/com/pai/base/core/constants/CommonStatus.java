@@ -7,10 +7,9 @@ import com.pai.base.core.util.string.StringUtils;
  * <pre> 
  * 描述：通用状态
  * 构建组：pai-core
- * 作者：唯心
- * 邮箱:  craft6@qq.com
- * 日期:2014-7-29-下午3:53:07
- * 版权：唯心六艺工作室版权所有
+ * 开发公司:π
+ * 开发人员:FUHAO
+ * 创建时间:2016-09-29 18:00:11
  * </pre>
  */
 public enum CommonStatus {

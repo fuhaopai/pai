@@ -49,8 +49,8 @@ query.setFacet(true)
 .setQuery("*:*") //条件查询
 .setFacetMinCount(1) //最小长度
 .setFacetLimit(5)//提取 前5条分片结果
-//.setFacetPrefix("title", "skg") //在title字段中关键字前缀是skg的
-.setFacetPrefix("skg")//在title、cname字段中关键字前缀是skg的
+//.setFacetPrefix("title", "pai") //在title字段中关键字前缀是pai的
+.setFacetPrefix("pai")//在title、cname字段中关键字前缀是pai的
 .addFacetField("title")
 .addFacetField("cname");//分片字段
 

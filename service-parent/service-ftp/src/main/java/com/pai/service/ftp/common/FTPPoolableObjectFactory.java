@@ -6,7 +6,7 @@ import org.apache.commons.pool.BasePoolableObjectFactory;
 import com.pai.service.ftp.entity.FTPEntity;
 
 /**
- *   SKGFTP连接池对象
+ *   PAIFTP连接池对象
  *   @author Suoron
  *   @since 2015-10-22  
  * 
@@ -25,7 +25,7 @@ public class FTPPoolableObjectFactory extends BasePoolableObjectFactory{
       
     @Override  
     public Object makeObject() throws Exception {  
-            SKGFTPClient ftpClient = new SKGFTPClient();  
+            PAIFTPClient ftpClient = new PAIFTPClient();  
             ftpClient.connect(entity.getHost(), entity.getPort());              
             ftpClient.setControlKeepAliveTimeout(300);   //set timeout to 5 minutes  
             ftpClient.login(entity.getUser(), entity.getPassword());  
@@ -43,8 +43,8 @@ public class FTPPoolableObjectFactory extends BasePoolableObjectFactory{
   
     @Override  
     public void destroyObject(Object obj) throws Exception {  
-        if(obj instanceof SKGFTPClient){  
-            SKGFTPClient ftpClient=(SKGFTPClient)obj;  
+        if(obj instanceof PAIFTPClient){  
+            PAIFTPClient ftpClient=(PAIFTPClient)obj;  
             if(!ftpClient.isConnected()) return ;  
             try{  
                 ftpClient.disconnect();  
@@ -55,8 +55,8 @@ public class FTPPoolableObjectFactory extends BasePoolableObjectFactory{
     }  
     @Override  
     public boolean validateObject(Object obj) {  
-        if(obj instanceof SKGFTPClient){  
-            SKGFTPClient ftpClient=(SKGFTPClient)obj;  
+        if(obj instanceof PAIFTPClient){  
+            PAIFTPClient ftpClient=(PAIFTPClient)obj;  
             try{  
                 return ftpClient.isConnected();  
             }catch(Exception e){  

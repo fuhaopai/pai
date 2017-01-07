@@ -1,6 +1,6 @@
 package com.pai.service.ftp;
 
-public interface SKGFTPool<F> {		
+public interface PAIFTPool<F> {		
 	
 	/**
 	 * 获取FTPClient实例

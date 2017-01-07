@@ -16,7 +16,7 @@ import com.pai.service.solr.sensitive.WordsAnalyzer;
 import com.pai.service.solr.sensitive.impl.SimpleWordsAnalyzer.Word;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:conf/service-skgsolr.xml")
+@ContextConfiguration(locations = "classpath*:conf/service-solr.xml")
 public class WordsAnalyzerTest extends AbstractJUnit4SpringContextTests{
 	
 	@Resource
