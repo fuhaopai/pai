@@ -3,6 +3,7 @@
 #系统结构设计图
 ![image](https://github.com/fuhaojun/pai/blob/master/doc/image/code.png)
 #代码生成器
+![image](https://github.com/fuhaojun/pai/blob/master/doc/image/codegen.png)
 [someLabel](https://github.com/fuhaojun/pai/codegen.md)
 
 #base-paren基础接口、工具和数据存储
