@@ -1,6 +1,9 @@
-#项目模块层次图
-![image](https://github.com/fuhaojun/pai/blob/master/app-parent/app-admin/src/main/webapp/images/dragon/head2.png)
-#系统结构假设图
+#项目模块分层图
+![image](https://github.com/fuhaojun/pai/blob/master/doc/image/module.png)
+#系统结构设计图
+![image](https://github.com/fuhaojun/pai/blob/master/doc/image/code.png)
+#代码生成器
+[someLabel](https://github.com/fuhaojun/pai/codegen.md)
 
 #base-paren基础接口、工具和数据存储
 
