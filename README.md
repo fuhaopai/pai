@@ -14,7 +14,41 @@
 -base-core:
  依赖base-api，针对部分接口提供实现，并提供大量的工具类和基础服务类
 
--base-db:使用MyBatis技术对所有关系数据库提供访问支持，使用方言处理各种数据库的差异。支持数据库连接池和动态数据源切换
+-base-db:使用MyBatis技术对所有关系数据库提供访问支持，使用方言处理各种数据库的差异。支持数据库连接池和动态数据源切换。主键生成策略：为保持唯一性，暂时id单数从redis中取，redis无法取到从数据库id表中取双数。防止并发重复，加锁如下
+
+public boolean lock(Jedis jedis, String key){
+
+		try {
+  
+			key += "_lock";
+   
+			long nano = System.nanoTime();
+   
+			//允许最多2秒的等待时间进行incr操作
+   
+			while ((System.nanoTime() - nano) < TWO_SECONDS){
+   
+				if(jedis.setnx(key, "TRUE") == 1){
+    
+					jedis.expire(key, 180);
+     
+					return true;
+     
+				}
+    
+				Thread.sleep(1, new Random().nextInt(500));  
+    
+			}
+   
+		} catch (Exception e) {
+  
+			log.error(e.getMessage());
+   
+		}
+  
+		return false;
+  
+	}
 
 #service-parent这部分是平时工作中的一些积累，融合到本系统中，按需选择依赖
 
