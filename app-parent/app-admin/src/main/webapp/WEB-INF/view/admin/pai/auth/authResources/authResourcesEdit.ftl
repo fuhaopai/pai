@@ -52,7 +52,7 @@
             <tr>
                 <td align="right" class="l-table-edit-td">资源链接:</td>
                 <td align="left" class="l-table-edit-td">
-                	<input name="url" type="text" id="url"  value="${authResourcesPo.url}" ltype="text" validate='{required:true}'/>
+                	<input name="url" type="text" id="url"  value="${authResourcesPo.url}" ltype="text"/>
                 </td>
                 <td align="left"></td>
             </tr>    
