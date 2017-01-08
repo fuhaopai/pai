@@ -1,9 +1,10 @@
+#系统主要使用spring,springmvc,mybatis等搭建，maven结构，项目原型图位置fork后找到doc/pai/index.html
 #项目模块分层图
 ![image](https://github.com/fuhaojun/pai/blob/master/doc/image/module.png)
 #系统结构设计图
 ![image](https://github.com/fuhaojun/pai/blob/master/doc/image/code.png)
-#代码生成器
-[someLabel](https://github.com/fuhaojun/pai/codegen.md)
+#代码生成器(为了提高点工作效率，整出来了这么个玩意，大大节省了编码时间。按本系统结构生成db,dao,domain,controller,view,api代码，涉及后台的增删改查及页面，API的增删改查)，详情及效果演示请点击[代码生成器](https://github.com/fuhaojun/pai/blob/master/CODEGEN.md)
+![image](https://github.com/fuhaojun/pai/blob/master/doc/image/codegen.png)
 
 #base-paren基础接口、工具和数据存储
 
