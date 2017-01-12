@@ -24,6 +24,10 @@ public class AuthRole extends AbstractDomain<String, AuthRolePo>{
 	protected void init(){
 		authRoleDao = SpringHelper.getBean(AuthRoleDao.class);
 		setDao(authRoleDao);
+	}
+
+	public void save(AuthRolePo authRolePo) {
+		
 	}	 
 	 
 }

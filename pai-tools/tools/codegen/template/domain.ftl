@@ -24,6 +24,7 @@ import com.${sys}.biz.${module}.persistence.entity.${class}Po;
  * 开发人员:${vars.developer}
  </#if>
  * 创建时间:${date?string("yyyy-MM-dd HH:mm:ss")}
+ * 命名规范：插入以saveXx前缀，修改updateXx前缀，删除deleteXx前缀
  */
 @SuppressWarnings("serial")
 @Service

@@ -12,6 +12,8 @@
 		<result property="icon" column="icon" jdbcType="VARCHAR"/>
 		<result property="sort" column="sort" jdbcType="NUMERIC"/>
 		<result property="status" column="status" jdbcType="NUMERIC"/>
+		
+		<result property="roleStatus" column="role_status" jdbcType="NUMERIC"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.pai.biz.auth.persistence.entity.AuthResourcesPo">
@@ -103,5 +105,11 @@
 	
 	<select id="findChildsByParentId" parameterType="java.util.Map" resultMap="AuthResourcesPo">
 		SELECT * FROM pai_auth_resources WHERE parent_id_=#{parentId}
+	</select>
+	
+	<select id="findResourcesWithByRoleId" parameterType="java.util.Map" resultMap="AuthResourcesPo">
+		SELECT a.*,IF(b.id_ IS NULL, 2, 1) role_status FROM	pai_auth_resources a
+		LEFT JOIN pai_auth_role_resources b ON a.id_ = b.resource_id_ AND b.role_id_ = #{roleId}
+		ORDER BY a.depth,a.parent_id_,a.sort
 	</select>
 </mapper>

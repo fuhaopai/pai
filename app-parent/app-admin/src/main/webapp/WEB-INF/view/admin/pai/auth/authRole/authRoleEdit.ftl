@@ -44,12 +44,22 @@
 		            <td align="left"></td>
 		        </tr> 
 		        <tr>
-		            <td align="right" class="l-table-edit-td">状态（1=有效，2=无效）:</td>
+		            <td align="right" class="l-table-edit-td">状态:</td>
 		            <td align="left" class="l-table-edit-td">
-		            	<input name="status" type="text" id="status"  value="${authRolePo.status}" ltype="text" validate='{digits:true}'/>
+		            	<input id="status_1" type="radio" name="status" value="1" <#if authRolePo.status != 2>checked="checked"</#if>/><label for="status_1">左侧菜单</label> 
+	                	&nbsp;&nbsp;&nbsp;&nbsp;
+	                	<input id="status_2" type="radio" name="status" value="2" <#if authRolePo.status == 2>checked="checked"</#if>/><label for="status_2">功能按钮</label>
 		            </td>
 		            <td align="left"></td>
 		        </tr> 
+		        <tr>
+		        	<td align="right" class="l-table-edit-td">分配资源:</td>
+		        	<td align="left" class="l-table-edit-td">
+		            	<#list authRolePo.authResourcesPos as resource>
+		            		<input name="name" type="checkbox" <#if resource.roleStatus == 1>checked="checked"</#if>/>${resource.name}
+		            	</#list>
+		            </td>
+		        </tr>
         </table>
  		<br />
 		<input type="submit" value="提交" id="Button1" class="l-button l-button-submit" /> 

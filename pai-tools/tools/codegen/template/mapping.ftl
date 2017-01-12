@@ -37,6 +37,7 @@
 		SELECT * FROM ${tableName} 
 		WHERE 
 		${pk}=<#noparse>#{</#noparse>${func.convertUnderLine(pk)}}
+		LIMIT 1
 	</select>
 	
 	<select id="getLast" resultMap="${po}">

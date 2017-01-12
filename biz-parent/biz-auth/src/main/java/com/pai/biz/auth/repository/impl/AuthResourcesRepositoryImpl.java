@@ -65,10 +65,17 @@ public class AuthResourcesRepositoryImpl extends AbstractRepository<String, Auth
 	private List<AuthResourcesPo> listResourcesByUserId(String userId, Integer type){
 		return authResourcesQueryDao.listResourcesByUserId(userId, type);
 	}
-
+	
+	//根据父节点查找其子节点 
 	@Override
 	public List<AuthResourcesPo> findChildsByParentId(String parentId) {
 		return authResourcesQueryDao.findByKey("findChildsByParentId", b().a("parentId", parentId).p());
+	}
+
+	//查询所有的资源并根据角色id判断该角色是否拥有此资源权限
+	@Override
+	public List<AuthResourcesPo> findResourcesWithByRoleId(String roleId) {
+		return listToTree(authResourcesQueryDao.findByKey("findResourcesWithByRoleId", b().a("roleId", roleId).p()));
 	}
 	
 }

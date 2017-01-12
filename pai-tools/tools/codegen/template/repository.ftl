@@ -19,6 +19,7 @@ import com.${sys}.biz.${module}.persistence.entity.${class}Po;
  * 开发人员:${vars.developer}
  </#if>
  * 创建时间:${date?string("yyyy-MM-dd HH:mm:ss")}
+ * 命名规范：查list集合以findXx做前缀,单个po实体用getXx做前缀,数量countXx,条件查询加ByXx后缀,如getXxByName
  */
 public interface ${class}Repository extends IRepository<String, ${class}Po,${class}>{
 	  

@@ -16,7 +16,7 @@
 				fields : [
 					{ display: '名称', name: 'Q__S__EQ__name', newline : true, align: 'left', width: 140 },
 					{ display: '描述', name: 'Q__S__EQ__descript', newline : false, align: 'left', width: 140 },
-					{ display: '状态（1=有效，2=无效）', name: 'Q__S__EQ__status', newline : false, align: 'left', width: 140 },
+					{ display: '状态', name: 'Q__S__EQ__status', newline : false, align: 'left', width: 140 },
 					{ display: '创建人', name: 'Q__S__EQ__createBy', newline : false, align: 'left', width: 140 },
 					{ display: '创建时间', name: 'Q__S__EQ__createTime', newline : true, align: 'left', width: 140 },
 					{ display: '修改人', name: 'Q__S__EQ__updateBy', newline : false, align: 'left', width: 140 },
@@ -38,7 +38,14 @@
                 columns: [
 					{ display: '名称', name: 'name', align: 'left', width: 80, minWidth: 60 },
 					{ display: '描述', name: 'descript', align: 'left', width: 80, minWidth: 60 },
-					{ display: '状态（1=有效，2=无效）', name: 'status', align: 'left', width: 80, minWidth: 60 },
+					{ display: '状态', name: 'status', align: 'left', width: 80, minWidth: 60,
+						render: function(rowdata,index,value){
+							if(value==1)
+								return "有效";
+							else if(value==2)
+								return "无效";
+						}
+					},
 					{ display: '创建人', name: 'createBy', align: 'left', width: 80, minWidth: 60 },
 					{ display: '创建时间', name: 'createTime', align: 'left', type:'date', options:{showTime: true,format:'yyyy-MM-dd hh:mm:ss'}, width: 180, minWidth: 60 },
 					{ display: '修改人', name: 'updateBy', align: 'left', width: 80, minWidth: 60 },

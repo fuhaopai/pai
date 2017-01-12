@@ -23,7 +23,9 @@ import com.pai.base.core.util.JsonUtil;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.service.image.utils.RequestUtil;
 import com.pai.biz.auth.domain.AuthRole;
+import com.pai.biz.auth.repository.AuthResourcesRepository;
 import com.pai.biz.auth.repository.AuthRoleRepository;
+import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
 import com.pai.biz.auth.persistence.entity.AuthRolePo;
 
 /**
@@ -38,6 +40,9 @@ public class AuthRoleController extends AdminController<String, AuthRolePo, Auth
 	 
 	@Resource
 	private AuthRoleRepository authRoleRepository;
+	
+	@Resource
+	private AuthResourcesRepository authResourcesRepository;
 	
 	@Override
 	protected IRepository<String, AuthRolePo, AuthRole> getRepository() {
@@ -102,10 +107,15 @@ public class AuthRoleController extends AdminController<String, AuthRolePo, Auth
 		//是否新增
 		boolean isNew =StringUtils.isEmpty(id)?true:false; 
 		AuthRole authRole = null;
+		AuthRolePo authRolePo = null;
 		if(isNew){
 			authRole = authRoleRepository.newInstance();
+			authRolePo = authRole.getData();
 		}else{
-			authRole = authRoleRepository.load(id);			
+			authRole = authRoleRepository.load(id);		
+			authRolePo = authRole.getData();
+			List<AuthResourcesPo> authResourcesPos = authResourcesRepository.findResourcesWithByRoleId(id);
+			authRolePo.setAuthResourcesPos(authResourcesPos);
 		}		
 		
 		//根据新增或更新，进行若干业务处理
@@ -116,7 +126,7 @@ public class AuthRoleController extends AdminController<String, AuthRolePo, Auth
 		//构造返回对象和视图
 		ModelAndView modelAndView = buildAutoView(request);
 		modelAndView.addObject("isNew",isNew);
-		modelAndView.addObject(poEntityName, authRole.getData());
+		modelAndView.addObject(poEntityName, authRolePo);
 		
 		//返回
 		return modelAndView;		
@@ -140,8 +150,7 @@ public class AuthRoleController extends AdminController<String, AuthRolePo, Auth
 		
 		//构造领域对象和保存数据
 		AuthRole authRole = authRoleRepository.newInstance();
-		authRole.setData(authRolePo);
-		authRole.save();
+		authRole.save(authRolePo);
 		
 		//构造返回数据
 		CommonResult result = new CommonResult();

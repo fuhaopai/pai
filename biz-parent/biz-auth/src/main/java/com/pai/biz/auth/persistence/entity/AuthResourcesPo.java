@@ -14,7 +14,12 @@ import com.pai.base.db.persistence.entity.TreeType;
  */
 public class AuthResourcesPo extends AuthResourcesTbl implements TreeType<AuthResourcesPo>{
 
+	private static final long serialVersionUID = 7464811014677516464L;
+
 	private List<AuthResourcesPo> subs = new ArrayList<AuthResourcesPo>();
+	
+	//判断角色是否拥有该资源（1=是，2=否）
+	private Integer roleStatus;
 	
 	@Override
 	public List<AuthResourcesPo> getSubs() {
@@ -41,4 +46,13 @@ public class AuthResourcesPo extends AuthResourcesTbl implements TreeType<AuthRe
 			this.type = type;
 		}
 	}
+
+	public Integer getRoleStatus() {
+		return roleStatus;
+	}
+
+	public void setRoleStatus(Integer roleStatus) {
+		this.roleStatus = roleStatus;
+	}
+	
 }
