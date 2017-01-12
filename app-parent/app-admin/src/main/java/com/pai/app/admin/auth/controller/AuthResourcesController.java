@@ -76,6 +76,29 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		
 		return listData;
 	}
+
+	/**
+	 * 查询【资源】列表
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception 
+	 * ModelAndView
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	@RequestMapping("findResourcesWithByRoleId")	
+	@ResponseBody
+	public String findResourcesWithByRoleId(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		//构造分页对象
+		String roleId = RequestUtil.getParameterNullSafe(request, "roleId");
+		//查询资源列表
+		List<AuthResourcesPo> authResourcesPoList = authResourcesRepository.findResourcesWithByRoleId(roleId);
+		//构造返回数据
+		String listData = buildListData(authResourcesPoList,9999);
+		
+		return listData;
+	}
 	
 	/**
 	 * 封装菜单json资源

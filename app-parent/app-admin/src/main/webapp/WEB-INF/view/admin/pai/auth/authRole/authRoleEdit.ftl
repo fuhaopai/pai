@@ -8,10 +8,85 @@
 	<script type="text/javascript" src="${CtxPath}/scripts/admin/pai/common.js" ></script>		    	            	    	
     <script type="text/javascript">  
 	$(function(){		
-		bindFormValidation("authRoleEditForm","${CtxPath}/admin/pai/auth/authRole/save.do");								
+		bindFormValidation("authRoleEditForm","${CtxPath}/admin/pai/auth/authRole/save.do");
 		$("#authRoleEditForm").ligerForm();           
 	});
 	var __ctxPath = "${CtxPath}";	   
+    </script>
+    <script type="text/javascript">
+    	var grid = null;
+        $(function ()
+        {
+           grid = $("#maingrid").ligerGrid({
+                height:'100%',
+                
+                onChangeSort: function (sortname, sortorder) {
+	    			  $("input[name='aliasSortName']").val(sortname);
+		              fnListSearch();
+		              return;
+	             } ,
+	             
+                columns: [
+					{ display: '名称', name: 'name', id: 'deptname', align: 'left', width: 250, minWidth: 60 },
+					{ display: '资源类型', name: 'type', align: 'left', width: 90, minWidth: 60,
+						render: function(rowdata,index,value){
+							if(value==1)
+								return "左侧菜单";
+							else if(value==2)
+								return "功能按钮";
+						}
+					},
+					{ display: '层次', name: 'depth', align: 'left', width: 60, minWidth: 60 },
+					{ display: '状态', name: 'status', align: 'left', width: 64, minWidth: 60,
+						render: function(rowdata,index,value){
+							if(value==1)
+								return "有效";
+							else if(value==2)
+								return "无效";
+						}
+					}
+                ], 
+                url:'${CtxPath}/admin/pai/auth/authResources/findResourcesWithByRoleId.do?roleId=${authRolePo.id}', 
+                pageSize:99999 ,
+                treeLeafOnly: true,
+                isChecked: function(rowdata){
+                   if(rowdata.roleStatus == 1){
+                      return true;
+                   }
+                   return false;
+                },
+                checkbox: true,
+                usePager:false,
+                showTitle: false,
+                pagesizeParmName:'pageSize',
+                alternatingRow : false,
+				enabledSort : false,
+                onReload:setDataToGrid,
+                tree : {
+					isExpand : false,
+					slide : false,
+					columnId : 'deptname',
+					idField : 'id',
+					parentIDField : 'parentId'
+				},
+            });             
+
+            $("#pageloading").hide();
+        });
+        
+		function setDataToGrid(){		
+			var data = searchForm.getData();
+			if(grid!=null){
+				grid.set("parms",[]);
+				for(var param in data){					
+					$("input[name='"+param+"']").each(function() {
+						var id = $(this).attr("id");						
+						var paramValue = $("#" + id).val();					
+                    	grid.get("parms").push({ name: param, value: paramValue });
+     				});					
+				}
+			}			
+		}
     </script>
 	<script type="text/javascript" src="${CtxPath}/scripts/admin/pai/auth/authRole.js" ></script>
 </head>
@@ -54,10 +129,8 @@
 		        </tr> 
 		        <tr>
 		        	<td align="right" class="l-table-edit-td">分配资源:</td>
-		        	<td align="left" class="l-table-edit-td">
-		            	<#list authRolePo.authResourcesPos as resource>
-		            		<input name="name" type="checkbox" <#if resource.roleStatus == 1>checked="checked"</#if>/>${resource.name}
-		            	</#list>
+		        	<td align="left" class="l-table-edit-td" style="width:500px;">
+				    	<div id="maingrid"></div>
 		            </td>
 		        </tr>
         </table>
