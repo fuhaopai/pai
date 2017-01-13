@@ -107,15 +107,11 @@ public class AuthRoleController extends AdminController<String, AuthRolePo, Auth
 		//是否新增
 		boolean isNew =StringUtils.isEmpty(id)?true:false; 
 		AuthRole authRole = null;
-		AuthRolePo authRolePo = null;
+		
 		if(isNew){
 			authRole = authRoleRepository.newInstance();
-			authRolePo = authRole.getData();
 		}else{
 			authRole = authRoleRepository.load(id);		
-			authRolePo = authRole.getData();
-			List<AuthResourcesPo> authResourcesPos = authResourcesRepository.findResourcesWithByRoleId(id);
-			authRolePo.setAuthResourcesPos(authResourcesPos);
 		}		
 		
 		//根据新增或更新，进行若干业务处理
@@ -126,7 +122,7 @@ public class AuthRoleController extends AdminController<String, AuthRolePo, Auth
 		//构造返回对象和视图
 		ModelAndView modelAndView = buildAutoView(request);
 		modelAndView.addObject("isNew",isNew);
-		modelAndView.addObject(poEntityName, authRolePo);
+		modelAndView.addObject(poEntityName, authRole.getData());
 		
 		//返回
 		return modelAndView;		
@@ -144,7 +140,7 @@ public class AuthRoleController extends AdminController<String, AuthRolePo, Auth
 	 */	
 	@RequestMapping("save")
 	@ResponseBody
-	public CommonResult save(HttpServletRequest request,HttpServletResponse response,AuthRolePo authRolePo) throws Exception{
+	public CommonResult save(HttpServletRequest request,HttpServletResponse response,AuthRolePo authRolePo, String resourcesId) throws Exception{
 		//是否新增
 		boolean isNew = StringUtils.isEmpty(authRolePo.getId())?true:false;
 		

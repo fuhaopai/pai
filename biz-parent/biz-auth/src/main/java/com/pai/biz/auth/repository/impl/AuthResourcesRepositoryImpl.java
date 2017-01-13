@@ -75,7 +75,7 @@ public class AuthResourcesRepositoryImpl extends AbstractRepository<String, Auth
 	//查询所有的资源并根据角色id判断该角色是否拥有此资源权限
 	@Override
 	public List<AuthResourcesPo> findResourcesWithByRoleId(String roleId) {
-		return authResourcesQueryDao.findByKey("findResourcesWithByRoleId", b().a("roleId", roleId).p());
+		return listToTree(authResourcesQueryDao.findByKey("findResourcesWithByRoleId", b().a("roleId", roleId).p()));
 	}
 	
 }

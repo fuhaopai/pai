@@ -1,5 +1,6 @@
 package com.pai.app.admin.auth.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -93,11 +94,16 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		//构造分页对象
 		String roleId = RequestUtil.getParameterNullSafe(request, "roleId");
 		//查询资源列表
-		List<AuthResourcesPo> authResourcesPoList = authResourcesRepository.findResourcesWithByRoleId(roleId);
-		//构造返回数据
-		String listData = buildListData(authResourcesPoList,9999);
-		
-		return listData;
+		List<AuthResourcesPo> authResourcesPoList = new ArrayList<AuthResourcesPo>();
+		authResourcesPoList = authResourcesRepository.findResourcesWithByRoleId(roleId);
+		//拼装ligerUI返回数据
+		JSONStringer stringer = new JSONStringer();
+		stringer.array();
+		for(AuthResourcesPo authResourcesPo : authResourcesPoList){
+			append(request, stringer, authResourcesPo);
+		}
+		stringer.endArray();				
+		return stringer.toString();
 	}
 	
 	/**
@@ -137,8 +143,10 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		stringer.object();
 		stringer.key("text");
 		stringer.value(authResourcesPo.getName());
-		stringer.key("isexpand");
-		stringer.value("false");
+		if(authResourcesPo.getRoleStatus()!= null && authResourcesPo.getRoleStatus() == 1){
+			stringer.key("ischecked");
+			stringer.value(true);
+		}
 		stringer.key("children");
 		stringer.array();
 		for(AuthResourcesPo sub:authResourcesPo.getSubs()){			
@@ -154,6 +162,10 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		stringer.value(request.getContextPath() + authResourcesPo.getUrl());
 		stringer.key("text");
 		stringer.value(authResourcesPo.getName());
+		if(authResourcesPo.getRoleStatus()!= null && authResourcesPo.getRoleStatus() == 1){
+			stringer.key("ischecked");
+			stringer.value(true);
+		}
 		stringer.key("tabid");
 		stringer.value(authResourcesPo.getId()+"TabId");
 		stringer.endObject();
