@@ -1,14 +1,19 @@
 package com.pai.biz.auth.repository.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Repository;
+
+import com.pai.base.api.model.Page;
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.db.persistence.dao.IQueryDao;
-import com.pai.biz.frame.repository.AbstractRepository;
 import com.pai.biz.auth.domain.AuthRoleResources;
-import com.pai.biz.auth.repository.AuthRoleResourcesRepository;
 import com.pai.biz.auth.persistence.dao.AuthRoleResourcesQueryDao;
 import com.pai.biz.auth.persistence.entity.AuthRoleResourcesPo;
+import com.pai.biz.auth.repository.AuthRoleResourcesRepository;
+import com.pai.biz.frame.repository.AbstractRepository;
 
 /**
  * 对象功能:角色-授权 Repository接口的实现类
@@ -38,6 +43,16 @@ public class AuthRoleResourcesRepositoryImpl extends AbstractRepository<String, 
 	@Override
 	protected IQueryDao<String, AuthRoleResourcesPo> getQueryDao() {
 		return authRoleResourcesQueryDao;
+	}
+
+	@Override
+	public List<AuthRoleResourcesPo> findRoleResourcesByRoleId(String roleId) {
+		return authRoleResourcesQueryDao.findByKey("findRoleResourcesByRoleId", b().a("roleId", roleId).p());
+	}
+
+	@Override
+	public List<AuthRoleResourcesPo> findRoleByResourceId(String resourceId, Page page) {
+		return authRoleResourcesQueryDao.findByKey("findRoleByResourceId", b().a("resourceId", resourceId).p(), page);
 	}
 	
 }

@@ -1,7 +1,5 @@
 package com.pai.app.admin.auth.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,18 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pai.base.api.model.Page;
-import com.pai.biz.frame.repository.IRepository;
-import com.pai.base.core.constants.ActionMsgCode;
-import com.pai.base.core.entity.CommonResult;
 import com.pai.app.web.core.framework.util.PageUtil;
 import com.pai.app.web.core.framework.web.controller.AdminController;
 import com.pai.app.web.core.framework.web.entity.QueryBuilder;
+import com.pai.base.api.model.Page;
+import com.pai.base.core.constants.ActionMsgCode;
+import com.pai.base.core.entity.CommonResult;
 import com.pai.base.core.util.string.StringUtils;
-import com.pai.service.image.utils.RequestUtil;
+import com.pai.base.db.mybatis.impl.domain.PageList;
 import com.pai.biz.auth.domain.AuthRoleResources;
-import com.pai.biz.auth.repository.AuthRoleResourcesRepository;
 import com.pai.biz.auth.persistence.entity.AuthRoleResourcesPo;
+import com.pai.biz.auth.repository.AuthRoleRepository;
+import com.pai.biz.auth.repository.AuthRoleResourcesRepository;
+import com.pai.biz.frame.repository.IRepository;
+import com.pai.service.image.utils.RequestUtil;
 
 /**
  * 对象功能:角色-授权 控制类
@@ -36,6 +36,9 @@ public class AuthRoleResourcesController extends AdminController<String, AuthRol
 	 
 	@Resource
 	private AuthRoleResourcesRepository authRoleResourcesRepository;
+	
+	@Resource
+	private AuthRoleRepository authRoleRepository;
 	
 	@Override
 	protected IRepository<String, AuthRoleResourcesPo, AuthRoleResources> getRepository() {
@@ -64,15 +67,33 @@ public class AuthRoleResourcesController extends AdminController<String, AuthRol
 		QueryBuilder queryBuilder = new QueryBuilder(request);
 		Page page = PageUtil.buildPage(request);
 		//查询角色-授权列表
-		List<AuthRoleResourcesPo> authRoleResourcesPoList = getRepository().findPaged(queryBuilder.buildMap(),page);
-		//查询总数
-		Integer totalRecords = getRepository().count(queryBuilder.buildWhereSqlMap());
+		PageList<AuthRoleResourcesPo> authRoleResourcesPoList = (PageList<AuthRoleResourcesPo>) getRepository().findPaged(queryBuilder.buildMap(),page);
 		//构造返回数据
-		String listData = buildListData(authRoleResourcesPoList,totalRecords);
+		String listData = buildListData(authRoleResourcesPoList,authRoleResourcesPoList.getPageResult().getTotalCount());
 		
 		return listData;
 	}
 	
+	/**
+	 * 根绝资源id查找角色
+	 * @param request
+	 * @param response
+	 * @param resourceId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("findRoleByResourceId")	
+	@ResponseBody
+	public String findRoleByResourceId(HttpServletRequest request,HttpServletResponse response,String resourceId) throws Exception{
+		//构造分页对象
+		Page page = PageUtil.buildPage(request);
+		//查询角色列表 
+		PageList<AuthRoleResourcesPo> authRolePoList = (PageList<AuthRoleResourcesPo>)authRoleResourcesRepository.findRoleByResourceId(resourceId, page);
+		//构造返回数据
+		String listData = buildListData(authRolePoList,authRolePoList.getPageResult().getTotalCount());
+		
+		return listData;
+	}
 	/**
 	 * 进入【角色-授权】编辑页面
 	 * @param request

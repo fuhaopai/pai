@@ -117,4 +117,5 @@
 	<select id="findRoleByUserId" parameterType="java.util.Map" resultMap="AuthRolePo">
 		SELECT a.* FROM pai_auth_role a INNER JOIN pai_auth_role_user b ON a.id_=b.role_id_ WHERE b.user_id_=#{userId}
 	</select>
+	
 </mapper>

@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.db.persistence.dao.IQueryDao;
-import com.pai.biz.frame.repository.AbstractRepository;
 import com.pai.biz.auth.domain.AuthRole;
-import com.pai.biz.auth.repository.AuthRoleRepository;
 import com.pai.biz.auth.persistence.dao.AuthRoleQueryDao;
 import com.pai.biz.auth.persistence.entity.AuthRolePo;
+import com.pai.biz.auth.repository.AuthRoleRepository;
+import com.pai.biz.frame.repository.AbstractRepository;
 
 /**
  * 对象功能:角色 Repository接口的实现类

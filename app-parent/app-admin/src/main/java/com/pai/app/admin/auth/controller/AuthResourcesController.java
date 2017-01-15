@@ -14,20 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pai.base.api.model.Page;
-import com.pai.biz.frame.repository.IRepository;
-import com.pai.base.core.constants.ActionMsgCode;
-import com.pai.base.core.entity.CommonResult;
 import com.pai.app.web.core.framework.util.PageUtil;
 import com.pai.app.web.core.framework.web.context.WebOnlineHolder;
 import com.pai.app.web.core.framework.web.controller.AdminController;
 import com.pai.app.web.core.framework.web.entity.QueryBuilder;
+import com.pai.base.api.model.Page;
+import com.pai.base.core.constants.ActionMsgCode;
+import com.pai.base.core.entity.CommonResult;
 import com.pai.base.core.util.string.StringUtils;
-import com.pai.service.image.utils.RequestUtil;
 import com.pai.biz.auth.domain.AuthResources;
-import com.pai.biz.auth.repository.AuthResourcesRepository;
 import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
 import com.pai.biz.auth.persistence.entity.AuthUserPo;
+import com.pai.biz.auth.repository.AuthResourcesRepository;
+import com.pai.biz.frame.repository.IRepository;
+import com.pai.service.image.utils.RequestUtil;
 
 /**
  * 对象功能:资源 控制类
@@ -79,7 +79,7 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 	}
 
 	/**
-	 * 查询【资源】列表
+	 * 角色分配资源时，封装tree类型json
 	 * @param request
 	 * @param response
 	 * @return
@@ -100,7 +100,7 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		JSONStringer stringer = new JSONStringer();
 		stringer.array();
 		for(AuthResourcesPo authResourcesPo : authResourcesPoList){
-			append(request, stringer, authResourcesPo);
+			append(request, stringer, authResourcesPo, AuthResourcesPo.ResourceType.MENU.getType());
 		}
 		stringer.endArray();				
 		return stringer.toString();
@@ -126,20 +126,30 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		JSONStringer stringer = new JSONStringer();
 		stringer.array();
 		for(AuthResourcesPo authResourcesPo : authResourcesPoList){
-			append(request, stringer, authResourcesPo);
+			append(request, stringer, authResourcesPo, AuthResourcesPo.ResourceType.BUTTON.getType());
 		}
 		stringer.endArray();				
 		return stringer.toString();
 	}
 	
-	private void append(HttpServletRequest request, JSONStringer stringer, AuthResourcesPo authResourcesPo) {
-		if(StringUtils.isEmpty(authResourcesPo.getUrl()))
-			appendMenu(request, stringer, authResourcesPo);
-		else 
-			appendItem(request, stringer, authResourcesPo);
+	private void append(HttpServletRequest request, JSONStringer stringer, AuthResourcesPo authResourcesPo, Integer type) {
+		//后台主页面左侧菜单
+		if(type == AuthResourcesPo.ResourceType.BUTTON.getType()){
+			if(StringUtils.isEmpty(authResourcesPo.getUrl()))
+				appendMenu(request, stringer, authResourcesPo, type);
+			else 
+				appendItem(request, stringer, authResourcesPo);
+		}else{
+			//给角色分配资源权限tree列表
+			if(authResourcesPo.getType() == AuthResourcesPo.ResourceType.MENU.getType())
+				appendMenu(request, stringer, authResourcesPo, type);
+			else 
+				appendItem(request, stringer, authResourcesPo);
+		}
+		
 	}
 
-	private void appendMenu(HttpServletRequest request, JSONStringer stringer, AuthResourcesPo authResourcesPo) {
+	private void appendMenu(HttpServletRequest request, JSONStringer stringer, AuthResourcesPo authResourcesPo, Integer type) {
 		stringer.object();
 		stringer.key("text");
 		stringer.value(authResourcesPo.getName());
@@ -147,12 +157,16 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 			stringer.key("ischecked");
 			stringer.value(true);
 		}
-		stringer.key("children");
-		stringer.array();
-		for(AuthResourcesPo sub:authResourcesPo.getSubs()){			
-			append(request, stringer, sub);
+		stringer.key("tabid");
+		stringer.value(authResourcesPo.getId()+"TabId");
+		if (authResourcesPo.getSubs().size() > 0) {
+			stringer.key("children");
+			stringer.array();
+			for(AuthResourcesPo sub:authResourcesPo.getSubs()){			
+				append(request, stringer, sub, type);
+			}
+			stringer.endArray();
 		}
-		stringer.endArray();
 		stringer.endObject();
 	}
 

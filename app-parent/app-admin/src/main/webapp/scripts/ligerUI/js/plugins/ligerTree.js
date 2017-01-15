@@ -1544,10 +1544,11 @@
             var isCheckedNull = $(".l-checkbox-checked", treeitem.parent()).length == 0;
              
             if (isCheckedNull)
-            {
-                treeitem.parent().prev().find("> .l-checkbox")
+            {	
+            	//分配角色-资源权限，当取消所有孩子节点时，并不递归取消父节点。作用：方便给一些管理员查看权限，不给操作权限
+                /*treeitem.parent().prev().find("> .l-checkbox")
                                     .removeClass("l-checkbox-checked l-checkbox-incomplete")
-                                    .addClass("l-checkbox-unchecked");
+                                    .addClass("l-checkbox-unchecked");*/
             }
             else
             {

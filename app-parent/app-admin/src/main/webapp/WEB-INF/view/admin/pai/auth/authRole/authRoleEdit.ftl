@@ -10,6 +10,7 @@
 	$(function(){
 		//树
         $("#tree").ligerTree({
+        	enabledCompleteCheckbox:false, 
             url : '${CtxPath}/admin/pai/auth/authResources/findResourcesWithByRoleId.do?roleId=${authRolePo.id}'
         });
         manager = $("#tree").ligerGetTreeManager();
@@ -24,8 +25,9 @@
             }
 			$("#resourcesId").val(resourcesId);
 		});
+		
         bindFormValidation("authRoleEditForm","${CtxPath}/admin/pai/auth/authRole/save.do");
-		$("#authRoleEditForm").ligerForm();
+		$("#authRoleEditForm").ligerForm(); 
 	});
 	var __ctxPath = "${CtxPath}";	   
     </script>
@@ -62,14 +64,14 @@
 		        <tr>
 		            <td align="right" class="l-table-edit-td">状态:</td>
 		            <td align="left" class="l-table-edit-td">
-		            	<input id="status_1" type="radio" name="status" value="1" <#if authRolePo.status != 2>checked="checked"</#if>/><label for="status_1">左侧菜单</label> 
+		            	<input id="status_1" type="radio" name="status" value="1" <#if authRolePo.status != 2>checked="checked"</#if>/><label for="status_1">有效</label> 
 	                	&nbsp;&nbsp;&nbsp;&nbsp;
-	                	<input id="status_2" type="radio" name="status" value="2" <#if authRolePo.status == 2>checked="checked"</#if>/><label for="status_2">功能按钮</label>
+	                	<input id="status_2" type="radio" name="status" value="2" <#if authRolePo.status == 2>checked="checked"</#if>/><label for="status_2">无效</label>
 		            </td>
 		            <td align="left"></td>
 		        </tr> 
 		        <tr>
-		        	<td align="right">分配资源:</td>
+		        	<td align="right" class="l-table-edit-td">分配资源:</td>
 		        	<td align="left">
 				    	<div style="width:200px; height:300px; border:1px solid #ccc; overflow:auto; clear:both;">
 					    	<ul id="tree"></ul>

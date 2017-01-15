@@ -10,6 +10,10 @@
 		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
 		<result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
 		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+		
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="resourceName" column="resource_name" jdbcType="VARCHAR"/>
+		<result property="descript" column="descript" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.pai.biz.auth.persistence.entity.AuthRoleResourcesPo">
@@ -126,4 +130,18 @@
 		(#{id,jdbcType=VARCHAR}, (select id_ from pai_auth_role where name='超级管理员'), #{resourceId,jdbcType=VARCHAR}, 1, #{createBy,jdbcType=VARCHAR}, now())
 	</insert>
 	
+	<select id="findRoleResourcesByRoleId" parameterType="java.util.Map" resultMap="AuthRoleResourcesPo">
+		SELECT * FROM pai_auth_role_resources WHERE role_id_=#{roleId}
+	</select>
+	
+	<select id="findRoleByResourceId" parameterType="java.util.Map" resultMap="AuthRoleResourcesPo">
+		SELECT a.*,c.name AS resource_name FROM pai_auth_role_resources b 
+		INNER JOIN pai_auth_role a ON a.id_=b.role_id_ 
+		INNER JOIN pai_auth_resources c ON b.resource_id_=c.id_
+		WHERE 1=1
+		<if test="resourceId!=null">
+			AND b.resource_id_=#{resourceId}
+		</if>
+		ORDER BY c.depth,c.parent_id_,c.sort
+	</select>
 </mapper>

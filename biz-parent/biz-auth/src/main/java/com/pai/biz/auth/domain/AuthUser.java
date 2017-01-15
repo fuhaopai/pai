@@ -1,5 +1,6 @@
 package com.pai.biz.auth.domain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +11,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.pai.base.api.service.IdGenerator;
-import com.pai.base.api.session.OnlineHolder;
 import com.pai.base.api.session.OnlineUserIdHolder;
 import com.pai.base.core.helper.PasswordHelper;
 import com.pai.base.core.helper.SpringHelper;
@@ -54,7 +54,7 @@ public class AuthUser extends AbstractDomain<String, AuthUserPo>{
 		if(StringUtils.isNotEmpty(authUserPo.getPassword())){
 			authUserPo.setPassword(PasswordHelper.getEncryptPassword(authUserPo.getName()+authUserPo.getPassword()));
 		}
-		List<String> roleIds = Arrays.asList(authUserPo.getRoleIds().split(";"));
+		ArrayList<String> roleIds = new ArrayList<String>(Arrays.asList(authUserPo.getRoleIds().split(";")));
 		if(StringUtils.isEmpty(authUserPo.getId())){
 			super.setData(authUserPo);
 			super.save();
@@ -69,7 +69,7 @@ public class AuthUser extends AbstractDomain<String, AuthUserPo>{
 					//排除保留的角色
 					roleIds.remove(authRoleUserPo.getRoleId());
 				}else{
-					//删除原来的多余角色
+					//删除原来的多余用户-角色关联
 					authRoleUserRepository.newInstance().destroy(authRoleUserPo.getId());
 				}
 			}
