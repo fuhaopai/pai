@@ -24,15 +24,9 @@
         $(function ()
         {
         	searchForm = $("#form1").ligerForm({
-				inputWidth : 180, labelWidth : 90, space : 50, rightToken :'',
+				inputWidth : 180, labelWidth : 50, space : 50, rightToken :'',
 				fields : [
-					{ display: '名称', name: 'Q__S__EQ__name', newline : true, align: 'left', width: 140 },
-					{ display: '描述', name: 'Q__S__EQ__descript', newline : false, align: 'left', width: 140 },
-					{ display: '状态', name: 'Q__S__EQ__status', newline : false, align: 'left', width: 140 },
-					{ display: '创建人', name: 'Q__S__EQ__createBy', newline : false, align: 'left', width: 140 },
-					{ display: '创建时间', name: 'Q__S__EQ__createTime', newline : true, align: 'left', width: 140 },
-					{ display: '修改人', name: 'Q__S__EQ__updateBy', newline : false, align: 'left', width: 140 },
-					{ display: '修改时间', name: 'Q__S__EQ__updateTime', newline : false, align: 'left', width: 140 },
+					{ display: '名称:', name: 'Q__S__LK__a__name', newline : true, align: 'left', width: 140 },
 					{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
 		          	{ display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", name: "searchButton", newline: false, width:0.01}
 				 ]
@@ -95,7 +89,7 @@
 			        if (!node.data.tabid) return;
 			        var menuId=node.data.tabid;
 			        menuId = menuId.substring(0,menuId.indexOf("TabId"));
-			       	grid.set('url', '${CtxPath}/admin/pai/auth/authRoleResources/findRoleByResourceId.do?resourceId=' + menuId);
+			       	grid.set('url', '${CtxPath}/admin/pai/auth/authRoleResources/findRoleByResourceId.do?Q__S__EQ__resource_id_=' + menuId);
 			    }
 			});
 			var layout  = $("#layout").ligerLayout({ leftWidth: 200, heightDiff: -3,minLeftWidth: 120,});
@@ -132,10 +126,8 @@
 				<ul id="maintree"></ul>
 			</div>
 			<div position="center" title="角色资源列表">
-				<form id="mainform">
 					<form id="form1"></form>
 					<div id="maingrid"  style="margin:0px;"></div>
-				</form>
 			</div>
 	</div>
 	/* <div class="l-loading" style="display:block" id="pageloading"></div>

@@ -21,6 +21,7 @@
 	                        slide: false,
 	                        selectBoxWidth: 400,
 	                        selectBoxHeight: 290,
+	                        condition: { fields: [{ name: 'name', label: '角色名称', op : 'like', vt : 'string', width: 150, type: 'text' }] },
 	                        grid: roleGridOptions(false),
 	                        hideGridOnLoseFocus: true
 						} 

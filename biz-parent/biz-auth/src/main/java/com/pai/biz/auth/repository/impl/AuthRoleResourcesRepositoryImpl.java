@@ -1,6 +1,7 @@
 package com.pai.biz.auth.repository.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -51,8 +52,8 @@ public class AuthRoleResourcesRepositoryImpl extends AbstractRepository<String, 
 	}
 
 	@Override
-	public List<AuthRoleResourcesPo> findRoleByResourceId(String resourceId, Page page) {
-		return authRoleResourcesQueryDao.findByKey("findRoleByResourceId", b().a("resourceId", resourceId).p(), page);
+	public List<AuthRoleResourcesPo> findRoleByResourceId(Map<String, Object> params, Page page) {
+		return authRoleResourcesQueryDao.findByKey("findRoleByResourceId", params, page);
 	}
 	
 }

@@ -75,11 +75,9 @@ public class ${class}Controller extends AdminController<String, ${class}Po, ${cl
 		QueryBuilder queryBuilder = new QueryBuilder(request);
 		Page page = PageUtil.buildPage(request);
 		//查询${model.tabComment}列表
-		List<${class}Po> ${classVar}PoList = getRepository().findPaged(queryBuilder.buildMap(),page);
-		//查询总数
-		Integer totalRecords = getRepository().count(queryBuilder.buildWhereSqlMap());
+		PageList<${class}Po> ${classVar}PoList = (PageList<AuthRoleResourcesPo>) getRepository().findPaged(queryBuilder.buildMap(),page);
 		//构造返回数据
-		String listData = buildListData(${classVar}PoList,totalRecords);
+		String listData = buildListData(${classVar}PoList,${classVar}PoList.getPageResult().getTotalCount());
 		
 		return listData;
 	}

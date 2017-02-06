@@ -84,11 +84,13 @@ public class AuthRoleResourcesController extends AdminController<String, AuthRol
 	 */
 	@RequestMapping("findRoleByResourceId")	
 	@ResponseBody
-	public String findRoleByResourceId(HttpServletRequest request,HttpServletResponse response,String resourceId) throws Exception{
+	public String findRoleByResourceId(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		//构造分页对象
+		QueryBuilder queryBuilder = new QueryBuilder(request);
 		//构造分页对象
 		Page page = PageUtil.buildPage(request);
 		//查询角色列表 
-		PageList<AuthRoleResourcesPo> authRolePoList = (PageList<AuthRoleResourcesPo>)authRoleResourcesRepository.findRoleByResourceId(resourceId, page);
+		PageList<AuthRoleResourcesPo> authRolePoList = (PageList<AuthRoleResourcesPo>)authRoleResourcesRepository.findRoleByResourceId(queryBuilder.buildMap(), page);
 		//构造返回数据
 		String listData = buildListData(authRolePoList,authRolePoList.getPageResult().getTotalCount());
 		

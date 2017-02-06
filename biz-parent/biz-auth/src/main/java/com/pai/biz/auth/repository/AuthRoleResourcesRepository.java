@@ -1,6 +1,7 @@
 package com.pai.biz.auth.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pai.base.api.model.Page;
 import com.pai.biz.auth.domain.AuthRoleResources;
@@ -16,6 +17,6 @@ public interface AuthRoleResourcesRepository extends IRepository<String, AuthRol
 
 	List<AuthRoleResourcesPo> findRoleResourcesByRoleId(String roleId);
 
-	List<AuthRoleResourcesPo> findRoleByResourceId(String resourceId, Page page);
+	List<AuthRoleResourcesPo> findRoleByResourceId(Map<String, Object> params, Page page);
 	 
 }
