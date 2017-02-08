@@ -9,8 +9,6 @@ public interface IJobDefPo {
 	
 	public String getMethod();
 	
-	public boolean isClassName();
-	
 	public String getGroup();
 	
 	public String getType();

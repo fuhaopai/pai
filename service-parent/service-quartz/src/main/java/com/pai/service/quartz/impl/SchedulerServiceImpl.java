@@ -32,7 +32,6 @@ import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.date.DateConverter;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.service.quartz.BaseJob;
-import com.pai.service.quartz.ExecuteJob;
 import com.pai.service.quartz.JobPersistenceSupport;
 import com.pai.service.quartz.SchedulerService;
 import com.pai.service.quartz.constants.JobConstants;
@@ -73,22 +72,15 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 				isStart = startPlan(jobDefPo.getId(),jobDefPo.getBean(),jobDefPo.getGroup());
 				if(!isStart){
 					List<IJobParamPo> jobParamPos = jobPersistenceSupport.findParams(jobDefPo.getId());
-					JobDetail jobDetail = getJobDetail(getKey(jobDefPo), jobDefPo.getGroup());
+					JobDetail jobDetail = null;
 		
-					BaseJob jobBean = null;
-					if(jobDefPo.isClassName()){
-						if(jobDetail==null){
-							ExecuteJob executeJob = SpringHelper.getBean(ExecuteJob.class);
-							jobDetail = newJob(executeJob.getClass()).withIdentity(getKey(jobDefPo), jobDefPo.getGroup()).storeDurably(false).build();
-							prepare(jobDetail, jobDefPo, jobParamPos);
-						}
+					BaseJob jobBean = (BaseJob) SpringHelper.getBean(jobDefPo.getBean());	
+					if(jobBean!=null){
+						jobDetail = newJob(jobBean.getClass()).withIdentity(getKey(jobDefPo), jobDefPo.getGroup()).storeDurably(false).build();
 					}else{
-						jobBean = (BaseJob) SpringHelper.getBean(jobDefPo.getBean());	
-						if(jobBean!=null){
-							jobDetail = newJob(jobBean.getClass()).withIdentity(getKey(jobDefPo), jobDefPo.getGroup()).storeDurably(false).build();
-						}
-					}						
-					
+						return false;
+					}
+					//构造参数，取jobParamPos表的key,value属性值存入map中
 					Map<String, Object> dataMap = buildDataMap(jobParamPos);
 					jobDetail.getJobDataMap().putAll(dataMap);
 					CronTrigger	trigger = buildCronTrigger(getKey(jobDefPo),jobDefPo.getGroup(),jobDefPo.getExpr());
