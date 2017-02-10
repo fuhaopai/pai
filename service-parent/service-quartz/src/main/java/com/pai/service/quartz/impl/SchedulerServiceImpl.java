@@ -36,8 +36,8 @@ import com.pai.service.quartz.JobPersistenceSupport;
 import com.pai.service.quartz.SchedulerService;
 import com.pai.service.quartz.constants.JobConstants;
 import com.pai.service.quartz.constants.JobConstants.EXECUTE;
-import com.pai.service.quartz.entity.IJobDefPo;
-import com.pai.service.quartz.entity.IJobParamPo;
+import com.pai.service.quartz.entity.IJobTaskPo;
+import com.pai.service.quartz.entity.IJobTaskParamPo;
 import com.pai.service.quartz.util.CronUtil;
 
 @Service
@@ -54,54 +54,54 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 		scheduler.start();
 	}
 
-	public boolean startJob(String jobDefId) {
+	public boolean startJob(String jobTaskId) {
 		boolean result = false;
 		jobPersistenceSupport = SpringHelper.getBean(JobPersistenceSupport.class);		
 		if(jobPersistenceSupport!=null){
-			IJobDefPo jobDefPo = jobPersistenceSupport.getJobDefPo(jobDefId);
+			IJobTaskPo jobDefPo = jobPersistenceSupport.getJobTaskPo(jobTaskId);
 			result = startJob(jobDefPo);
 		}
 		return result;
 	}
 	private final static String LOCK = "lock";
-	public boolean startJob(IJobDefPo jobDefPo) {
+	public boolean startJob(IJobTaskPo jobTaskPo) {
 		boolean isStart = false;
-		if(jobDefPo!=null && StringUtils.isNotEmpty(jobDefPo.getBean()) && CronUtil.check(jobDefPo.getExpr())){
-			synchronized (StringUtils.isEmpty(jobDefPo.getId())?LOCK:jobDefPo.getId()) {							
-				logger.info("Enter start Job method，name="+jobDefPo.getName());
-				isStart = startPlan(jobDefPo.getId(),jobDefPo.getBean(),jobDefPo.getGroup());
+		if(jobTaskPo!=null && StringUtils.isNotEmpty(jobTaskPo.getBean()) && CronUtil.check(jobTaskPo.getExpression())){
+			synchronized (StringUtils.isEmpty(jobTaskPo.getId())?LOCK:jobTaskPo.getId()) {							
+				logger.info("Enter start Job method，name="+jobTaskPo.getName());
+				isStart = startPlan(jobTaskPo.getId(),jobTaskPo.getBean(),jobTaskPo.getGroupName());
 				if(!isStart){
-					List<IJobParamPo> jobParamPos = jobPersistenceSupport.findParams(jobDefPo.getId());
+					List<IJobTaskParamPo> jobTaskParamPos = jobPersistenceSupport.findTaskParams(jobTaskPo.getId());
 					JobDetail jobDetail = null;
 		
-					BaseJob jobBean = (BaseJob) SpringHelper.getBean(jobDefPo.getBean());	
+					BaseJob jobBean = (BaseJob) SpringHelper.getBean(jobTaskPo.getBean());	
 					if(jobBean!=null){
-						jobDetail = newJob(jobBean.getClass()).withIdentity(getKey(jobDefPo), jobDefPo.getGroup()).storeDurably(false).build();
+						jobDetail = newJob(jobBean.getClass()).withIdentity(getKey(jobTaskPo), jobTaskPo.getGroupName()).storeDurably(false).build();
 					}else{
 						return false;
 					}
 					//构造参数，取jobParamPos表的key,value属性值存入map中
-					Map<String, Object> dataMap = buildDataMap(jobParamPos);
+					Map<String, Object> dataMap = buildDataMap(jobTaskParamPos);
 					jobDetail.getJobDataMap().putAll(dataMap);
-					CronTrigger	trigger = buildCronTrigger(getKey(jobDefPo),jobDefPo.getGroup(),jobDefPo.getExpr());
+					CronTrigger	trigger = buildCronTrigger(getKey(jobTaskPo),jobTaskPo.getGroupName(),jobTaskPo.getExpression());
 					try {
-						isStart = startPlan(jobDefPo.getId(),jobDefPo.getBean(),jobDefPo.getGroup());
+						isStart = startPlan(jobTaskPo.getId(),jobTaskPo.getBean(),jobTaskPo.getGroupName());
 						if(!isStart){				
-							deleteJob(getKey(jobDefPo), jobDefPo.getGroup());
+							deleteJob(getKey(jobTaskPo), jobTaskPo.getGroupName());
 							scheduler.scheduleJob(jobDetail,trigger);
-							logger.info("Start Job Success:"+jobDefPo.getName());
+							logger.info("Start Job Success:"+jobTaskPo.getName());
 						}
 						return true;
 					} catch (SchedulerException e) {			
 						e.printStackTrace();
-						logger.error("Start Job Error:"+jobDefPo.getName() + " " +e.getMessage());
+						logger.error("Start Job Error:"+jobTaskPo.getName() + " " +e.getMessage());
 						return false;
 					}
 				}else {
-					if(!CronUtil.check(jobDefPo.getExpr())){
-						logger.info("Job Expr Error! :"+jobDefPo.getExpr());
+					if(!CronUtil.check(jobTaskPo.getExpression())){
+						logger.info("Job Expr Error! :"+jobTaskPo.getExpression());
 					}else {
-						logger.info("Job has run:"+jobDefPo.getName());	
+						logger.info("Job has run:"+jobTaskPo.getName());	
 					}				
 				}
 			}
@@ -110,21 +110,21 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 	}
 
 	@Override
-	public boolean startJob(String bean, String group, String expr,
-			List<IJobParamPo> jobParamPos) {
-		logger.info("startJob bean="+bean + ";group="+group+";expr="+expr+";jobParamPos="+jobParamPos);
-		if(!CronUtil.check(expr)){
-			logger.warn("expr error!!! : " + expr);
+	public boolean startJob(String bean, String groupName, String expression,
+			List<IJobTaskParamPo> iJobTaskParamPos) {
+		logger.info("startJob bean="+bean + ";group="+groupName+";expr="+expression+";jobParamPos="+iJobTaskParamPos);
+		if(!CronUtil.check(expression)){
+			logger.warn("expr error!!! : " + expression);
 			return false;
 		}
 		BaseJob jobBean = (BaseJob) SpringHelper.getBean(bean);
-		JobDetail job = getJobDetail(bean, group);
+		JobDetail job = getJobDetail(bean, groupName);
 		if(job==null){
-			job = newJob(jobBean.getClass()).withIdentity(bean + "_" + UUID.randomUUID(), group).storeDurably(false).build();
+			job = newJob(jobBean.getClass()).withIdentity(bean + "_" + UUID.randomUUID(), groupName).storeDurably(false).build();
 		}		
-		Map<String, Object> dataMap = buildDataMap(jobParamPos);
+		Map<String, Object> dataMap = buildDataMap(iJobTaskParamPos);
 		job.getJobDataMap().putAll(dataMap);
-		CronTrigger	trigger = buildCronTrigger(UUID.randomUUID().toString(),group,expr);
+		CronTrigger	trigger = buildCronTrigger(UUID.randomUUID().toString(),groupName,expression);
 		try {
 			scheduler.scheduleJob(job,trigger);
 			return true;
@@ -136,16 +136,16 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 	}
 
 	@Override
-	public boolean startOneTime(String jobDefId,String beanId,String group,List<IJobParamPo> jobParamPos) {
-		logger.info("Enter startOneTime method，beanId="+beanId+"; group="+group);
-		JobDetail job = getJobDetail(beanId + "_" + UUID.randomUUID(), group);
+	public boolean startOneTime(String jobTaskId,String beanId,String groupName,List<IJobTaskParamPo> iJobTaskParamPos) {
+		logger.info("Enter startOneTime method，beanId="+beanId+"; group="+groupName);
+		JobDetail job = getJobDetail(beanId + "_" + UUID.randomUUID(), groupName);
 		boolean jobExist = true;
 		if(job==null){
 			jobExist = false;
-			job = buildJobDetail(jobDefId,beanId, group, null,false);
+			job = buildJobDetail(jobTaskId,beanId, groupName, null,false);
 		}
-		if(job!=null && jobParamPos!=null && jobParamPos.size()>0){
-			Map<String, Object> dataMap = buildDataMap(jobParamPos);
+		if(job!=null && iJobTaskParamPos!=null && iJobTaskParamPos.size()>0){
+			Map<String, Object> dataMap = buildDataMap(iJobTaskParamPos);
 			job.getJobDataMap().putAll(dataMap);
 		}
 		try {		
@@ -165,8 +165,8 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 	}
 
 	@Override
-	public boolean shutdownPlan(String planId,String bean, String group) {
-		TriggerKey triggerKey = new TriggerKey(getKey(bean,planId),group);
+	public boolean shutdownPlan(String planId,String bean, String groupName) {
+		TriggerKey triggerKey = new TriggerKey(getKey(bean,planId),groupName);
 		try {
 			boolean isStop = false;
 			Trigger.TriggerState state= scheduler.getTriggerState(triggerKey);
@@ -176,7 +176,7 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 				isStop = true;
 			}	
 			if(!isStop){
-				deleteJob(getKey(bean, planId), group);
+				deleteJob(getKey(bean, planId), groupName);
 			}
 			return true;
 		} catch (Exception e) {
@@ -185,18 +185,17 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 		return false;
 	}
 	
-	private void deleteJob(String key, String group){
-		JobKey jobKey = new JobKey(key, group);
+	private void deleteJob(String key, String groupName){
+		JobKey jobKey = new JobKey(key, groupName);
 		try {
 			scheduler.deleteJob(jobKey);
 		} catch (SchedulerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public boolean startPlan(String planId, String bean,String group){
-		TriggerKey triggerKey = new TriggerKey(getKey(bean,planId),group);
+	public boolean startPlan(String planId, String bean,String groupName){
+		TriggerKey triggerKey = new TriggerKey(getKey(bean,planId),groupName);
 		try {
 			Trigger.TriggerState state= scheduler.getTriggerState(triggerKey);
 			if(state!=null){
@@ -204,7 +203,7 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 					scheduler.resumeTrigger(triggerKey);
 					return true;
 				}else if(state==TriggerState.NONE || state==TriggerState.COMPLETE || state==TriggerState.ERROR){
-					JobKey jobKey = new JobKey(getKey(bean, planId), group);
+					JobKey jobKey = new JobKey(getKey(bean, planId), groupName);
 					scheduler.deleteJob(jobKey);					
 				}
 			}		
@@ -216,8 +215,8 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 	}
 
 	@Override
-	public TriggerState getTriggerState(String planId,String bean, String group) {
-		TriggerKey triggerKey = new TriggerKey(getKey(bean,planId),group);
+	public TriggerState getTriggerState(String planId,String bean, String groupName) {
+		TriggerKey triggerKey = new TriggerKey(getKey(bean,planId),groupName);
 		try {
 			Trigger.TriggerState state= scheduler.getTriggerState(triggerKey);
 			return state;	
@@ -262,8 +261,8 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 		}
 	}
 	
-	private JobDetail getJobDetail(String beanId,String group){
-		JobKey jobKey = new JobKey(beanId, group);
+	private JobDetail getJobDetail(String beanId,String groupName){
+		JobKey jobKey = new JobKey(beanId, groupName);
 		try {
 			JobDetail jobDetail = scheduler.getJobDetail(jobKey);
 			if(jobDetail!=null){
@@ -284,98 +283,50 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 		return trigger;
 	}	
 	
-	private CronTrigger buildCronTrigger(String planId,String group,String expr){
-		CronTrigger	trigger = TriggerBuilder.newTrigger().withIdentity(planId, group)  
-                .withSchedule(CronScheduleBuilder.cronSchedule(expr)).build();
+	private CronTrigger buildCronTrigger(String planId,String groupName,String expression){
+		CronTrigger	trigger = TriggerBuilder.newTrigger().withIdentity(planId, groupName)  
+                .withSchedule(CronScheduleBuilder.cronSchedule(expression)).build();
 		return trigger;
 	}
 	
-	private JobDetail buildJobDetail(String jobDefId,String beanId,String group,List<IJobParamPo> jobParamPos,boolean isDurable){
+	private JobDetail buildJobDetail(String jobParamId,String beanId,String groupName,List<IJobTaskParamPo> jobTaskParamPos,boolean isDurable){
 		BaseJob jobBean = (BaseJob) SpringHelper.getBean(beanId);
-		JobDetail jobDetail = newJob(jobBean.getClass()).withIdentity(getKey(beanId, jobDefId), group).storeDurably(isDurable).build();
-		if(jobParamPos!=null && jobParamPos.size()>0){
-			jobDetail.getJobDataMap().putAll(buildDataMap(jobParamPos));
+		JobDetail jobDetail = newJob(jobBean.getClass()).withIdentity(getKey(beanId, jobParamId), groupName).storeDurably(isDurable).build();
+		if(jobTaskParamPos!=null && jobTaskParamPos.size()>0){
+			jobDetail.getJobDataMap().putAll(buildDataMap(jobTaskParamPos));
 		}
 		return jobDetail;
 	}
 	
-	private Map<String, Object> buildDataMap(List<IJobParamPo> jobParamPos){		
+	private Map<String, Object> buildDataMap(List<IJobTaskParamPo> iJobTaskParamPos){		
 		Map<String, Object> dataMap = new HashMap<String, Object>();
-		if(jobParamPos==null){
+		if(iJobTaskParamPos==null){
 			return dataMap;
 		}
-		for(IJobParamPo jobParamPo:jobParamPos){
-			if(JobConstants.DATA_TYPE.INT.equals(jobParamPo.getType())){
-				dataMap.put(jobParamPo.getKey(), Integer.parseInt(jobParamPo.getValue()));
-			}else if(JobConstants.DATA_TYPE.LONG.equals(jobParamPo.getType())){
-				dataMap.put(jobParamPo.getKey(), Long.parseLong(jobParamPo.getValue()));
-			}else if(JobConstants.DATA_TYPE.DOUBLE.equals(jobParamPo.getType())){
-				dataMap.put(jobParamPo.getKey(), Double.parseDouble(jobParamPo.getValue()));
-			}else if(JobConstants.DATA_TYPE.DATE.equals(jobParamPo.getType())){
+		for(IJobTaskParamPo iJobTaskParamPo:iJobTaskParamPos){
+			if(JobConstants.DATA_TYPE.INT.equals(iJobTaskParamPo.getValueType())){
+				dataMap.put(iJobTaskParamPo.getParamKey(), Integer.parseInt(iJobTaskParamPo.getParamValue()));
+			}else if(JobConstants.DATA_TYPE.LONG.equals(iJobTaskParamPo.getValueType())){
+				dataMap.put(iJobTaskParamPo.getParamKey(), Long.parseLong(iJobTaskParamPo.getParamValue()));
+			}else if(JobConstants.DATA_TYPE.DOUBLE.equals(iJobTaskParamPo.getValueType())){
+				dataMap.put(iJobTaskParamPo.getParamKey(), Double.parseDouble(iJobTaskParamPo.getParamValue()));
+			}else if(JobConstants.DATA_TYPE.DATE.equals(iJobTaskParamPo.getValueType())){
 				try {
-					dataMap.put(jobParamPo.getKey(), DateConverter.toDate(jobParamPo.getValue()));
+					dataMap.put(iJobTaskParamPo.getParamKey(), DateConverter.toDate(iJobTaskParamPo.getParamValue()));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 			}else{
-				dataMap.put(jobParamPo.getKey(), jobParamPo.getValue());
+				dataMap.put(iJobTaskParamPo.getParamKey(), iJobTaskParamPo.getParamValue());
 			}
 		}
 		return dataMap;
 	}
-	private List<Object> buildParams(List<IJobParamPo> jobParamPos){
-		List<Object> params = new ArrayList<Object>();
-		for(IJobParamPo jobParamPo:jobParamPos){
-			if(JobConstants.DATA_TYPE.INT.equals(jobParamPo.getType())){
-				params.add(Integer.parseInt(jobParamPo.getValue()));
-			}else if(JobConstants.DATA_TYPE.LONG.equals(jobParamPo.getType())){
-				params.add(Long.parseLong(jobParamPo.getValue()));
-			}else if(JobConstants.DATA_TYPE.DOUBLE.equals(jobParamPo.getType())){
-				params.add(Double.parseDouble(jobParamPo.getValue()));
-			}else if(JobConstants.DATA_TYPE.DATE.equals(jobParamPo.getType())){
-				try {
-					params.add(DateConverter.toDate(jobParamPo.getValue()));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}				
-			}else{
-				params.add(jobParamPo.getValue());
-			}
-		}
-		return params;
-	}
-	private List<Class> buildParamTypes(List<IJobParamPo> jobParamPos){
-		List<Class> paramTypes = new ArrayList<Class>();
-		for(IJobParamPo jobParamPo:jobParamPos){
-			if(JobConstants.DATA_TYPE.INT.equals(jobParamPo.getType())){
-				paramTypes.add(Integer.class);
-			}else if(JobConstants.DATA_TYPE.LONG.equals(jobParamPo.getType())){
-				paramTypes.add(Long.class);
-			}else if(JobConstants.DATA_TYPE.DOUBLE.equals(jobParamPo.getType())){
-				paramTypes.add(Double.class);
-			}else if(JobConstants.DATA_TYPE.DATE.equals(jobParamPo.getType())){
-				paramTypes.add(Date.class);				
-			}else{
-				paramTypes.add(String.class);
-			}
-		}
-		return paramTypes;
-	}
 	
-	private void prepare(JobDetail jobDetail,IJobDefPo jobDefPo,List<IJobParamPo> jobParamPos){
-		jobDetail.getJobDataMap().put(EXECUTE.TASK_NAME, jobDefPo.getName());
-		jobDetail.getJobDataMap().put(EXECUTE.METHOD_NAME, jobDefPo.getMethod());
-		jobDetail.getJobDataMap().put(EXECUTE.CLASS_NAME, jobDefPo.getBean());
-		if(jobParamPos!=null && jobParamPos.size()>0){
-			jobDetail.getJobDataMap().put(EXECUTE.PARAM_TYPES, buildParamTypes(jobParamPos));
-			jobDetail.getJobDataMap().put(EXECUTE.PARAMS, buildParams(jobParamPos));
-		}
-	}	
-	
-	private String getKey(IJobDefPo jobDefPo){
-		return jobDefPo.getBean() + "_" + jobDefPo.getId();
+	private String getKey(IJobTaskPo jobTaskPo){
+		return jobTaskPo.getBean() + "_" + jobTaskPo.getId();
 	}
-	private String getKey(String bean,String jobDefId){
-		return bean + "_" + jobDefId;
+	private String getKey(String bean,String jobTaskId){
+		return bean + "_" + jobTaskId;
 	}
 }

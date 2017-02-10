@@ -32,10 +32,10 @@ public class AuthResourcesPo extends AuthResourcesTbl implements TreeType<AuthRe
 	}
 	
 	//对字段type枚举判断，菜单用于查询显示，按钮用于权限拦截
-	public static enum ResourceType{
+	public static enum ResourceTypeEnum{
 		MENU(1), //菜单
 		BUTTON(2); //按钮
-		private ResourceType(Integer type){
+		private ResourceTypeEnum(Integer type){
 			this.type = type;
 		}
 		private Integer type;

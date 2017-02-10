@@ -37,6 +37,10 @@
 		<groupId>com.pai.biz</groupId>
 		<artifactId>biz-auth</artifactId>				
 	</dependency>	
+	<dependency>
+		<groupId>com.pai.biz</groupId>
+		<artifactId>biz-common</artifactId>				
+	</dependency>	
  	<dependency>
 		<groupId>com.mangofactory</groupId>
 		<artifactId>swagger-springmvc</artifactId>

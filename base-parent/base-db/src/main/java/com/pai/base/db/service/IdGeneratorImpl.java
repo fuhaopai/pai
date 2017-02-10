@@ -55,7 +55,7 @@ public class IdGeneratorImpl implements IdGenerator,InitializingBean{
 				        	String updateSql = "UPDATE pai_common_id SET max_num=max_num+incr_num, update_time='"+DateConverter.toString(new Date())+"' WHERE id_=? AND name=?";
 					        jdbcTemplate.update(updateSql, machineId, machineName);
 					        String querySql = "select max_num from pai_common_id where id_ ="+machineId+" and name='"+ machineName+ "'";
-					        idString = jdbcTemplate.queryForObject(querySql, new RowMapper() {
+					        idString = (String) jdbcTemplate.queryForObject(querySql, new RowMapper<Object>() {
 				                public Object mapRow(ResultSet rs, int i) throws SQLException {
 				                	return rs.getString("max_num");
 				                }
@@ -70,7 +70,7 @@ public class IdGeneratorImpl implements IdGenerator,InitializingBean{
 			        	String updateSql = "UPDATE pai_common_id SET max_num=max_num+incr_num, update_time='"+DateConverter.toString(new Date())+"' WHERE id_=? AND name=?";
 				        jdbcTemplate.update(updateSql, machineId, machineName);
 				        String querySql = "select max_num from pai_common_id where id_ ="+machineId+" and name='"+ machineName+ "'";
-				        idString = jdbcTemplate.queryForObject(querySql, new RowMapper() {
+				        idString = (String) jdbcTemplate.queryForObject(querySql, new RowMapper<Object>() {
 			                public Object mapRow(ResultSet rs, int i) throws SQLException {
 			                	return rs.getString("max_num");
 			                }

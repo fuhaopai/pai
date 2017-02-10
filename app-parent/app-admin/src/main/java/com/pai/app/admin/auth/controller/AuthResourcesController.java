@@ -100,7 +100,7 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		JSONStringer stringer = new JSONStringer();
 		stringer.array();
 		for(AuthResourcesPo authResourcesPo : authResourcesPoList){
-			append(request, stringer, authResourcesPo, AuthResourcesPo.ResourceType.MENU.getType());
+			append(request, stringer, authResourcesPo, AuthResourcesPo.ResourceTypeEnum.MENU.getType());
 		}
 		stringer.endArray();				
 		return stringer.toString();
@@ -126,7 +126,7 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 		JSONStringer stringer = new JSONStringer();
 		stringer.array();
 		for(AuthResourcesPo authResourcesPo : authResourcesPoList){
-			append(request, stringer, authResourcesPo, AuthResourcesPo.ResourceType.BUTTON.getType());
+			append(request, stringer, authResourcesPo, AuthResourcesPo.ResourceTypeEnum.BUTTON.getType());
 		}
 		stringer.endArray();				
 		return stringer.toString();
@@ -134,14 +134,14 @@ public class AuthResourcesController extends AdminController<String, AuthResourc
 	
 	private void append(HttpServletRequest request, JSONStringer stringer, AuthResourcesPo authResourcesPo, Integer type) {
 		//后台主页面左侧菜单
-		if(type == AuthResourcesPo.ResourceType.BUTTON.getType()){
+		if(type == AuthResourcesPo.ResourceTypeEnum.BUTTON.getType()){
 			if(StringUtils.isEmpty(authResourcesPo.getUrl()))
 				appendMenu(request, stringer, authResourcesPo, type);
 			else 
 				appendItem(request, stringer, authResourcesPo);
 		}else{
 			//给角色分配资源权限tree列表
-			if(authResourcesPo.getType() == AuthResourcesPo.ResourceType.MENU.getType())
+			if(authResourcesPo.getType() == AuthResourcesPo.ResourceTypeEnum.MENU.getType())
 				appendMenu(request, stringer, authResourcesPo, type);
 			else 
 				appendItem(request, stringer, authResourcesPo);

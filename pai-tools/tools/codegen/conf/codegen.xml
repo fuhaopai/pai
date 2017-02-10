@@ -42,6 +42,7 @@
 
 	<dbDirs><!-- 对应table配置的module -->
 		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
 	</dbDirs> 
 
 	<daoFiles>											
@@ -56,6 +57,7 @@
 
 	<daoDirs><!-- 对应table配置的module -->
 		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
 	</daoDirs> 
 
 	<domainFiles>											
@@ -67,6 +69,7 @@
   
 	<domainDirs><!-- 对应table配置的module -->
 		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
 	</domainDirs>  
   
 	<controllerFiles>																					
@@ -76,6 +79,7 @@
 	
 	<controllerDirs>
 		<dir key="auth" value="app-parent\app-admin"/>
+		<dir key="common" value="app-parent\app-admin"/>
 	</controllerDirs>
 	
 	<viewFiles>																					
@@ -86,6 +90,7 @@
 	
 	<viewDirs>
 		<dir key="auth" value="app-parent\app-admin"/>
+		<dir key="common" value="app-parent\app-admin"/>
 	</viewDirs>
 	
 	<apiBaseFiles>																							
@@ -96,6 +101,7 @@
 	
 	<apiBaseDirs>
 		<dir key="auth" value="app-parent\app-web"/>
+		<dir key="common" value="app-parent\app-web"/>
 	</apiBaseDirs>	
 	
 	<apiFiles>																					
@@ -106,6 +112,7 @@
 
 	<apiDirs>
 		<dir key="auth" value="app-parent\app-api"/>
+		<dir key="common" value="app-parent\app-api"/>
 	</apiDirs>
 
 	<variables>
@@ -113,16 +120,16 @@
 		<variable name="company" value="π" />
 		<!--keys值必须小写，且用,隔开-->
 		<variable name="keys" value="db,dao,domain,controller,view,apiBase,api"/>
-		<variable name="workspace" value="d:\github\pai\" />
+		<variable name="workspace" value="E:\github\pai\" />
 	</variables>
         <!--可以有多个<table>标签-->
-	<table tableName="pai_auth_role" >
+	<table tableName="pai_job_task" >
 		<variable name="sys" value="pai" />
-		<variable name="module" value="auth" />
-		<variable name="class" value="AuthRole" />		
-		<variable name="baseClass" value="AuthRole" />
+		<variable name="module" value="common" />
+		<variable name="class" value="JobTask" />		
+		<variable name="baseClass" value="JobTask" />
 		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
-		<variable name="doType" value="controller,view" />
+		<variable name="doType" value="db" />
 		 <!--
 		<subtable tablename="pai_auth_resources"  foreignKey="report_id_">
 			<variable name="sys" value="pai" />

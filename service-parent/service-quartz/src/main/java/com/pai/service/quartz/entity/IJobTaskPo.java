@@ -1,6 +1,6 @@
 package com.pai.service.quartz.entity;
 
-public interface IJobDefPo {
+public interface IJobTaskPo {
 	public String getId();
 	
 	public String getName();
@@ -9,9 +9,9 @@ public interface IJobDefPo {
 	
 	public String getMethod();
 	
-	public String getGroup();
+	public String getGroupName();
 	
 	public String getType();
 	
-	public String getExpr();
+	public String getExpression();
 }

@@ -27,6 +27,7 @@ import com.pai.app.web.core.framework.web.controller.AdminController;
 import com.pai.app.web.core.framework.web.entity.QueryBuilder;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.service.image.utils.RequestUtil;
+import com.pai.base.db.mybatis.impl.domain.PageList;
 import com.${sys}.biz.${module}.domain.${class};
 import com.${sys}.biz.${module}.repository.${class}Repository;
 import com.${sys}.biz.${module}.persistence.entity.${class}Po;
@@ -75,7 +76,7 @@ public class ${class}Controller extends AdminController<String, ${class}Po, ${cl
 		QueryBuilder queryBuilder = new QueryBuilder(request);
 		Page page = PageUtil.buildPage(request);
 		//查询${model.tabComment}列表
-		PageList<${class}Po> ${classVar}PoList = (PageList<AuthRoleResourcesPo>) getRepository().findPaged(queryBuilder.buildMap(),page);
+		PageList<${class}Po> ${classVar}PoList = (PageList<${class}Po>) getRepository().findPaged(queryBuilder.buildMap(),page);
 		//构造返回数据
 		String listData = buildListData(${classVar}PoList,${classVar}PoList.getPageResult().getTotalCount());
 		

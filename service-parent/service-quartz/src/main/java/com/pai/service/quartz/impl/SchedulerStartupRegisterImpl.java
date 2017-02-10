@@ -10,7 +10,7 @@ import com.pai.base.core.util.string.StringUtils;
 import com.pai.service.quartz.JobPersistenceSupport;
 import com.pai.service.quartz.SchedulerService;
 import com.pai.service.quartz.SchedulerStartupRegister;
-import com.pai.service.quartz.entity.IJobDefPo;
+import com.pai.service.quartz.entity.IJobTaskPo;
 import com.pai.service.quartz.util.CronUtil;
 
 public class SchedulerStartupRegisterImpl implements SchedulerStartupRegister{
@@ -24,16 +24,16 @@ public class SchedulerStartupRegisterImpl implements SchedulerStartupRegister{
 		
 		int registerJobCount = 0;
 		if(schedulerService!=null && jobPersistenceSupport!=null){		
-			List<IJobDefPo> jobDefPos = jobPersistenceSupport.findActivedJobDefPos(group);
-			if(jobDefPos!=null){
-				for(IJobDefPo jobDefPo:jobDefPos){
-					if(StringUtils.isNotEmpty(jobDefPo.getExpr())){
-						if(CronUtil.check(jobDefPo.getExpr())){
-							schedulerService.startJob(jobDefPo);
-							logger.info("#### register "+ jobDefPo.getName());
+			List<IJobTaskPo> iJobTaskPos = jobPersistenceSupport.findActivedJobTaskPos(group);
+			if(iJobTaskPos!=null){
+				for(IJobTaskPo iJobTaskPo:iJobTaskPos){
+					if(StringUtils.isNotEmpty(iJobTaskPo.getExpression())){
+						if(CronUtil.check(iJobTaskPo.getExpression())){
+							schedulerService.startJob(iJobTaskPo);
+							logger.info("#### register "+ iJobTaskPo.getName());
 							registerJobCount++;	
 						}else {
-							logger.warn("$$$$ error expr + " + jobDefPo.getExpr());
+							logger.warn("$$$$ error expr + " + iJobTaskPo.getExpression());
 						}
 					}
 				}

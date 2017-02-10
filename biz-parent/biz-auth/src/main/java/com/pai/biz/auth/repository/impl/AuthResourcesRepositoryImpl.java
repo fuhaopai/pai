@@ -47,7 +47,7 @@ public class AuthResourcesRepositoryImpl extends AbstractRepository<String, Auth
 	//查询菜单资源，用于后台主页树菜单操作
 	@Override
 	public List<AuthResourcesPo> listResourcesByUserId(String userId) {
-		return listToTree(listResourcesByUserId(userId, AuthResourcesPo.ResourceType.MENU.getType()));
+		return listToTree(listResourcesByUserId(userId, AuthResourcesPo.ResourceTypeEnum.MENU.getType()));
 	}
 	
 	//查询所有url用于权限过滤

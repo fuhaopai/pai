@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.quartz.Trigger.TriggerState;
 
-import com.pai.service.quartz.entity.IJobDefPo;
-import com.pai.service.quartz.entity.IJobParamPo;
+import com.pai.service.quartz.entity.IJobTaskPo;
+import com.pai.service.quartz.entity.IJobTaskParamPo;
 
 /**
  * <pre> 
@@ -20,7 +20,7 @@ public interface SchedulerService {
 
 	public boolean startJob(String jobDefId);
 	
-	public boolean startJob(IJobDefPo jobDefPo);
+	public boolean startJob(IJobTaskPo jobDefPo);
 	/**
 	 * 启动非持久化的任务
 	 * @param beanId 任务的Spring Bean Id
@@ -32,7 +32,7 @@ public interface SchedulerService {
 	 * @exception 
 	 * @since  1.0.0
 	 */
-	public boolean startJob(String beanId,String group,String expr,List<IJobParamPo> jobParamPos);
+	public boolean startJob(String beanId,String group,String expr,List<IJobTaskParamPo> jobParamPos);
 	
 	/**
 	 * 启动任务一次。
@@ -44,7 +44,7 @@ public interface SchedulerService {
 	 * @exception 
 	 * @since  1.0.0
 	 */
-	public boolean startOneTime(String jobDefId,String beanId,String group,List<IJobParamPo> jobParamPos);
+	public boolean startOneTime(String jobDefId,String beanId,String group,List<IJobTaskParamPo> jobParamPos);
 	
 	/**
 	 * 停止计划

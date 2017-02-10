@@ -2,7 +2,6 @@ package com.pai.service.quartz;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
@@ -17,7 +16,6 @@ import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.ExceptionUtil;
 import com.pai.base.core.util.date.DateConverter;
 import com.pai.service.quartz.constants.JobConstants;
-import com.pai.service.quartz.entity.IJobParamPo;
 
 @DisallowConcurrentExecution
 public abstract class BaseJob implements Job {
@@ -40,25 +38,19 @@ public abstract class BaseJob implements Job {
 			logger.warn("结束执行任务，执行时间是：{} 毫秒",new Object[]{String.valueOf(ms)});
 			log.append("结束执行任务，执行时间是："+ms+" 毫秒");
 			if(jobPersistenceSupport!=null){
-				jobPersistenceSupport.saveRunHistory(context.getJobDetail().getKey().getName(),context.getJobDetail().getKey().getGroup(),JobConstants.LOG_STATUS.SUCCESS, log.toString());
+				jobPersistenceSupport.saveJobTaskLog(context.getJobDetail().getKey().getName(),JobConstants.LOG_STATUS.SUCCESS, log.toString());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			if(jobPersistenceSupport!=null){
-				jobPersistenceSupport.saveRunHistory(context.getJobDetail().getKey().getName(),context.getJobDetail().getKey().getGroup(),JobConstants.LOG_STATUS.FAILURE, ExceptionUtil.getExceptionMessage(e));
+				jobPersistenceSupport.saveJobTaskLog(context.getJobDetail().getKey().getName(),JobConstants.LOG_STATUS.FAILURE, ExceptionUtil.getExceptionMessage(e));
 			}
 			logger.error("执行任务出错，{}",new Object[]{e.getMessage()},e);			
 		}
-		
 	}
 	
 	protected JobDataMap getJobDataMap(JobExecutionContext context) {
 		return context.getJobDetail().getJobDataMap();
-	}
-	
-	private String buildLog(JobExecutionContext context){
-		//TODO 构建日志内容
-		return "";
 	}
 	
 	private String getTriggerName(JobExecutionContext context){
@@ -71,8 +63,4 @@ public abstract class BaseJob implements Job {
 		return triggerName;
 	}
 	
-	private List<IJobParamPo> convertParams(JobDataMap jobDataMap){
-		return null;
-	}
-		
 }

@@ -58,6 +58,11 @@
 			 <artifactId>biz-auth</artifactId>
 			 <version>${pai.version}</version>
  	    </dependency>
+ 	    <dependency>
+			 <groupId>com.pai.biz</groupId>
+			 <artifactId>biz-common</artifactId>
+			 <version>${pai.version}</version>
+ 	    </dependency>
 	 	<!-- <dependency>
 			<groupId>com.pai.base</groupId>
 			<artifactId>base-db</artifactId>	
