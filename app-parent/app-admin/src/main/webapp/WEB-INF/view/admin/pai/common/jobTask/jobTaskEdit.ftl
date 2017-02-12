@@ -8,8 +8,28 @@
 	<script type="text/javascript" src="${CtxPath}/scripts/admin/pai/common.js" ></script>		    	            	    	
     <script type="text/javascript">  
 	$(function(){		
-		bindFormValidation("jobTaskEditForm","${CtxPath}/admin/pai/common/jobTask/save.do");								
-		$("#jobTaskEditForm").ligerForm();           
+		bindFormValidation("jobTaskEditForm","${CtxPath}/admin/pai/common/jobTask/save.do");
+		
+		setTimeout(function(){
+		     if("${jobTaskPo.expression}" != "" && "${jobTaskPo.expression}" != null){
+		          $(window.frames["cronFtl"].document).find("#cron").val($.trim("${jobTaskPo.expression}"));
+		          $(window.frames["cronFtl"].document).find("#btnFan").click();
+		     }
+		},100);
+			
+		$("#Button1").click(function(){
+		    $("#expression").val($(window.frames["cronFtl"].document).find("#cron").val());
+		});
+										
+		$("#jobTaskEditForm").ligerForm();   
+		
+		$(".type").click(function(){
+			if($("#type_1").attr("checked")){
+				$("#cron").hide();
+			}else{
+				$("#cron").show();
+			}
+		});        
 	});
 	var __ctxPath = "${CtxPath}";	   
     </script>
@@ -27,6 +47,7 @@
     <#if jobTaskPo.createBy?exists>
     	<input type="hidden" name="createBy" value="${jobTaskPo.createBy}" ltype="text"/>
     </#if>
+    	<input type="hidden" id="expression" name="expression" value="${jobTaskPo.expression}" ltype="text"/>
     	<div>&nbsp;</div>
         <table cellpadding="0" cellspacing="0" class="l-table-edit">
 		        <tr>
@@ -51,23 +72,27 @@
 		            <td align="left"></td>
 		        </tr> 
 		        <tr>
-		            <td align="right" class="l-table-edit-td">所属组:</td>
+		            <td align="right" class="l-table-edit-td">状态:</td>
 		            <td align="left" class="l-table-edit-td">
-		            	<input name="groupName" type="text" id="groupName"  value="${jobTaskPo.groupName}" ltype="text" validate='{required:true}'/>
+		            	<input id="status_1" type="radio" name="status" value="1" <#if jobTaskPo.status != 2>checked="checked"</#if>/><label for="status_1">运行中</label> 
+	                	&nbsp;&nbsp;&nbsp;&nbsp;
+	                	<input id="status_2" type="radio" name="status" value="2" <#if jobTaskPo.status == 2>checked="checked"</#if>/><label for="status_2">停止中</label>
+		            </td>
+		            <td align="left"></td>
+		        </tr>
+		        <tr>
+		            <td align="right" class="l-table-edit-td">类型:</td>
+		            <td align="left" class="l-table-edit-td">
+		            	<input id="type_1" type="radio" class="type" name="type" value="expression" <#if jobTaskPo.type != 'one_time'>checked="checked"</#if>/><label for="type_1">按表达式执行</label> 
+	                	&nbsp;&nbsp;&nbsp;&nbsp;
+	                	<input id="type_2" type="radio" class="type" name="type" value="one_time" <#if jobTaskPo.type == 'one_time'>checked="checked"</#if>/><label for="type_2">执行一次</label>
 		            </td>
 		            <td align="left"></td>
 		        </tr> 
-		        <tr>
-		            <td align="right" class="l-table-edit-td">类型（one_time=执行一次；expression=按表达式执行）:</td>
-		            <td align="left" class="l-table-edit-td">
-		            	<input name="type" type="text" id="type"  value="${jobTaskPo.type}" ltype="text" validate='{required:true}'/>
-		            </td>
-		            <td align="left"></td>
-		        </tr> 
-		        <tr>
-		            <td align="right" class="l-table-edit-td">状态（1=运行中；2=停止中）:</td>
-		            <td align="left" class="l-table-edit-td">
-		            	<input name="status" type="text" id="status"  value="${jobTaskPo.status}" ltype="text" validate='{required:true,digits:true}'/>
+		        <tr id="cron">
+		            <td align="right" class="l-table-edit-td">cron表达式:</td>
+		            <td align="left" class="l-table-edit-td" colspan="2">
+		            	<iframe name="cronFtl" id="cronFtl" src="${CtxPath}/cron/cron.ftl" height=430 width=850 frameborder=0 frameborder="no" border="0" scrolling="no"></iframe>
 		            </td>
 		            <td align="left"></td>
 		        </tr> 

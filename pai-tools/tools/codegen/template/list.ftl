@@ -51,7 +51,7 @@
 				<#if (col.isPK) >
 					{ display: '${col.getComment()}', name: '${colName}',hide:true}<#if col_has_next>,</#if>
 				<#elseif (col.colType == "java.util.Date") >
-					{ display: '${col.getComment()}', name: '${colName}', align: 'left', type:'date', options:{showTime: true,format:'yyyy-MM-dd hh:mm:ss'}, width: 180, minWidth: 60 }<#if col_has_next>,</#if>
+					{ display: '${col.getComment()}', name: '${colName}', align: 'left', type:'date', options:{showTime: true,format:'yyyy-MM-dd hh:mm:ss'}, width: 140, minWidth: 60 }<#if col_has_next>,</#if>
 				<#else>
 					{ display: '${col.getComment()}', name: '${colName}', align: 'left', width: 80, minWidth: 60 }<#if col_has_next>,</#if>
 				</#if>

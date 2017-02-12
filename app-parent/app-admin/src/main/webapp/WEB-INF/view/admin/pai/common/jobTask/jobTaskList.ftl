@@ -15,15 +15,21 @@
 				inputWidth : 180, labelWidth : 90, space : 50, rightToken :'',
 				fields : [
 					{ display: '名称:', name: 'Q__S__EQ__name', newline : true, align: 'left', width: 140 },
-					{ display: '描述:', name: 'Q__S__EQ__description', newline : false, align: 'left', width: 140 },
 					{ display: '类名:', name: 'Q__S__EQ__bean', newline : false, align: 'left', width: 140 },
-					{ display: '所属组:', name: 'Q__S__EQ__groupName', newline : false, align: 'left', width: 140 },
-					{ display: '类型（one_time=执行一次；expression=按表达式执行）:', name: 'Q__S__EQ__type', newline : true, align: 'left', width: 140 },
-					{ display: '状态（1=运行中；2=停止中）:', name: 'Q__S__EQ__status', newline : false, align: 'left', width: 140 },
-					{ display: '创建时间:', name: 'Q__S__EQ__createTime', newline : false, align: 'left', width: 140 },
-					{ display: '创建人:', name: 'Q__S__EQ__createBy', newline : true, align: 'left', width: 140 },
-					{ display: '修改时间:', name: 'Q__S__EQ__updateTime', newline : false, align: 'left', width: 140 },
-					{ display: '修改人:', name: 'Q__S__EQ__updateBy', newline : false, align: 'left', width: 140 },
+					{ display: '类型:', name: 'Q__S__EQ__type', newline : true, align: 'left', width: 140, type : "select", 
+						options: {
+		                     valueField: 'id',
+		                     textField: 'name',
+		                     data:[{'id':'one_time','name':'执行一次'},{'id':'expression','name':'按表达式执行'}]
+		                 }
+					},
+					{ display: '状态:', name: 'Q__S__EQ__status', newline : false, align: 'left', width: 140, type : "select", 
+						options: {
+		                     valueField: 'id',
+		                     textField: 'name',
+		                     data:[{'id':'1','name':'运行中'},{'id':'2','name':'停止中'}]
+		                 }
+					},
 					{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
 		          	{ display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", name: "searchButton", newline: false, width:0.01}
 				 ]
@@ -39,16 +45,36 @@
 	             } ,
 	             
                 columns: [
-					{ display: '名称', name: 'name', align: 'left', width: 80, minWidth: 60 },
-					{ display: '描述', name: 'description', align: 'left', width: 80, minWidth: 60 },
-					{ display: '类名', name: 'bean', align: 'left', width: 80, minWidth: 60 },
+					{ display: '名称', name: 'name', align: 'left', width: 100, minWidth: 60 },
+					{ display: '描述', name: 'description', align: 'left', width: 140, minWidth: 60 },
+					{ display: '类名', name: 'bean', align: 'left', width: 100, minWidth: 60 },
 					{ display: '所属组', name: 'groupName', align: 'left', width: 80, minWidth: 60 },
-					{ display: '类型（one_time=执行一次；expression=按表达式执行）', name: 'type', align: 'left', width: 80, minWidth: 60 },
-					{ display: '状态（1=运行中；2=停止中）', name: 'status', align: 'left', width: 80, minWidth: 60 },
-					{ display: '创建时间', name: 'createTime', align: 'left', type:'date', options:{showTime: true,format:'yyyy-MM-dd hh:mm:ss'}, width: 180, minWidth: 60 },
-					{ display: '创建人', name: 'createBy', align: 'left', width: 80, minWidth: 60 },
-					{ display: '修改时间', name: 'updateTime', align: 'left', type:'date', options:{showTime: true,format:'yyyy-MM-dd hh:mm:ss'}, width: 180, minWidth: 60 },
-					{ display: '修改人', name: 'updateBy', align: 'left', width: 80, minWidth: 60 }
+					{ display: '类型', name: 'type', align: 'left', width: 80, minWidth: 60, 
+						render: function(rowdata,index,value){
+							if(value=='one_time')
+								return "执行一次";
+							else if(value=='expression')
+								return "按表达式执行";
+						}
+					},
+					{ display: 'cron表达式', name: 'expression', align: 'left', width: 100, minWidth: 60 },
+					{ display: '状态', name: 'status', align: 'left', width: 80, minWidth: 60, 
+						render: function(rowdata,index,value){
+							if(value==1)
+								return "<font color='#e00'>运行中</font>";
+							else if(value==2)
+								return "<font color='#e00'>停止中</font>";
+						}
+					},
+					{ display: '操作', name: 'operation', align: 'left', width: 80, minWidth: 60, 
+						render: function(rowdata,index,value){
+							if(rowdata.status==1)
+								return "<a color='#e00' href=\"javascript:operateJob(2, '"+ rowdata.id +"', '"+ rowdata.bean +"', '"+ rowdata.type +"');\">停止</a>";
+							else if(value==2)
+								return "<a color='#e00' href=\"javascript:operateJob(1, '"+ rowdata.id +"', '"+ rowdata.bean +"', '"+ rowdata.type +"');\">运行</a>";
+						}
+					},
+					
                 ], 
                 url:'${CtxPath}/admin/pai/common/jobTask/listData.do', 
                 pageSize:30 ,

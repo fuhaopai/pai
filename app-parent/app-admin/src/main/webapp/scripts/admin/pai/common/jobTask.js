@@ -64,3 +64,17 @@ function deleteResponse(responseText){
 		$.ligerDialog.error(msg);
 	}       	
 }
+
+function operateJob(status, jobId, bean, type){
+	var url = __ctxPath + "/admin/pai/common/jobTask/operateJob.do";
+	var params = "id="+jobId+"&status="+status+"&bean="+bean+"&type="+type;
+	alert(params);
+	$.post(url,params,function(responseText){
+		var result = JSON.parse(responseText);
+		if(result.success){
+			var msg = getMsg(result.msg);				
+			$.ligerDialog.success(msg);						
+		}
+		setTimeout(function(){refresh();},1000);
+	});
+}

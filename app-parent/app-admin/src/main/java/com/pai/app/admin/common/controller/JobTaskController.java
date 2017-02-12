@@ -21,6 +21,8 @@ import com.pai.app.web.core.framework.web.entity.QueryBuilder;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.base.db.mybatis.impl.domain.PageList;
 import com.pai.service.image.utils.RequestUtil;
+import com.pai.service.quartz.constants.JobConstants;
+import com.pai.service.quartz.util.CronUtil;
 import com.pai.biz.common.domain.JobTask;
 import com.pai.biz.common.repository.JobTaskRepository;
 import com.pai.biz.common.persistence.entity.JobTaskPo;
@@ -174,5 +176,48 @@ public class JobTaskController extends AdminController<String, JobTaskPo, JobTas
 		//返回
 		return result;
 	}
-
+	
+	/**
+	 * 运行或停止【任务调度】
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 * @throws Exception 
+	 * CommonResult
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	@RequestMapping("operateJob")
+	@ResponseBody
+	public CommonResult operateJob(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		//获得待删除的id
+		String id = RequestUtil.getParameterNullSafe(request, "id");
+		Integer status = RequestUtil.getIntegerParameter(request, "status");
+		String bean = RequestUtil.getParameterNullSafe(request, "bean");
+		String type = RequestUtil.getParameterNullSafe(request, "type");
+		
+		//构造领域对象和进行删除操作
+		JobTaskPo jobTaskPo = jobTaskRepository.load(id).getData();				
+		
+		if(StringUtils.isNotEmpty(jobTaskPo.getExpression()) 
+				&& JobConstants.JobTaskTypeEnum.EXPRESSION.name().equals(type.toUpperCase()) 
+				&& !CronUtil.check(jobTaskPo.getExpression())){
+			CommonResult result = new CommonResult();
+			result.setSuccess(false);
+			result.setMsg("表达式有误，无法启动任务。");
+			return result;
+		}
+		if(status == 2){
+			//关闭定时器
+			
+		}else {
+			
+		}
+		//返回
+		CommonResult result = new CommonResult();
+		result.setSuccess(true);
+		return result;
+	}
+	
 }
