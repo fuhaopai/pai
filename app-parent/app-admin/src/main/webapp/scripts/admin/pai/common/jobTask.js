@@ -65,9 +65,9 @@ function deleteResponse(responseText){
 	}       	
 }
 
-function operateJob(status, jobId, bean, type){
+function operateJob(status, jobId){
 	var url = __ctxPath + "/admin/pai/common/jobTask/operateJob.do";
-	var params = "id="+jobId+"&status="+status+"&bean="+bean+"&type="+type;
+	var params = "id="+jobId+"&status="+status;
 	alert(params);
 	$.post(url,params,function(responseText){
 		var result = JSON.parse(responseText);

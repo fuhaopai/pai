@@ -69,9 +69,9 @@
 					{ display: '操作', name: 'operation', align: 'left', width: 80, minWidth: 60, 
 						render: function(rowdata,index,value){
 							if(rowdata.status==1)
-								return "<a color='#e00' href=\"javascript:operateJob(2, '"+ rowdata.id +"', '"+ rowdata.bean +"', '"+ rowdata.type +"');\">停止</a>";
+								return "<a color='#e00' href=\"javascript:operateJob(2, '"+ rowdata.id +"');\">停止</a>";
 							else if(value==2)
-								return "<a color='#e00' href=\"javascript:operateJob(1, '"+ rowdata.id +"', '"+ rowdata.bean +"', '"+ rowdata.type +"');\">运行</a>";
+								return "<a color='#e00' href=\"javascript:operateJob(1, '"+ rowdata.id +"');\">运行</a>";
 						}
 					},
 					

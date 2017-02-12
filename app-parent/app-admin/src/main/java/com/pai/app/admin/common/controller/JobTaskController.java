@@ -21,10 +21,14 @@ import com.pai.app.web.core.framework.web.entity.QueryBuilder;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.base.db.mybatis.impl.domain.PageList;
 import com.pai.service.image.utils.RequestUtil;
+import com.pai.service.quartz.JobPersistenceSupport;
+import com.pai.service.quartz.SchedulerService;
 import com.pai.service.quartz.constants.JobConstants;
+import com.pai.service.quartz.entity.IJobTaskParamPo;
 import com.pai.service.quartz.util.CronUtil;
 import com.pai.biz.common.domain.JobTask;
 import com.pai.biz.common.repository.JobTaskRepository;
+import com.pai.biz.common.persistence.entity.JobTaskParamPo;
 import com.pai.biz.common.persistence.entity.JobTaskPo;
 
 /**
@@ -39,6 +43,12 @@ public class JobTaskController extends AdminController<String, JobTaskPo, JobTas
 	 
 	@Resource
 	private JobTaskRepository jobTaskRepository;
+	
+	@Resource
+	private SchedulerService schedulerService;
+	
+	@Resource
+	private JobPersistenceSupport jobPersistenceSupport;
 	
 	@Override
 	protected IRepository<String, JobTaskPo, JobTask> getRepository() {
@@ -194,29 +204,38 @@ public class JobTaskController extends AdminController<String, JobTaskPo, JobTas
 		//获得待删除的id
 		String id = RequestUtil.getParameterNullSafe(request, "id");
 		Integer status = RequestUtil.getIntegerParameter(request, "status");
-		String bean = RequestUtil.getParameterNullSafe(request, "bean");
-		String type = RequestUtil.getParameterNullSafe(request, "type");
 		
+		CommonResult result = new CommonResult();
 		//构造领域对象和进行删除操作
 		JobTaskPo jobTaskPo = jobTaskRepository.load(id).getData();				
 		
 		if(StringUtils.isNotEmpty(jobTaskPo.getExpression()) 
-				&& JobConstants.JobTaskTypeEnum.EXPRESSION.name().equals(type.toUpperCase()) 
+				&& JobConstants.JobTaskTypeEnum.EXPRESSION.name().equals(jobTaskPo.getType().toUpperCase()) 
 				&& !CronUtil.check(jobTaskPo.getExpression())){
-			CommonResult result = new CommonResult();
 			result.setSuccess(false);
 			result.setMsg("表达式有误，无法启动任务。");
 			return result;
 		}
+		String msg = "";
 		if(status == 2){
 			//关闭定时器
-			
+			schedulerService.shutdownPlan(id, jobTaskPo.getBean(), jobTaskPo.getGroupName());
+			msg = "定时任务已停止";
 		}else {
-			
+			List<IJobTaskParamPo> iJobTaskParamPos = jobPersistenceSupport.findTaskParams(id);
+			if(JobConstants.JobTaskTypeEnum.ONE_TIME.name().equals(jobTaskPo.getType().toUpperCase())){
+				schedulerService.startOneTime(id, jobTaskPo.getBean(), jobTaskPo.getGroupName(), iJobTaskParamPos);
+				msg = "定时任务已启动，立即执行一次";
+			}else if(JobConstants.JobTaskTypeEnum.EXPRESSION.name().equals(jobTaskPo.getType().toUpperCase())){
+				schedulerService.startJob(id, jobTaskPo.getBean(), jobTaskPo.getGroupName(), iJobTaskParamPos);
+				msg = "定时任务已启动，将按表达式执行";
+			}
 		}
+		jobTaskPo.setStatus(status);
+		jobTaskRepository.newInstance(jobTaskPo).save();
 		//返回
-		CommonResult result = new CommonResult();
 		result.setSuccess(true);
+		result.setMsg(msg);
 		return result;
 	}
 	
