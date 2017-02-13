@@ -78,3 +78,38 @@ function operateJob(status, jobId){
 		setTimeout(function(){refresh();},1000);
 	});
 }
+
+function param()
+{
+	var selected = grid.getCheckedRows();
+	if(selected.length == 0){
+		$.ligerDialog.tip({  title: '操作提示',content:'请选择要操作的记录'});
+	}else{
+		if(selected.length > 1)
+			$.ligerDialog.tip({  title: '操作提示',content:'请选择单条记录'});
+		else
+			top.f_addTab(new Date().getTime(), "定时任务参数", __ctxPath +"/admin/pai/common/jobTaskParam/list.do?jobId="+selected[0].id);
+	}
+}
+
+function log(){
+	
+}
+
+function valueTypeSelect(id,value,status){
+	$("#"+id).ligerComboBox({
+		data: [
+			{ text: '字符串', id: 'string'},
+			{ text: '整形', id: 'int'},
+			{ text: '长整型', id: 'long'},
+			{ text: '浮点', id: 'double'}
+        	
+		],
+		valueField:'id',
+		textField:'text',
+		valueFieldID:status
+	});
+	//设置初始化值
+	$("#"+id).ligerGetComboBoxManager().setValue(value);
+	$("#"+id).ligerGetComboBoxManager().updateStyle();
+}

@@ -72,7 +72,8 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 				isStart = startPlan(jobTaskPo.getId(),jobTaskPo.getBean(),jobTaskPo.getGroupName());
 				if(!isStart){
 					List<IJobTaskParamPo> jobTaskParamPos = jobPersistenceSupport.findTaskParams(jobTaskPo.getId());
-					JobDetail jobDetail = null;
+					//如果类名为全称，算了，应该避免用全称，getJobDetail就不搞了
+					JobDetail jobDetail = getJobDetail(getKey(jobTaskPo), jobTaskPo.getGroupName());;
 		
 					BaseJob jobBean = (BaseJob) SpringHelper.getBean(jobTaskPo.getBean());	
 					if(jobBean!=null){
@@ -86,7 +87,8 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 					CronTrigger	trigger = buildCronTrigger(getKey(jobTaskPo),jobTaskPo.getGroupName(),jobTaskPo.getExpression());
 					try {
 						isStart = startPlan(jobTaskPo.getId(),jobTaskPo.getBean(),jobTaskPo.getGroupName());
-						if(!isStart){				
+						if(!isStart){	
+							//全量启动所有定时任务先删除再启动
 							deleteJob(getKey(jobTaskPo), jobTaskPo.getGroupName());
 							scheduler.scheduleJob(jobDetail,trigger);
 							logger.info("Start Job Success:"+jobTaskPo.getName());
@@ -110,7 +112,7 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 	}
 
 	@Override
-	public boolean startJob(String bean, String groupName, String expression,
+	public boolean startExprJob(String jobTaskId, String bean, String groupName, String expression,
 			List<IJobTaskParamPo> iJobTaskParamPos) {
 		logger.info("startJob bean="+bean + ";group="+groupName+";expr="+expression+";jobParamPos="+iJobTaskParamPos);
 		if(!CronUtil.check(expression)){
@@ -120,11 +122,11 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 		BaseJob jobBean = (BaseJob) SpringHelper.getBean(bean);
 		JobDetail job = getJobDetail(bean, groupName);
 		if(job==null){
-			job = newJob(jobBean.getClass()).withIdentity(bean + "_" + UUID.randomUUID(), groupName).storeDurably(false).build();
+			job = newJob(jobBean.getClass()).withIdentity(getKey(bean, jobTaskId), groupName).storeDurably(false).build();
 		}		
 		Map<String, Object> dataMap = buildDataMap(iJobTaskParamPos);
 		job.getJobDataMap().putAll(dataMap);
-		CronTrigger	trigger = buildCronTrigger(UUID.randomUUID().toString(),groupName,expression);
+		CronTrigger	trigger = buildCronTrigger(getKey(bean, jobTaskId), groupName, expression);
 		try {
 			scheduler.scheduleJob(job,trigger);
 			return true;

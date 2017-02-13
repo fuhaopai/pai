@@ -65,7 +65,7 @@
 		            <td align="left"></td>
 		        </tr> 
 		        <tr>
-		            <td align="right" class="l-table-edit-td">类名:</td>
+		            <td align="right" class="l-table-edit-td">类名id:</td>
 		            <td align="left" class="l-table-edit-td">
 		            	<input name="bean" type="text" id="bean"  value="${jobTaskPo.bean}" ltype="text" validate='{required:true}'/>
 		            </td>
@@ -90,7 +90,7 @@
 		            <td align="left"></td>
 		        </tr> 
 		        <tr id="cron">
-		            <td align="right" class="l-table-edit-td">cron表达式:</td>
+		            <td align="right" class="l-table-edit-td">表达式:</td>
 		            <td align="left" class="l-table-edit-td" colspan="2">
 		            	<iframe name="cronFtl" id="cronFtl" src="${CtxPath}/cron/cron.ftl" height=430 width=850 frameborder=0 frameborder="no" border="0" scrolling="no"></iframe>
 		            </td>

@@ -123,13 +123,13 @@
 		<variable name="workspace" value="E:\github\pai\" />
 	</variables>
         <!--可以有多个<table>标签-->
-	<table tableName="pai_job_task" >
+	<table tableName="pai_job_task_param" >
 		<variable name="sys" value="pai" />
 		<variable name="module" value="common" />
-		<variable name="class" value="JobTask" />		
-		<variable name="baseClass" value="JobTask" />
+		<variable name="class" value="JobTaskParam" />		
+		<variable name="baseClass" value="JobTaskParam" />
 		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
-		<variable name="doType" value="db" />
+		<variable name="doType" value="view" />
 		 <!--
 		<subtable tablename="pai_auth_resources"  foreignKey="report_id_">
 			<variable name="sys" value="pai" />

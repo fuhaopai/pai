@@ -11,25 +11,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pai.base.api.model.Page;
-import com.pai.biz.frame.repository.IRepository;
-import com.pai.base.core.constants.ActionMsgCode;
-import com.pai.base.core.entity.CommonResult;
 import com.pai.app.web.core.framework.util.PageUtil;
 import com.pai.app.web.core.framework.web.controller.AdminController;
 import com.pai.app.web.core.framework.web.entity.QueryBuilder;
+import com.pai.base.api.model.Page;
+import com.pai.base.core.constants.ActionMsgCode;
+import com.pai.base.core.entity.CommonResult;
+import com.pai.base.core.util.ConfigHelper;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.base.db.mybatis.impl.domain.PageList;
+import com.pai.biz.common.domain.JobTask;
+import com.pai.biz.common.persistence.entity.JobTaskPo;
+import com.pai.biz.common.repository.JobTaskRepository;
+import com.pai.biz.frame.repository.IRepository;
 import com.pai.service.image.utils.RequestUtil;
 import com.pai.service.quartz.JobPersistenceSupport;
 import com.pai.service.quartz.SchedulerService;
 import com.pai.service.quartz.constants.JobConstants;
 import com.pai.service.quartz.entity.IJobTaskParamPo;
 import com.pai.service.quartz.util.CronUtil;
-import com.pai.biz.common.domain.JobTask;
-import com.pai.biz.common.repository.JobTaskRepository;
-import com.pai.biz.common.persistence.entity.JobTaskParamPo;
-import com.pai.biz.common.persistence.entity.JobTaskPo;
 
 /**
  * 对象功能:任务调度 控制类
@@ -141,6 +141,7 @@ public class JobTaskController extends AdminController<String, JobTaskPo, JobTas
 		
 		//构造领域对象和保存数据
 		JobTask jobTask = jobTaskRepository.newInstance();
+		jobTaskPo.setGroupName(ConfigHelper.getInstance().getParamValue("job.group"));
 		jobTask.setData(jobTaskPo);
 		jobTask.save();
 		
@@ -227,7 +228,7 @@ public class JobTaskController extends AdminController<String, JobTaskPo, JobTas
 				schedulerService.startOneTime(id, jobTaskPo.getBean(), jobTaskPo.getGroupName(), iJobTaskParamPos);
 				msg = "定时任务已启动，立即执行一次";
 			}else if(JobConstants.JobTaskTypeEnum.EXPRESSION.name().equals(jobTaskPo.getType().toUpperCase())){
-				schedulerService.startJob(id, jobTaskPo.getBean(), jobTaskPo.getGroupName(), iJobTaskParamPos);
+				schedulerService.startExprJob(id, jobTaskPo.getBean(), jobTaskPo.getGroupName(), jobTaskPo.getExpression(), iJobTaskParamPos);
 				msg = "定时任务已启动，将按表达式执行";
 			}
 		}

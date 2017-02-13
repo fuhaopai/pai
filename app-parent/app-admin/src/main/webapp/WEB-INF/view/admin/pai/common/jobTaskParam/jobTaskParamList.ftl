@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>任务调度管理</title>
+    <title>任务调度参数表，同一个定时器不同时间段跑不同的任务就需要传参管理</title>
 	<#include "/WEB-INF/view/common/jquery.ftl">
 	<#include "/WEB-INF/view/common/ligerUI.ftl">		 
 	<script type="text/javascript" src="${CtxPath}/scripts/admin/pai/common.js" ></script>					    					    
@@ -14,22 +14,8 @@
         	searchForm = $("#form1").ligerForm({
 				inputWidth : 180, labelWidth : 90, space : 50, rightToken :'',
 				fields : [
-					{ display: '名称:', name: 'Q__S__EQ__name', newline : true, align: 'left', width: 140 },
-					{ display: '类名:', name: 'Q__S__EQ__bean', newline : false, align: 'left', width: 140 },
-					{ display: '类型:', name: 'Q__S__EQ__type', newline : true, align: 'left', width: 140, type : "select", 
-						options: {
-		                     valueField: 'id',
-		                     textField: 'name',
-		                     data:[{'id':'one_time','name':'执行一次'},{'id':'expression','name':'按表达式执行'}]
-		                 }
-					},
-					{ display: '状态:', name: 'Q__S__EQ__status', newline : false, align: 'left', width: 140, type : "select", 
-						options: {
-		                     valueField: 'id',
-		                     textField: 'name',
-		                     data:[{'id':'1','name':'运行中'},{'id':'2','name':'停止中'}]
-		                 }
-					},
+					{ display: '参数键:', name: 'Q__S__EQ__paramKey', newline : false, align: 'left', width: 140 },
+					{ display: '参数值:', name: 'Q__S__EQ__paramValue', newline : false, align: 'left', width: 140 },
 					{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
 		          	{ display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", name: "searchButton", newline: false, width:0.01}
 				 ]
@@ -45,38 +31,19 @@
 	             } ,
 	             
                 columns: [
-					{ display: '名称', name: 'name', align: 'left', width: 100, minWidth: 60 },
-					{ display: '描述', name: 'description', align: 'left', width: 140, minWidth: 60 },
-					{ display: '类名', name: 'bean', align: 'left', width: 100, minWidth: 60 },
-					{ display: '所属组', name: 'groupName', align: 'left', width: 80, minWidth: 60 },
-					{ display: '类型', name: 'type', align: 'left', width: 80, minWidth: 60, 
-						render: function(rowdata,index,value){
-							if(value=='one_time')
-								return "执行一次";
-							else if(value=='expression')
-								return "按表达式执行";
-						}
-					},
-					{ display: 'cron表达式', name: 'expression', align: 'left', width: 100, minWidth: 60 },
-					{ display: '状态', name: 'status', align: 'left', width: 80, minWidth: 60, 
-						render: function(rowdata,index,value){
-							if(value==1)
-								return "<font color='#e00'>运行中</font>";
-							else if(value==2)
-								return "<font color='#e00'>停止中</font>";
-						}
-					},
-					{ display: '操作', name: 'operation', align: 'left', width: 80, minWidth: 60, 
-						render: function(rowdata,index,value){
-							if(rowdata.status==1)
-								return "<a color='#e00' href=\"javascript:operateJob(2, '"+ rowdata.id +"');\">停止</a>";
-							else if(value==2)
-								return "<a color='#e00' href=\"javascript:operateJob(1, '"+ rowdata.id +"');\">运行</a>";
-						}
-					},
-					
+					{ display: '参数键', name: 'paramKey', align: 'left', width: 140, minWidth: 60 },
+					{ display: '参数值', name: 'paramValue', align: 'left', width: 140, minWidth: 60 },
+					{ display: '参数值类型', name: 'valueType', align: 'left', width: 140, minWidth: 60, 
+						render:function(rowdata,index,value){
+			        		if(value=='string') return '字符串';
+			        		if(value=='int') return '整型';
+			        		if(value=='long') return '长整型';
+			        		if(value=='double') return '浮点型';
+			        		return '特殊类型';
+			        	}
+					}
                 ], 
-                url:'${CtxPath}/admin/pai/common/jobTask/listData.do', 
+                url:'${CtxPath}/admin/pai/common/jobTaskParam/listData.do?Q__S__EQ__job_id_=${jobId}', 
                 pageSize:30 ,
                 rownumbers:true,
                 pagesizeParmName:'pageSize',
@@ -89,11 +56,7 @@
 	                { line: true },
 	                { id:'modify',text: '修改', click: edit, icon: 'modify' },
 	                { line: true },
-	                { id:'param',text: '配置参数', click: param, img: '${CtxPath}/scripts/ligerUI/skins/icons/page_white_code.png' },
-	                { line: true },
-	                { id:'log',text: '查看日志', click: log, icon: 'view' },
-	                { line: true },
-	                { id:'delete',text: '删除', click: deleteRow, icon: 'delete' },
+	                { id:'delete',text: '删除', click: deleteRow, img: '${CtxPath}/scripts/ligerUI/skins/icons/delete.gif' },
 	                { line: true },
 	                { id:'modify',text: '刷新', click: refresh, icon: 'refresh' }                
               	  ]
@@ -125,7 +88,7 @@
 			}			
 		}
     </script>
-    <script type="text/javascript" src="${CtxPath}/scripts/admin/pai/common/jobTask.js" ></script>
+    <script type="text/javascript" src="${CtxPath}/scripts/admin/pai/common/jobTaskParam.js" ></script>
 </head>
 <body style="overflow-x:hidden; padding:2px;">
 	<div class="l-loading" style="display:block" id="pageloading"></div>
@@ -133,6 +96,7 @@
  		<div class="l-clear"></div>
  		<form id="form1"></form>
     	<div id="maingrid"></div>
+    	<input type="hidden" value="${jobId}"  id="jobId"/>
    		<div style="display:none;">
 	</div> 
 </body>

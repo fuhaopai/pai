@@ -32,7 +32,7 @@ public interface SchedulerService {
 	 * @exception 
 	 * @since  1.0.0
 	 */
-	public boolean startJob(String beanId,String groupName,String expression,List<IJobTaskParamPo> iJobTaskParamPos);
+	public boolean startExprJob(String jobTaskId,String beanId,String groupName,String expression,List<IJobTaskParamPo> iJobTaskParamPos);
 	
 	/**
 	 * 启动任务一次。
