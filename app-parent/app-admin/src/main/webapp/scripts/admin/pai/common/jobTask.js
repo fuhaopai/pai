@@ -93,23 +93,20 @@ function param()
 }
 
 function log(){
-	
-}
-
-function valueTypeSelect(id,value,status){
-	$("#"+id).ligerComboBox({
-		data: [
-			{ text: '字符串', id: 'string'},
-			{ text: '整形', id: 'int'},
-			{ text: '长整型', id: 'long'},
-			{ text: '浮点', id: 'double'}
-        	
-		],
-		valueField:'id',
-		textField:'text',
-		valueFieldID:status
-	});
-	//设置初始化值
-	$("#"+id).ligerGetComboBoxManager().setValue(value);
-	$("#"+id).ligerGetComboBoxManager().updateStyle();
+	var selected = grid.getCheckedRows();
+	if(selected.length == 0){
+		$.ligerDialog.tip({  title: '操作提示',content:'请选择要操作的记录'});
+	}else{
+		$.ligerDialog.open({
+			height : 600,
+			width : 800,
+			title : '查看定时任务日志',
+			url : __ctxPath + '/admin/pai/common/jobTaskLog/List.do?jobKey='+selected[0].bean+'_'+selected[0].id,
+			showMax : true,
+			showToggle : true,
+			showMin : true,
+			isResize : true,
+			slide : false
+		}).max();
+	}
 }

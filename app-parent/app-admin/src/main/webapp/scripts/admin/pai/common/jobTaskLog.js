@@ -2,8 +2,8 @@ function add() {
 	$.ligerDialog.open({
 		height:600,
 		width: 800,
-		title : '任务调度参数 ',
-		url: __ctxPath + '/admin/pai/common/jobTaskParam/edit.do?jobId='+$('#jobId').val(), 
+		title : '新增任务调度日志 ',
+		url: __ctxPath + '/admin/pai/common/jobTaskLog/edit.do', 
 		showMax: true,
 		showToggle: true,
 		showMin: true,
@@ -26,8 +26,8 @@ function editDialog(id) {
 	$.ligerDialog.open({
 		height:600,
 		width: 800,
-		title : '任务调度参数',
-		url: __ctxPath + '/admin/pai/common/jobTaskParam/edit.do?id=' + id, 
+		title : '修改任务调度日志 ',
+		url: __ctxPath + '/admin/pai/common/jobTaskLog/edit.do?id=' + id, 
 		showMax: true,
 		showToggle: true,
 		showMin: true,
@@ -43,7 +43,7 @@ function deleteRow()
 		$.ligerDialog.confirm('请确认是否删除该记录', function (yes)
 				{
 	            	if(yes){
-	            		var url = __ctxPath + "/admin/pai/common/jobTaskParam/delete.do";
+	            		var url = __ctxPath + "/admin/pai/common/jobTaskLog/delete.do";
 	            		var params = "id="+selected.id;
 	            		$.post(url,params,deleteResponse);            		            		
 	            	}             
@@ -63,22 +63,4 @@ function deleteResponse(responseText){
 		var msg = getMsg(result.msgCode);				
 		$.ligerDialog.error(msg);
 	}       	
-}
-
-function valueTypeSelect(id,value,status){
-	$("#"+id).ligerComboBox({
-		data: [
-			{ text: '字符串', id: 'string'},
-			{ text: '整形', id: 'int'},
-			{ text: '长整型', id: 'long'},
-			{ text: '浮点', id: 'double'}
-        	
-		],
-		valueField:'id',
-		textField:'text',
-		valueFieldID:status
-	});
-	//设置初始化值
-	$("#"+id).ligerGetComboBoxManager().setValue(value);
-	$("#"+id).ligerGetComboBoxManager().updateStyle();
 }

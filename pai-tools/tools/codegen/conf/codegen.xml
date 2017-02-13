@@ -120,16 +120,16 @@
 		<variable name="company" value="π" />
 		<!--keys值必须小写，且用,隔开-->
 		<variable name="keys" value="db,dao,domain,controller,view,apiBase,api"/>
-		<variable name="workspace" value="E:\github\pai\" />
+		<variable name="workspace" value="D:\github\pai\" />
 	</variables>
         <!--可以有多个<table>标签-->
-	<table tableName="pai_job_task_param" >
+	<table tableName="pai_job_task_log" >
 		<variable name="sys" value="pai" />
 		<variable name="module" value="common" />
-		<variable name="class" value="JobTaskParam" />		
-		<variable name="baseClass" value="JobTaskParam" />
+		<variable name="class" value="JobTaskLog" />		
+		<variable name="baseClass" value="JobTaskLog" />
 		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
-		<variable name="doType" value="view" />
+		<variable name="doType" value="controller,view" />
 		 <!--
 		<subtable tablename="pai_auth_resources"  foreignKey="report_id_">
 			<variable name="sys" value="pai" />
