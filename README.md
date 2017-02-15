@@ -71,6 +71,10 @@ public boolean lock(Jedis jedis, String key){
 
 -biz-auth:用户权限相关模块
 
+-biz-common:公共业务模块
+
+-biz-member:会员模块
+
 -biz-article:（待开发，具体的文章相关模块）
 
 -biz-func:(待开发，原型图发现-具体的每一个功能应该都会抽出一个业务模块出来)
