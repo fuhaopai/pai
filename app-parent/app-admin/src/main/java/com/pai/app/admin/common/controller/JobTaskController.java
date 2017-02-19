@@ -15,6 +15,7 @@ import com.pai.app.web.core.framework.util.PageUtil;
 import com.pai.app.web.core.framework.web.controller.AdminController;
 import com.pai.app.web.core.framework.web.entity.QueryBuilder;
 import com.pai.base.api.model.Page;
+import com.pai.base.api.service.IdGenerator;
 import com.pai.base.core.constants.ActionMsgCode;
 import com.pai.base.core.entity.CommonResult;
 import com.pai.base.core.util.ConfigHelper;
@@ -28,6 +29,8 @@ import com.pai.service.image.utils.RequestUtil;
 import com.pai.service.quartz.JobPersistenceSupport;
 import com.pai.service.quartz.SchedulerService;
 import com.pai.service.quartz.constants.JobConstants;
+import com.pai.service.quartz.constants.JobConstants.JobTaskStatusEnum;
+import com.pai.service.quartz.constants.JobConstants.JobTaskTypeEnum;
 import com.pai.service.quartz.entity.IJobTaskParamPo;
 import com.pai.service.quartz.util.CronUtil;
 
@@ -49,6 +52,9 @@ public class JobTaskController extends AdminController<String, JobTaskPo, JobTas
 	
 	@Resource
 	private JobPersistenceSupport jobPersistenceSupport;
+	
+	@Resource
+	private IdGenerator idGenerator;
 	
 	@Override
 	protected IRepository<String, JobTaskPo, JobTask> getRepository() {
@@ -142,6 +148,32 @@ public class JobTaskController extends AdminController<String, JobTaskPo, JobTas
 		//构造领域对象和保存数据
 		JobTask jobTask = jobTaskRepository.newInstance();
 		jobTaskPo.setGroupName(ConfigHelper.getInstance().getParamValue("job.group"));
+		String msg = "";
+		if(isNew){
+			//新增的定时器还没配置参数，默认停止
+			jobTaskPo.setStatus(JobTaskStatusEnum.STOP.getStatus());
+		}else {
+			if(JobTaskStatusEnum.RUN.getStatus().equals(jobTaskPo.getStatus())){
+				List<IJobTaskParamPo> iJobTaskParamPos = jobPersistenceSupport.findTaskParams(jobTaskPo.getId());
+				if(JobConstants.JobTaskTypeEnum.ONE_TIME.name().equals(jobTaskPo.getType().toUpperCase())){
+					schedulerService.startOneTime(jobTaskPo.getId(), jobTaskPo.getBean(), jobTaskPo.getGroupName(), iJobTaskParamPos);
+					jobTaskPo.setStatus(JobConstants.JobTaskStatusEnum.STOP.getStatus()); 
+					msg = "定时任务已启动，立即执行一次";
+				}else if(JobConstants.JobTaskTypeEnum.EXPRESSION.name().equals(jobTaskPo.getType().toUpperCase())){
+					//先停止再启动
+					schedulerService.shutdownPlan(jobTaskPo.getId(), jobTaskPo.getBean(), jobTaskPo.getGroupName());
+					schedulerService.startExprJob(jobTaskPo.getId(), jobTaskPo.getBean(), jobTaskPo.getGroupName(), jobTaskPo.getExpression(), iJobTaskParamPos);
+					msg = "定时任务已启动，将按表达式执行";
+				}
+			}else {
+				schedulerService.shutdownPlan(jobTaskPo.getId(), jobTaskPo.getBean(), jobTaskPo.getGroupName());
+				msg = "定时任务已停止";
+			}
+		}
+		if(JobConstants.JobTaskTypeEnum.ONE_TIME.name().equals(jobTaskPo.getType().toUpperCase())){
+			jobTaskPo.setExpression(null);
+		}
+		
 		jobTask.setData(jobTaskPo);
 		jobTask.save();
 		
@@ -153,7 +185,7 @@ public class JobTaskController extends AdminController<String, JobTaskPo, JobTas
 		}else {
 			result.setMsgCode(ActionMsgCode.UPDATE.name());
 		}			
-		
+		result.setMsg(msg);
 		//返回
 		return result;
 	}		
@@ -218,7 +250,7 @@ public class JobTaskController extends AdminController<String, JobTaskPo, JobTas
 			return result;
 		}
 		String msg = "";
-		if(status == 2){
+		if(status == JobConstants.JobTaskStatusEnum.STOP.getStatus()){
 			//关闭定时器
 			schedulerService.shutdownPlan(id, jobTaskPo.getBean(), jobTaskPo.getGroupName());
 			msg = "定时任务已停止";
@@ -226,14 +258,16 @@ public class JobTaskController extends AdminController<String, JobTaskPo, JobTas
 			List<IJobTaskParamPo> iJobTaskParamPos = jobPersistenceSupport.findTaskParams(id);
 			if(JobConstants.JobTaskTypeEnum.ONE_TIME.name().equals(jobTaskPo.getType().toUpperCase())){
 				schedulerService.startOneTime(id, jobTaskPo.getBean(), jobTaskPo.getGroupName(), iJobTaskParamPos);
+//				status = JobConstants.JobTaskStatusEnum.STOP.getStatus();
 				msg = "定时任务已启动，立即执行一次";
 			}else if(JobConstants.JobTaskTypeEnum.EXPRESSION.name().equals(jobTaskPo.getType().toUpperCase())){
 				schedulerService.startExprJob(id, jobTaskPo.getBean(), jobTaskPo.getGroupName(), jobTaskPo.getExpression(), iJobTaskParamPos);
 				msg = "定时任务已启动，将按表达式执行";
+				jobTaskPo.setStatus(status);
+				jobTaskRepository.newInstance(jobTaskPo).save();
 			}
 		}
-		jobTaskPo.setStatus(status);
-		jobTaskRepository.newInstance(jobTaskPo).save();
+		
 		//返回
 		result.setSuccess(true);
 		result.setMsg(msg);

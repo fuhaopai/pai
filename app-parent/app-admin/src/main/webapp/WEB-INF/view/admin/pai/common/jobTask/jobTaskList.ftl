@@ -70,7 +70,7 @@
 						render: function(rowdata,index,value){
 							if(rowdata.status==1)
 								return "<a color='#e00' href=\"javascript:operateJob(2, '"+ rowdata.id +"');\">停止</a>";
-							else if(value==2)
+							else if(rowdata.status==2)
 								return "<a color='#e00' href=\"javascript:operateJob(1, '"+ rowdata.id +"');\">运行</a>";
 						}
 					},

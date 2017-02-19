@@ -65,27 +65,29 @@
 		            <td align="left"></td>
 		        </tr> 
 		        <tr>
-		            <td align="right" class="l-table-edit-td">类名id:</td>
+		            <td align="right" class="l-table-edit-td">类名(首字母小写):</td>
 		            <td align="left" class="l-table-edit-td">
 		            	<input name="bean" type="text" id="bean"  value="${jobTaskPo.bean}" ltype="text" validate='{required:true}'/>
 		            </td>
 		            <td align="left"></td>
 		        </tr> 
-		        <tr>
-		            <td align="right" class="l-table-edit-td">状态:</td>
-		            <td align="left" class="l-table-edit-td">
-		            	<input id="status_1" type="radio" name="status" value="1" <#if jobTaskPo.status != 2>checked="checked"</#if>/><label for="status_1">运行中</label> 
-	                	&nbsp;&nbsp;&nbsp;&nbsp;
-	                	<input id="status_2" type="radio" name="status" value="2" <#if jobTaskPo.status == 2>checked="checked"</#if>/><label for="status_2">停止中</label>
-		            </td>
-		            <td align="left"></td>
-		        </tr>
+		        <#if jobTaskPo.id?exists>
+			        <tr>
+			            <td align="right" class="l-table-edit-td">状态:</td>
+			            <td align="left" class="l-table-edit-td">
+			            	<input id="status_1" type="radio" name="status" value="1" <#if jobTaskPo.status != 2>checked="checked"</#if>/><label for="status_1">运行中</label> 
+		                	&nbsp;&nbsp;&nbsp;&nbsp;
+		                	<input id="status_2" type="radio" name="status" value="2" <#if jobTaskPo.status == 2>checked="checked"</#if>/><label for="status_2">停止中</label>
+			            </td>
+			            <td align="left"></td>
+			        </tr>
+			    </#if>
 		        <tr>
 		            <td align="right" class="l-table-edit-td">类型:</td>
 		            <td align="left" class="l-table-edit-td">
-		            	<input id="type_1" type="radio" class="type" name="type" value="expression" <#if jobTaskPo.type != 'one_time'>checked="checked"</#if>/><label for="type_1">按表达式执行</label> 
+		            	<input id="type_1" type="radio" class="type" name="type" value="EXPRESSION" <#if jobTaskPo.type != 'one_time'>checked="checked"</#if>/><label for="type_1">按表达式执行</label> 
 	                	&nbsp;&nbsp;&nbsp;&nbsp;
-	                	<input id="type_2" type="radio" class="type" name="type" value="one_time" <#if jobTaskPo.type == 'one_time'>checked="checked"</#if>/><label for="type_2">执行一次</label>
+	                	<input id="type_2" type="radio" class="type" name="type" value="ONE_TIME" <#if jobTaskPo.type == 'one_time'>checked="checked"</#if>/><label for="type_2">执行一次</label>
 		            </td>
 		            <td align="left"></td>
 		        </tr> 

@@ -138,11 +138,6 @@
 		<groupId>org.apache.xmlbeans</groupId>
 		<artifactId>xmlbeans</artifactId>
 	</dependency>
-	<!-- Quartz相关 -->
-	<dependency>
-          <groupId>org.quartz-scheduler</groupId>
-          <artifactId>quartz</artifactId>
-      </dependency>
 	<dependency>
 		<groupId>org.javassist</groupId>
 		<artifactId>javassist</artifactId>

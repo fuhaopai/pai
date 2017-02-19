@@ -14,10 +14,13 @@
         	searchForm = $("#form1").ligerForm({
 				inputWidth : 180, labelWidth : 90, space : 50, rightToken :'',
 				fields : [
-					{ display: '作业任务键bean_id:', name: 'Q__S__EQ__jobKey', newline : true, align: 'left', width: 140 },
-					{ display: '状态（1=成功；2=失败）:', name: 'Q__S__EQ__status', newline : false, align: 'left', width: 140 },
-					{ display: '日志:', name: 'Q__S__EQ__jobLog', newline : false, align: 'left', width: 140 },
-					{ display: '创建时间:', name: 'Q__S__EQ__createTime', newline : false, align: 'left', width: 140 },
+					{ display: '状态:', name: 'Q__S__EQ__status', newline : false, align: 'left', width: 140, type : "select", 
+						options: {
+		                     valueField: 'id',
+		                     textField: 'name',
+		                     data:[{'id':'1','name':'成功'},{'id':'2','name':'失败'}]
+		                 }
+					},
 					{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
 		          	{ display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", name: "searchButton", newline: false, width:0.01}
 				 ]
@@ -42,7 +45,7 @@
                 pageSize:30 ,
                 rownumbers:true,
                 pagesizeParmName:'pageSize',
-                onReload:setDataToGrid,
+                onReload:setDataToGrid/* ,
                 onDblClickRow : function (rowdata,index,value){
                      editDialog(rowdata.id);
                 },
@@ -55,7 +58,7 @@
 	                { line: true },
 	                { id:'modify',text: '刷新', click: refresh, icon: 'refresh' }                
               	  ]
-                }
+                } */
             });             
 
             $("#pageloading").hide();

@@ -140,7 +140,7 @@ public class SchedulerServiceImpl implements SchedulerService,InitializingBean{
 	@Override
 	public boolean startOneTime(String jobTaskId,String beanId,String groupName,List<IJobTaskParamPo> iJobTaskParamPos) {
 		logger.info("Enter startOneTime method，beanId="+beanId+"; group="+groupName);
-		JobDetail job = getJobDetail(beanId + "_" + UUID.randomUUID(), groupName);
+		JobDetail job = getJobDetail(beanId + "_" + jobTaskId, groupName);
 		boolean jobExist = true;
 		if(job==null){
 			jobExist = false;

@@ -10,7 +10,6 @@
 		<result property="type" column="type" jdbcType="VARCHAR"/>
 		<result property="expression" column="expression" jdbcType="VARCHAR"/>
 		<result property="status" column="status" jdbcType="NUMERIC"/>
-		<result property="lastRunTime" column="last_run_time" jdbcType="TIMESTAMP"/>
 		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
 		<result property="createBy" column="create_by" jdbcType="VARCHAR"/>
 		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
@@ -19,9 +18,9 @@
 	
 	<insert id="create" parameterType="com.pai.biz.common.persistence.entity.JobTaskPo">
 		INSERT INTO pai_job_task
-		(id_,name,description,bean,group_name,type,expression,status,last_run_time,create_time,create_by,update_time,update_by)
+		(id_,name,description,bean,group_name,type,expression,status,create_time,create_by,update_time,update_by)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{bean,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{expression,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC}, #{lastRunTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{bean,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{expression,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="get"   parameterType="java.lang.String" resultMap="JobTaskPo">
@@ -77,7 +76,6 @@
 		type=#{type,jdbcType=VARCHAR},
 		expression=#{expression,jdbcType=VARCHAR},
 		status=#{status,jdbcType=NUMERIC},
-		last_run_time=#{lastRunTime,jdbcType=TIMESTAMP},
 		create_time=#{createTime,jdbcType=TIMESTAMP},
 		create_by=#{createBy,jdbcType=VARCHAR},
 		update_time=#{updateTime,jdbcType=TIMESTAMP},
@@ -116,9 +114,6 @@
 			</if>
 			<if test="entity.status!=null">
 				status=#{status,jdbcType=NUMERIC},
-			</if>
-			<if test="entity.lastRunTime!=null">
-				last_run_time=#{lastRunTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="entity.createTime!=null">
 				create_time=#{createTime,jdbcType=TIMESTAMP},
