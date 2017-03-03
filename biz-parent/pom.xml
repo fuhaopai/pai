@@ -32,6 +32,7 @@
     <module>biz-frame</module>
     <module>biz-auth</module>
     <module>biz-common</module>
+    <module>biz-member</module>
   </modules>
   
   <dependencyManagement>
