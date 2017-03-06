@@ -43,6 +43,7 @@
 	<dbDirs><!-- 对应table配置的module -->
 		<dir key="auth" value="biz-parent\biz-auth"/>
 		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="biz-parent\biz-member"/>
 	</dbDirs> 
 
 	<daoFiles>											
@@ -58,6 +59,7 @@
 	<daoDirs><!-- 对应table配置的module -->
 		<dir key="auth" value="biz-parent\biz-auth"/>
 		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="biz-parent\biz-member"/>
 	</daoDirs> 
 
 	<domainFiles>											
@@ -70,6 +72,7 @@
 	<domainDirs><!-- 对应table配置的module -->
 		<dir key="auth" value="biz-parent\biz-auth"/>
 		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="biz-parent\biz-member"/>
 	</domainDirs>  
   
 	<controllerFiles>																					
@@ -80,6 +83,7 @@
 	<controllerDirs>
 		<dir key="auth" value="app-parent\app-admin"/>
 		<dir key="common" value="app-parent\app-admin"/>
+		<dir key="member" value="app-parent\app-admin"/>
 	</controllerDirs>
 	
 	<viewFiles>																					
@@ -91,6 +95,7 @@
 	<viewDirs>
 		<dir key="auth" value="app-parent\app-admin"/>
 		<dir key="common" value="app-parent\app-admin"/>
+		<dir key="member" value="app-parent\app-admin"/>
 	</viewDirs>
 	
 	<apiBaseFiles>																							
@@ -102,6 +107,7 @@
 	<apiBaseDirs>
 		<dir key="auth" value="app-parent\app-web"/>
 		<dir key="common" value="app-parent\app-web"/>
+		<dir key="member" value="app-parent\app-web"/>
 	</apiBaseDirs>	
 	
 	<apiFiles>																					
@@ -113,6 +119,7 @@
 	<apiDirs>
 		<dir key="auth" value="app-parent\app-api"/>
 		<dir key="common" value="app-parent\app-api"/>
+		<dir key="member" value="app-parent\app-api"/>
 	</apiDirs>
 
 	<variables>
@@ -123,13 +130,13 @@
 		<variable name="workspace" value="D:\github\pai\" />
 	</variables>
         <!--可以有多个<table>标签-->
-	<table tableName="pai_job_task_log" >
+	<table tableName="pai_member_user" >
 		<variable name="sys" value="pai" />
-		<variable name="module" value="common" />
-		<variable name="class" value="JobTaskLog" />		
-		<variable name="baseClass" value="JobTaskLog" />
+		<variable name="module" value="member" />
+		<variable name="class" value="MemberUser" />		
+		<variable name="baseClass" value="MemberUser" />
 		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
-		<variable name="doType" value="controller,view" />
+		<variable name="doType" value="db,dao,domain,controller,view" />
 		 <!--
 		<subtable tablename="pai_auth_resources"  foreignKey="report_id_">
 			<variable name="sys" value="pai" />
