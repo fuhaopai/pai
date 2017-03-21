@@ -1,10 +1,10 @@
 #系统主要使用spring,springmvc,mybatis等搭建，maven结构，项目原型图位置fork后找到doc/pai/index.html
 #项目模块分层图
-![image](https://github.com/fuhaojun/pai/blob/master/doc/image/module.png)
+![image](https://github.com/fuhaopai/pai/blob/master/doc/image/module.png)
 #系统结构设计图
-![image](https://github.com/fuhaojun/pai/blob/master/doc/image/code.png)
-#代码生成器(按本系统结构生成db,dao,domain,controller,view,api代码，涉及后台的增删改查及页面，API的增删改查)，详情及效果演示请点击[代码生成器](https://github.com/fuhaojun/pai/blob/master/CODEGEN.md)
-![image](https://github.com/fuhaojun/pai/blob/master/doc/image/codegen.png)
+![image](https://github.com/fuhaopai/pai/blob/master/doc/image/code.png)
+#代码生成器(按本系统结构生成db,dao,domain,controller,view,api代码，涉及后台的增删改查及页面，API的增删改查)，详情及效果演示请点击[代码生成器](https://github.com/fuhaopai/pai/blob/master/CODEGEN.md)
+![image](https://github.com/fuhaopai/pai/blob/master/doc/image/codegen.png)
 
 #base-paren基础接口、工具和数据存储
 
@@ -14,7 +14,7 @@
 -base-core:
  依赖base-api，针对部分接口提供实现，并提供大量的工具类和基础服务类
 
--base-db:使用MyBatis技术对所有关系数据库提供访问支持，使用方言处理各种数据库的差异。支持数据库连接池和动态数据源切换。主键生成策略：为保持唯一性，暂时id单数从redis中取，redis无法取到从数据库id表中取双数。防止并发重复，加锁如下
+-base-db:使用MyBatis技术对所有关系数据库提供访问支持，使用方言处理各种数据库的差异。支持数据库连接池和动态数据源切换。主键生成策略：为保持唯一性，暂时id单数从redis中取，redis无法取到从数据库id表中取双数。防止并发重复，方便改造分布式加锁如下
 
 public boolean lock(Jedis jedis, String key){
 
