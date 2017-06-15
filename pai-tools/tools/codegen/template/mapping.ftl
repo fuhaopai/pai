@@ -28,7 +28,7 @@
 	
 	<insert id="create" parameterType="${type}">
 		INSERT INTO ${tableName}
-		(<#list colList as col>${col.columnName}<#if col_has_next>,</#if></#list>)
+		(<#list colList as col>`${col.columnName}`<#if col_has_next>,</#if></#list>)
 		VALUES 
 		(<#list colList as col><#assign colName=func.convertUnderLine(col.columnName)><#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>, </#if></#list>)
 	</insert>
@@ -81,7 +81,7 @@
 		UPDATE ${tableName} SET
 		<#list commonList as col>
 		<#assign colName=func.convertUnderLine(col.columnName)>
-		${col.columnName}=<#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>,</#if>
+		`${col.columnName}`=<#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>,</#if>
 		</#list>
 		WHERE
 		${pk}=<#noparse>#{</#noparse>${func.convertUnderLine(pk)}}

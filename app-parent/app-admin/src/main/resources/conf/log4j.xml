@@ -11,7 +11,7 @@
     </appender>  
     
     <appender name="APPLOGFILE" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${webapp.root}/WEB-INF/logs/pai-platform.log"/>
+		<param name="File" value="${catalina.home}/WEB-INF/logs/pai-platform.log"/>
 		<!-- 重启了服务器之后，是否在原有文件的后面追加？true(默认):追加;false:不追加 -->
 		<param name="Append" value="true"/>
 		<!-- 最大文件的size,单位:Kb,Mb... -->
@@ -29,7 +29,7 @@
 	</appender>
  
 	 <appender name="DEBUG" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${webapp.root}/WEB-INF/logs/debug.log"/>
+		<param name="File" value="${catalina.home}/WEB-INF/logs/debug.log"/>
 		<!-- 每小时1个文件 -->
         <param name="DatePattern" value="'.'yyyy-MM-dd-HH'.log'" />
         <!-- 最大文件的size,单位:Kb,Mb... -->
@@ -47,7 +47,7 @@
 	</appender>
 	
 	<appender name="INFO" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${webapp.root}/WEB-INF/logs/info.log"/>
+		<param name="File" value="${catalina.home}/WEB-INF/logs/info.log"/>
 		<param name="Append" value="true"/>
 		<param name="Encoding" value="utf-8"/>
 		<layout class="org.apache.log4j.PatternLayout">
@@ -60,7 +60,7 @@
 	</appender>
 	
 	<appender name="WARN" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${webapp.root}/WEB-INF/logs/warn.log"/>
+		<param name="File" value="${catalina.home}/WEB-INF/logs/warn.log"/>
 		<param name="Append" value="true"/>
 		<param name="Encoding" value="utf-8"/>
 		<layout class="org.apache.log4j.PatternLayout">
@@ -73,7 +73,7 @@
 	</appender>
 	
 	<appender name="ERROR" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${webapp.root}/WEB-INF/logs/error.log"/>
+		<param name="File" value="${catalina.home}/WEB-INF/logs/error.log"/>
 		<param name="Append" value="true"/>
 		<param name="Encoding" value="utf-8"/>
 		<layout class="org.apache.log4j.PatternLayout">
