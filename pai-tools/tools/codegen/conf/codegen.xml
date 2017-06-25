@@ -43,7 +43,7 @@
 	<dbDirs><!-- 对应table配置的module -->
 		<dir key="auth" value="biz-parent\biz-auth"/>
 		<dir key="common" value="biz-parent\biz-common"/>
-		<dir key="member" value="biz-parent\biz-member"/>
+		<dir key="member" value="member-parent\member-server"/>
 	</dbDirs> 
 
 	<daoFiles>											
@@ -59,7 +59,7 @@
 	<daoDirs><!-- 对应table配置的module -->
 		<dir key="auth" value="biz-parent\biz-auth"/>
 		<dir key="common" value="biz-parent\biz-common"/>
-		<dir key="member" value="biz-parent\biz-member"/>
+		<dir key="member" value="member-parent\member-server"/>
 	</daoDirs> 
 
 	<domainFiles>											
@@ -72,7 +72,7 @@
 	<domainDirs><!-- 对应table配置的module -->
 		<dir key="auth" value="biz-parent\biz-auth"/>
 		<dir key="common" value="biz-parent\biz-common"/>
-		<dir key="member" value="biz-parent\biz-member"/>
+		<dir key="member" value="member-parent\member-server"/>
 	</domainDirs>  
   
 	<controllerFiles>																					
@@ -97,6 +97,15 @@
 		<dir key="common" value="app-parent\app-admin"/>
 		<dir key="member" value="app-parent\app-admin"/>
 	</viewDirs>
+	
+	<!-- 针对服务的对接文件 -->
+	<serviceFiles>
+		<file refTemplate="service" filename="{classVar}Service.ftl" dir="src\main\java\com\{sys}\app\admin\{module}\service" sub="true" override="true"/>
+	</serviceFiles>
+	
+	<serviceDirs>
+		
+	</serviceDirs>
 	
 	<apiBaseFiles>																							
 		<file refTemplate="apiResult" filename="{class}APIResult.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>

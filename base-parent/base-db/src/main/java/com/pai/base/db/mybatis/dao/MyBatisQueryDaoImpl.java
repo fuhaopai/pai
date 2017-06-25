@@ -11,6 +11,9 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.pai.base.api.model.Page;
+import com.pai.base.core.util.string.StringUtils;
+import com.pai.base.db.api.model.FieldSort;
+import com.pai.base.db.api.query.QueryFilter;
 import com.pai.base.db.mybatis.impl.domain.MyBatisPage;
 import com.pai.base.db.persistence.dao.AbstractQueryDao;
 import com.pai.base.db.persistence.entity.AbstractPo;
@@ -111,4 +114,31 @@ public abstract class MyBatisQueryDaoImpl<PK extends java.io.Serializable,P exte
     public List<P> findByKey(String sqlKey,Map<String,Object> params,Page page){
     	return sqlSessionTemplate.selectList(getNamespace() + "." + sqlKey , params,new RowBounds(page.getStartIndex(), page.getPageSize()));
     }	
+    
+    public List findByQueryFilter(String sqlKey, QueryFilter queryFilter) {
+		Map params = queryFilter.getParams();
+
+		String dynamicWhereSql = queryFilter.getFieldLogic().getSql();
+		if (StringUtils.isNotEmpty(dynamicWhereSql)) {
+			params.put("whereSql", dynamicWhereSql);
+		}
+
+		if (queryFilter.getFieldSortList().size() > 0) {
+			StringBuffer sb = new StringBuffer();
+			for (FieldSort fieldSort : queryFilter.getFieldSortList()) {
+				sb.append(fieldSort.getField()).append(" ")
+						.append(fieldSort.getDirection()).append(",");
+			}
+			sb.deleteCharAt(sb.length() - 1);
+			params.put("orderBySql", sb.toString());
+		}
+
+		if (queryFilter.getPage() == null) {
+			return this.sqlSessionTemplate.selectList(getNamespace() + "."
+					+ sqlKey, params);
+		}
+		MyBatisPage defaultPage = (MyBatisPage)queryFilter.getPage();
+		return this.sqlSessionTemplate.selectList(
+				getNamespace() + "." + sqlKey, params, defaultPage);
+	}
 }
