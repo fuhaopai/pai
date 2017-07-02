@@ -9,7 +9,7 @@
   		<base-core.version>1.0.0-SNAPSHOT</base-core.version>  	
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     	<junit.version>4.10</junit.version>
-    	<log4j.version>1.2.4</log4j.version>
+    	<log4j.version>1.2.12</log4j.version>
     	<org.slf4j.version>1.7.5</org.slf4j.version>  		
   	
 		<springframework.core.version>3.2.2.RELEASE</springframework.core.version>  	

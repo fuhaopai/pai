@@ -14,16 +14,16 @@
 	<#noparse><#</#noparse>include "/common/jquery.ftl">
 	<#noparse><#</#noparse>include "/common/ligerUI.ftl">		 			
 	<link href="<#noparse>${</#noparse>CtxPath}/scripts/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
-	<link href="<#noparse>${</#noparse>CtxPath}/styles/platform/form.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="<#noparse>${</#noparse>CtxPath}/scripts/pai/common.js" ></script>		    	            	    	
+	<link href="<#noparse>${</#noparse>CtxPath}/styles/admin/pai/form.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="<#noparse>${</#noparse>CtxPath}/scripts/admin/pai/common.js" ></script>		    	            	    	
     <script type="text/javascript">  
 	$(function(){		
-		bindFormValidation("${classVar}EditForm","<#noparse>${</#noparse>CtxPath}/storeadmin/${sys}/${module}/${classVar}/save.do");								
+		bindFormValidation("${classVar}EditForm","<#noparse>${</#noparse>CtxPath}/admin/${sys}/${module}/${classVar}/save.do");								
 		$("#${classVar}EditForm").ligerForm();           
 	});
 	var __ctxPath = "<#noparse>${CtxPath}</#noparse>";	   
     </script>
-	<script type="text/javascript" src="<#noparse>${CtxPath}</#noparse>/scripts/pai/${sys}/${module}/${classVar}.js" ></script>
+	<script type="text/javascript" src="<#noparse>${CtxPath}</#noparse>/scripts/admin/${sys}/${module}/${classVar}.js" ></script>
 </head>
 
 <body style="padding:10px">	
@@ -39,17 +39,19 @@
     </<#noparse>#</#noparse>if>
     	<div>&nbsp;</div>
         <table cellpadding="0" cellspacing="0" class="l-table-edit">
-		<#list colList as col>
-		<#assign colName=func.convertUnderLine(col.columnName)>		       
-<#assign needValidate="N"/><#if col.isNotNull || col.colType="Integer" || col.colType="Float" || col.colType="java.util.Date"><#assign needValidate="Y"/></#if>		
-            <tr>
-                <td align="right" class="l-table-edit-td">${col.getComment()}:</td>
-                <td align="left" class="l-table-edit-td">
-                	<input name="${colName}" type="text" id="${colName}" <#if col.colType="java.util.Date">class="wdateTime" onFocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})"</#if> value="<#noparse>${</#noparse>${classVar}Po.${colName}}" ltype="text" <#if needValidate=="Y">validate='{<#if col.isNotNull>required:true</#if><#if col.colType="Integer"><#if col.isNotNull>,</#if>digits:true</#if><#if col.colType="Float"><#if col.isNotNull>,</#if>number:true</#if><#if col.colType="java.util.Date"><#if col.isNotNull>,</#if>date:true</#if>}'</#if>/>
-                </td>
-                <td align="left"></td>
-            </tr>    
-		</#list>           
+			<#list colList as col>
+			<#assign colName=func.convertUnderLine(col.columnName)>		       
+			<#assign needValidate="N"/><#if col.isNotNull || col.colType="Integer" || col.colType="Float" || col.colType="java.util.Date"><#assign needValidate="Y"/></#if>		
+	        <#if colName != "updateTime" && colName != "updateBy" && colName != "createTime" && colName != "createBy">
+		        <tr>
+		            <td align="right" class="l-table-edit-td">${col.getComment()}:</td>
+		            <td align="left" class="l-table-edit-td">
+		            	<input name="${colName}" type="text" id="${colName}" <#if col.colType="java.util.Date">class="wdateTime" onFocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})"</#if> value="<#noparse>${</#noparse>${classVar}Po.${colName}}" ltype="text" <#if needValidate=="Y">validate='{<#if col.isNotNull>required:true</#if><#if col.colType="Integer"><#if col.isNotNull>,</#if>digits:true</#if><#if col.colType="Float"><#if col.isNotNull>,</#if>number:true</#if><#if col.colType="java.util.Date"><#if col.isNotNull>,</#if>date:true</#if>}'</#if>/>
+		            </td>
+		            <td align="left"></td>
+		        </tr> 
+		    </#if>   
+			</#list>           
         </table>
  		<br />
 		<input type="submit" value="提交" id="Button1" class="l-button l-button-submit" /> 

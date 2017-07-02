@@ -4,6 +4,15 @@ public class CommonResult {
 	private boolean success = false;
 	private String msgCode;
 	private String msg;
+	
+	public CommonResult(){}
+	
+	public CommonResult(boolean success, String msgCode, String msg) {
+		super();
+		this.success = success;
+		this.msgCode = msgCode;
+		this.msg = msg;
+	}
 
 	public boolean isSuccess() {
 		return success;

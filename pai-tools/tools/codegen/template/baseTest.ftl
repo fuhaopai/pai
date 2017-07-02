@@ -18,9 +18,13 @@ import com.pai.base.core.test.BaseTestCase;
  * @author ${vars.developer}
  *
  */
-@ContextConfiguration({"classpath:conf/${sys}-${module}-test.xml"})
+@ContextConfiguration({"classpath:conf/application.xml"})
 public class ${baseClass}BaseTest extends BaseTestCase{
 	
 	@Resource
     protected IdGenerator idGenerator;
+    
+    @Resource
+    protected ${class}Service ${classVar}service;
+    
 }

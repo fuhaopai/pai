@@ -23,6 +23,12 @@
     <dependency>
     	<groupId>com.pai.biz</groupId>
     	<artifactId>biz-frame</artifactId>
+    	<exclusions>
+    		<exclusion>
+    			<groupId>avalon-framework</groupId>
+  				<artifactId>avalon-framework-api</artifactId>
+    		</exclusion>
+    	</exclusions>
     </dependency>
   </dependencies>
 </project>

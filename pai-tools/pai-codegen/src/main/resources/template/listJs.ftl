@@ -13,7 +13,7 @@ function add() {
 		height:600,
 		width: 800,
 		title : '新增${model.tabComment} ',
-		url: __ctxPath + '/storeadmin/${sys}/${module}/${classVar}/edit.do', 
+		url: __ctxPath + '/admin/${sys}/${module}/${classVar}/edit.do', 
 		showMax: true,
 		showToggle: true,
 		showMin: true,
@@ -37,7 +37,7 @@ function editDialog(id) {
 		height:600,
 		width: 800,
 		title : '修改${model.tabComment} ',
-		url: __ctxPath + '/storeadmin/${sys}/${module}/${classVar}/edit.do?id=' + id, 
+		url: __ctxPath + '/admin/${sys}/${module}/${classVar}/edit.do?id=' + id, 
 		showMax: true,
 		showToggle: true,
 		showMin: true,
@@ -53,7 +53,7 @@ function deleteRow()
 		$.ligerDialog.confirm('请确认是否删除该记录', function (yes)
 				{
 	            	if(yes){
-	            		var url = __ctxPath + "/storeadmin/${sys}/${module}/${classVar}/delete.do";
+	            		var url = __ctxPath + "/admin/${sys}/${module}/${classVar}/delete.do";
 	            		var params = "id="+selected.id;
 	            		$.post(url,params,deleteResponse);            		            		
 	            	}             
@@ -64,10 +64,13 @@ function deleteRow()
 }		
         
 function deleteResponse(responseText){        
-	grid.deleteSelectedRow();            		
 	var result = JSON.parse(responseText);
-	if(result.success){		
+	if(result.success){	
 		var msg = getMsg(result.msgCode);				
-		$.ligerDialog.success(msg);    	 	
-	}        	
+		$.ligerDialog.success(msg);   
+		grid.deleteSelectedRow(); 	 	
+	} else {
+		var msg = getMsg(result.msgCode);				
+		$.ligerDialog.error(msg);
+	}       	
 }

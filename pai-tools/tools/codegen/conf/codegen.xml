@@ -21,18 +21,28 @@
 		<template key="repositoryImpl"  path="repositoryImpl.ftl"/>
 		<template key="domainTest"  path="domainTest.ftl"/>
 
-		<!--单元测试相关类 -->
+		<!--controller及页面 -->
 		<template key="controller"  path="controller.ftl"/>
-		<template key="controllerTest"  path="controllerTest.ftl"/>
 		<template key="apiController" path="apiController.ftl"/>
-		<template key="apiControllerTest" path="apiControllerTest.ftl"/>
 		<template key="apiResult" path="apiResult.ftl"/>
 		<template key="apiListResult" path="apiListResult.ftl"/>
 		<template key="apiView" path="apiView.ftl"/>
 		<template key="apiViewConverter" path="apiViewConverter.ftl"/>
 		<template key="list"  path="list.ftl"/>
 		<template key="edit"  path="edit.ftl"/>
-		<template key="listJs"  path="listJs.ftl"/>								
+		<template key="listJs"  path="listJs.ftl"/>
+		
+		<!-- rpc service及调整controller -->
+		<template key="rpccontroller"  path="rpccontroller.ftl"/>	
+		<template key="service"  path="service.ftl"/>
+		<template key="serviceImpl"  path="serviceImpl.ftl"/>	
+		<template key="bean"  path="bean.ftl"/>	
+		<!-- <template key="request"  path="request.ftl"/> -->	
+		
+		<!-- 单元测试 -->	
+		<template key="controllerTest"  path="controllerTest.ftl"/>	
+		<template key="apiControllerTest" path="apiControllerTest.ftl"/>
+		<template key="apiTest" path="apiTest.ftl"/>						
 	</templates>
 
 	<dbFiles>
@@ -53,7 +63,7 @@
 		<file refTemplate="queryDao" filename="{class}QueryDao.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao" sub="true"  override="true"/>
 		<file refTemplate="queryDaoImpl" filename="{class}QueryDaoImpl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao\impl" sub="true"  override="true"/>		
 		<!-- <file refTemplate="daoTest" filename="{class}DaoTest.java" dir="src\test\java\com\{sys}\biz\{module}\test\persistence\dao" sub="true"  override="true"/> -->
-		<file refTemplate="baseTest" filename="{baseClass}BaseTest.java" dir="src\test\java\com\{sys}\biz\{module}\test" sub="true" />						
+		<file refTemplate="baseTest" filename="{baseClass}Test.java" dir="src\test\java\com\{sys}\biz\{module}\test" sub="true" />						
 	</daoFiles>
 
 	<daoDirs><!-- 对应table配置的module -->
@@ -83,8 +93,16 @@
 	<controllerDirs>
 		<dir key="auth" value="app-parent\app-admin"/>
 		<dir key="common" value="app-parent\app-admin"/>
-		<dir key="member" value="app-parent\app-admin"/>
 	</controllerDirs>
+	
+	<rpccontrollerFiles>																					
+		<file refTemplate="rpccontroller" filename="{class}Controller.java" dir="src\main\java\com\{sys}\app\admin\{module}\controller" sub="false" override="true"/>
+	</rpccontrollerFiles>	
+	
+	<rpccontrollerDirs>
+		<dir key="member" value="app-parent\app-admin"/>
+		<dir key="topic" value="app-parent\app-admin"/>
+	</rpccontrollerDirs>
 	
 	<viewFiles>																					
 		<file refTemplate="list" filename="{classVar}List.ftl" dir="src\main\webapp\WEB-INF\view\admin\{sys}\{module}\{classVar}" sub="true" override="true"/>
@@ -98,14 +116,27 @@
 		<dir key="member" value="app-parent\app-admin"/>
 	</viewDirs>
 	
-	<!-- 针对服务的对接文件 -->
+	<!-- 针对服务的对接文件,web系统和服务模块 -->
 	<serviceFiles>
-		<file refTemplate="service" filename="{classVar}Service.ftl" dir="src\main\java\com\{sys}\app\admin\{module}\service" sub="true" override="true"/>
+		<file refTemplate="serviceImpl" filename="{class}ServiceImpl.java" dir="src\main\java\com\{sys}\biz\{module}\api\impl" sub="true" override="true"/>
+		<!-- <file refTemplate="apiTest" filename="{class}ServiceTest.java" dir="src\test\java\com\{sys}\biz\{module}\api" sub="true" override="true"/> -->
 	</serviceFiles>
 	
 	<serviceDirs>
-		
+		<dir key="member" value="member-parent\member-server"/>
+		<dir key="topic" value="topic-parent\topic-server"/>
 	</serviceDirs>
+	
+	<baseserviceFiles>
+		<file refTemplate="bean" filename="{class}Bean.java" dir="src\main\java\com\{sys}\biz\{module}\api\model"  sub="true" override="true"/>
+		<file refTemplate="service" filename="{class}Service.java" dir="src\main\java\com\{sys}\biz\{module}\api\service" sub="true" override="true"/>
+		<!-- <file refTemplate="request" filename="{class}Request.java" dir="src\main\java\com\{sys}\biz\{module}\api\request" sub="true" override="true"/> -->
+	</baseserviceFiles>
+	
+	<baseserviceDirs>
+		<dir key="member" value="member-parent\member-api"/>
+		<dir key="topic" value="topic-parent\topic-api"/>
+	</baseserviceDirs>
 	
 	<apiBaseFiles>																							
 		<file refTemplate="apiResult" filename="{class}APIResult.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
@@ -132,10 +163,10 @@
 	</apiDirs>
 
 	<variables>
-		<variable name="developer" value="FUHAO" />
+		<variable name="developer" value="FU_HAO" />
 		<variable name="company" value="π" />
 		<!--keys值必须小写，且用,隔开-->
-		<variable name="keys" value="db,dao,domain,controller,view,apiBase,api"/>
+		<variable name="keys" value="db,dao,domain,controller,view,apiBase,api,rpccontroller,service,baseservice"/>
 		<variable name="workspace" value="D:\github\pai\" />
 	</variables>
         <!--可以有多个<table>标签-->
@@ -145,7 +176,7 @@
 		<variable name="class" value="MemberUser" />		
 		<variable name="baseClass" value="MemberUser" />
 		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
-		<variable name="doType" value="db,dao,domain,controller,view" />
+		<variable name="doType" value="db,dao,domain,view,rpccontroller,service,baseservice,bean" />
 		 <!--
 		<subtable tablename="pai_auth_resources"  foreignKey="report_id_">
 			<variable name="sys" value="pai" />
@@ -156,5 +187,5 @@
 		</subtable>
 		-->
 	</table>	
-	 <!-- 默认是all ，或者其它指定项，逗号分隔。db,dao,domain,controller,view,api-->
+	 <!-- 默认是all ，或者其它指定项，逗号分隔。db,dao,domain,controller,view,apiBase,api,rpccontroller,service,request-->
 </config>

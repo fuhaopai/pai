@@ -36,10 +36,22 @@
 	<dependency>
 		<groupId>com.cloudhopper.proxool</groupId>
 		<artifactId>proxool</artifactId>
+		<exclusions>
+    		<exclusion>
+    			<groupId>avalon-framework</groupId>
+  				<artifactId>avalon-framework-api</artifactId>
+    		</exclusion>
+    	</exclusions>
 	</dependency>
 	<dependency>
 		<groupId>com.cloudhopper.proxool</groupId>
 		<artifactId>proxool-cglib</artifactId>
+		<exclusions>
+    		<exclusion>
+    			<groupId>avalon-framework</groupId>
+  				<artifactId>avalon-framework-api</artifactId>
+    		</exclusion>
+    	</exclusions>
 	</dependency>
   </dependencies>
   

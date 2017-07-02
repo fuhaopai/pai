@@ -28,7 +28,7 @@
 	
 	<insert id="create" parameterType="${type}">
 		INSERT INTO ${tableName}
-		(<#list colList as col>${col.columnName}<#if col_has_next>,</#if></#list>)
+		(<#list colList as col>`${col.columnName}`<#if col_has_next>,</#if></#list>)
 		VALUES 
 		(<#list colList as col><#assign colName=func.convertUnderLine(col.columnName)><#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>, </#if></#list>)
 	</insert>
@@ -37,6 +37,7 @@
 		SELECT * FROM ${tableName} 
 		WHERE 
 		${pk}=<#noparse>#{</#noparse>${func.convertUnderLine(pk)}}
+		LIMIT 1
 	</select>
 	
 	<select id="getLast" resultMap="${po}">
@@ -80,7 +81,7 @@
 		UPDATE ${tableName} SET
 		<#list commonList as col>
 		<#assign colName=func.convertUnderLine(col.columnName)>
-		${col.columnName}=<#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>,</#if>
+		`${col.columnName}`=<#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>,</#if>
 		</#list>
 		WHERE
 		${pk}=<#noparse>#{</#noparse>${func.convertUnderLine(pk)}}
@@ -107,4 +108,20 @@
 	</select>
 	</#if>
 	
+	<update id="updateByExampleSelective" parameterType="java.util.Map">
+		UPDATE ${tableName} 
+		<set>
+			<#list commonList as col>
+			<#assign colName=func.convertUnderLine(col.columnName)>
+			<if test="entity.${colName}!=null">
+				${col.columnName}=<#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>,</#if>
+			</if>
+			</#list>
+		</set>
+		<where>
+			<if test="whereSql!=null">
+				<#noparse>${</#noparse>whereSql}
+			</if>
+		</where>
+	</update>
 </mapper>

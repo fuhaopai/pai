@@ -119,9 +119,9 @@ function showResponse(responseText) {
 		var msg = "";
 		if(result.msgCode){
 			msg = getMsg(result.msgCode);
-			if(result.msg){
+			/*if(result.msg){
 				msg = msg + "." + result.msg;
-			}
+			}*/
 		}else{
 			msg = result.msg;
 		}		

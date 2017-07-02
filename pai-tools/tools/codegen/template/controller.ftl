@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -94,10 +95,7 @@ public class ${class}Controller extends AdminController<String, ${class}Po, ${cl
 	 * @since  1.0.0
 	 */	
 	@RequestMapping("edit")
-	public ModelAndView edit(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		//获取主键
-		String id = RequestUtil.getParameterNullSafe(request, "id");
-		
+	public ModelAndView edit(HttpServletRequest request,HttpServletResponse response, @RequestParam String id) throws Exception{
 		//装载领域对象
 		//是否新增
 		boolean isNew =StringUtils.isEmpty(id)?true:false; 

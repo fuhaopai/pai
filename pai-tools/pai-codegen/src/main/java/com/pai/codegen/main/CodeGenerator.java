@@ -128,7 +128,7 @@ public class CodeGenerator
     throws Exception
   {
     CodeGenerator codeGenerator = new CodeGenerator();
-    setRootPath("D:\\workspace-pai\\pai-tools\\pai-codegen\\src\\main\\resources");
+    setRootPath("D:\\github\\pai\\pai-tools\\pai-codegen\\src\\main\\resources");
     codeGenerator.execute();
   }
 }

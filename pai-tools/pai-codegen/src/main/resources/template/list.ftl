@@ -15,29 +15,28 @@
     <title>${comment }管理</title>
 	<<#noparse>#</#noparse>include "/WEB-INF/view/common/jquery.ftl">
 	<<#noparse>#</#noparse>include "/WEB-INF/view/common/ligerUI.ftl">		 
-	<script type="text/javascript" src="<#noparse>${</#noparse>CtxPath}/scripts/pai/common.js" ></script>					    					    
+	<script type="text/javascript" src="<#noparse>${</#noparse>CtxPath}/scripts/admin/pai/common.js" ></script>					    					    
     <script type="text/javascript">
     	var grid = null;
         var searchForm = null;
         $(function ()
         {
         	searchForm = $("#form1").ligerForm({
-				inputWidth : 190,labelWidth : 0,space : 1,rightToken :'',
+				inputWidth : 180, labelWidth : 90, space : 50, rightToken :'',
 				fields : [
-		<#list model.commonList as col>
-			<#assign colName=func.convertUnderLine(col.columnName)>                          
-			<#if (col.isPK) >				
-			<#else>
-				{ display: '&nbsp;${col.getComment()}', name: 'Q__S__EQ__${colName}', align: 'left', width: 80, minWidth: 60 },
-			</#if>
-		</#list>			
-			{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
-				          	{display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", 
-							name: "searchButton", newline: false, width:0.01}
-						  ]
-			});        
+				<#list model.commonList as col>
+				<#assign colName=func.convertUnderLine(col.columnName)>                          
+				<#if (col.isPK) >				
+				<#else>
+					{ display: '${col.getComment()}:', name: 'Q__S__EQ__col.columnName', newline : <#if col_index%4 == 0>true<#else>false</#if>, align: 'left', width: 140 },
+				</#if>
+				</#list>			
+					{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
+		          	{ display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", name: "searchButton", newline: false, width:0.01}
+				 ]
+			 });        
         	
-           grid = $("#maingrid").ligerGrid({
+            grid = $("#maingrid").ligerGrid({
                 height:'100%',
                 
                 onChangeSort: function (sortname, sortorder) {
@@ -47,25 +46,34 @@
 	             } ,
 	             
                 columns: [
-		<#list model.commonList as col>
-			<#assign colName=func.convertUnderLine(col.columnName)>                          
-			<#if (col.isPK) >
-				{ display: '${col.getComment()}', name: '${colName}',hide:true}<#if col_has_next>,</#if>
-			<#else>
-				{ display: '${col.getComment()}', name: '${colName}', align: 'left', width: 80, minWidth: 60 }<#if col_has_next>,</#if>
-			</#if>
-		</#list>			
-                ], url:'<#noparse>${</#noparse>CtxPath}/storeadmin/${sys}/${module}/${classVar}/listData.do', pageSize:30 ,rownumbers:true,pagesizeParmName:'pageSize',
+				<#list model.commonList as col>
+				<#assign colName=func.convertUnderLine(col.columnName)>                          
+				<#if (col.isPK) >
+					{ display: '${col.getComment()}', name: '${colName}',hide:true}<#if col_has_next>,</#if>
+				<#elseif (col.colType == "java.util.Date") >
+					{ display: '${col.getComment()}', name: '${colName}', align: 'left', type:'date', options:{showTime: true,format:'yyyy-MM-dd hh:mm:ss'}, width: 140, minWidth: 60 }<#if col_has_next>,</#if>
+				<#else>
+					{ display: '${col.getComment()}', name: '${colName}', align: 'left', width: 80, minWidth: 60 }<#if col_has_next>,</#if>
+				</#if>
+				</#list>			
+                ], 
+                url:'<#noparse>${</#noparse>CtxPath}/admin/${sys}/${module}/${classVar}/listData.do', 
+                pageSize:30 ,
+                rownumbers:true,
+                pagesizeParmName:'pageSize',
                 onReload:setDataToGrid,
+                onDblClickRow : function (rowdata,index,value){
+                     editDialog(rowdata.id);
+                },
                 toolbar: { items: [
-                { id:'add',text: '增加', click: add, icon: 'add' },
-                { line: true },
-                { id:'modify',text: '修改', click: edit, icon: 'modify' },
-                { line: true },
-                { id:'delete',text: '删除', click: deleteRow, img: '<#noparse>${</#noparse>CtxPath}/scripts/ligerUI/skins/icons/delete.gif' },
-                { line: true },
-                { id:'modify',text: '刷新', click: refresh, icon: 'refresh' }                
-                ]
+	                { id:'add',text: '增加', click: add, icon: 'add' },
+	                { line: true },
+	                { id:'modify',text: '修改', click: edit, icon: 'modify' },
+	                { line: true },
+	                { id:'delete',text: '删除', click: deleteRow, img: '<#noparse>${</#noparse>CtxPath}/scripts/ligerUI/skins/icons/delete.gif' },
+	                { line: true },
+	                { id:'modify',text: '刷新', click: refresh, icon: 'refresh' }                
+              	  ]
                 }
             });             
 
@@ -94,7 +102,7 @@
 			}			
 		}
     </script>
-    <script type="text/javascript" src="<#noparse>${CtxPath}</#noparse>/scripts/pai/${sys}/${module}/${classVar}.js" ></script>
+    <script type="text/javascript" src="<#noparse>${CtxPath}</#noparse>/scripts/admin/${sys}/${module}/${classVar}.js" ></script>
 </head>
 <body style="overflow-x:hidden; padding:2px;">
 	<div class="l-loading" style="display:block" id="pageloading"></div>

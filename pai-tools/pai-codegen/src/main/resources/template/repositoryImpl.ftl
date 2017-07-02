@@ -7,13 +7,8 @@
 <#assign foreignKey=func.convertUnderLine(model.foreignKey)>
 package com.${sys}.biz.${module}.repository.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Repository;
-
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.db.persistence.dao.IQueryDao;
 import com.pai.biz.frame.repository.AbstractRepository;

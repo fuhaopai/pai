@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/aop
+                            http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--开启注解配置 -->
+    <context:annotation-config/>
+
+    <!-- 开启自动切面代理 -->
+    <aop:aspectj-autoproxy/>
+
+    <context:component-scan base-package="com.pai.biz.member">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 配置文件 -->
+    <!-- <context:property-placeholder properties-ref="customProperties" />
+    <bean id="customProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations" value="classpath:/conf/member-server.properties"/>
+    </bean> -->
+	<context:property-placeholder location="classpath:/conf/member-server.properties" />
+
+    <import resource="classpath:interface-api.xml"/>
+    <import resource="classpath:conf/base-db-mybatis.xml"/>
+	<import resource="classpath:conf/base-core.xml"/>
+    <!-- <import resource="spring-dubbo-core.xml"/> -->
+    <!-- <import resource="spring-dubbo-provider.xml"/> -->
+    <!-- <import resource="spring-dubbo-consumer.xml"/> -->
+    <!--<import resource="spring-rmi-server.xml"/>-->
+</beans>
