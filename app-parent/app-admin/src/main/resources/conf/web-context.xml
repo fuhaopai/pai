@@ -6,6 +6,6 @@
        http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">              	
        <import resource="web-security.xml"/>                     
        <import resource="web-beans.xml"/>       
-       <queue id="MqQueue" xmlns="http://activemq.apache.org/schema/core" physicalName="com.pai.app.admin.jms.${mq.queue}"/>
        <import resource="service-mq-remote.xml"/>       
+       <import resource="dubbo-consumer.xml"/>       
 </beans>

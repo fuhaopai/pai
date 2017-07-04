@@ -16,7 +16,6 @@ import com.pai.app.web.core.framework.web.context.Log4jConfig;
 import com.pai.app.web.core.framework.web.context.ServletContextHelper;
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.service.image.jms.JmsService;
-import com.pai.base.core.util.ConfigHelper;
 
 public class StartupListener extends ContextLoaderListener implements
 		ServletContextListener {
@@ -52,8 +51,8 @@ public class StartupListener extends ContextLoaderListener implements
 		ServletContext servletContext = event.getServletContext();
 
 		ServletContextHelper.init(servletContext);
-		ConfigHelper configHelper = SpringHelper.getBean(ConfigHelper.class);
-		configHelper.init();
+		/*ConfigHelper configHelper = SpringHelper.getBean(ConfigHelper.class);
+		configHelper.init();*/
 
 		// 进行框架的初始化工作
 		// 将web.xml中的context-param值放在ContextParamHelper对象中

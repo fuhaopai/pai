@@ -7,8 +7,6 @@ import java.util.Properties;
 
 import com.pai.base.api.helper.IConfigHelper;
 import com.pai.base.core.helper.SpringHelper;
-import com.pai.base.core.util.FileUtils;
-import com.pai.base.core.util.PropertiesUtil;
 import com.pai.base.core.util.string.StringCollections;
 import com.pai.base.core.util.string.StringUtils;
 
@@ -22,7 +20,7 @@ public class ConfigHelper implements IConfigHelper{
 	}
 	
 	public void init(){
-		properties = new Properties();
+		/*properties = new Properties();
 		String path = ServletContextHelper.getRealPath() + "/WEB-INF/classes/conf";
 		List<String> filePaths = FileUtils.getFilePaths(path, "properties", true);
 		if(filePaths.isEmpty()){
@@ -48,7 +46,7 @@ public class ConfigHelper implements IConfigHelper{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	
 	public String getParamValue(String paramName){

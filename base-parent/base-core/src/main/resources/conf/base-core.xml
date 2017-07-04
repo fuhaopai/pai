@@ -16,8 +16,8 @@
 
 	<!-- spring上下文,可以获取 上下文的Context -->
 	<bean id="springHelper" class="com.pai.base.core.helper.SpringHelper" />
-	<!-- <bean id="configHelper" class="com.pai.base.core.util.ConfigHelper" init-method="init"/> -->
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="corePlaceHolder">
+	<bean id="configHelper" class="com.pai.base.core.util.ConfigHelper" init-method="init"/>
+	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="corePlaceHolder">
 	    <property name="ignoreUnresolvablePlaceholders" value="true"/>
 	    <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
 	    <property name="searchSystemEnvironment" value="true"/>
@@ -27,7 +27,7 @@
 	            <value>./conf/*.properties</value>
 	        </list>
 	    </property>
-	</bean>     	
+	</bean> -->     	
 	
 	<bean id="imageWatermarkService" class="com.pai.base.core.image.ImageWatermarkServiceImpl">
 		<property name="watermarkImagePath" value="image/water.jpg"/>
