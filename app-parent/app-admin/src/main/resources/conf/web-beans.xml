@@ -12,7 +12,7 @@
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
 	default-autowire="byName" default-lazy-init="false">
-	<context:property-placeholder location="classpath:/conf/app-web.properties" />
+	<context:property-placeholder location="classpath:/conf/app-web.properties,classpath:/conf/base-db.properties" />
 	<!-- 线程池 -->
 	<bean id="taskExecutor"
 		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
@@ -63,7 +63,7 @@
     <aop:config proxy-target-class="true">
 		<aop:aspect ref="paiCacheEvictAOPAspect">
 			<aop:pointcut expression="(execution(* com.pai.*.*.repository.impl.*.*(..)) 
-					or execution(* com.pai.*.*.service.*.*(..)))"  id="paiCacheEvictAopPointcut"/>
+					or execution(* com.pai.biz.*.api.impl.*(..)))"  id="paiCacheEvictAopPointcut"/>
 			<aop:around pointcut-ref="paiCacheEvictAopPointcut" method="doCacheEvict"/>
 		</aop:aspect>		
 	</aop:config>
@@ -74,7 +74,7 @@
     <aop:config proxy-target-class="true">
 		<aop:aspect ref="paiCacheableAOPAspect">
 			<aop:pointcut expression="(execution(* com.pai.*.*.repository.impl.*.*(..))
-					or execution(* com.pai.*.*.service.*.*(..)))"  id="paiCacheableAopPointcut"/>
+					or execution(* com.pai.biz.*.api.impl.*(..)))"  id="paiCacheableAopPointcut"/>
 			<aop:around pointcut-ref="paiCacheableAopPointcut" method="doCacheable"/>
 		</aop:aspect>		
 	</aop:config>

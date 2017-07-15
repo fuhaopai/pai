@@ -5,6 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * 替换源码中的文件,多加一层非空校验
+ * @ClassName: CharacterTypeHandler 
+ * @Description: TODO
+ * @author: fuhao
+ * @date: Jul 9, 2017 5:04:25 PM
+ */
 public class CharacterTypeHandler extends BaseTypeHandler<Character> {
 
 	  @Override

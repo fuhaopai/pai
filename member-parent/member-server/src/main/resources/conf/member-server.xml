@@ -18,17 +18,10 @@
     </context:component-scan>
 
     <!-- 配置文件 -->
-    <!-- <context:property-placeholder properties-ref="customProperties" />
-    <bean id="customProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="locations" value="classpath:/conf/member-server.properties"/>
-    </bean> -->
 	<context:property-placeholder location="classpath:/conf/member-server.properties" />
 
-    <import resource="classpath:interface-api.xml"/>
     <import resource="classpath:conf/base-db-mybatis.xml"/>
 	<import resource="classpath:conf/base-core.xml"/>
-    <!-- <import resource="spring-dubbo-core.xml"/> -->
-    <!-- <import resource="spring-dubbo-provider.xml"/> -->
-    <!-- <import resource="spring-dubbo-consumer.xml"/> -->
-    <!--<import resource="spring-rmi-server.xml"/>-->
+    <import resource="spring-dubbo-core.xml"/>
+    <import resource="spring-dubbo-provider.xml"/>
 </beans>

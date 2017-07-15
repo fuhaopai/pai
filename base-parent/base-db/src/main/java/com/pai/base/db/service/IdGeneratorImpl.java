@@ -49,7 +49,7 @@ public class IdGeneratorImpl implements IdGenerator,InitializingBean{
 	    	String idString = null;
 			if(machineId!=null && StringUtils.isNotEmpty(machineName) && incrBy != null){
 				try {
-					idString = JedisUtil.getInstance().incrBy(machineName, incrBy, RedisDb.DBFIFTEEN.getDb());
+					idString = JedisUtil.getInstance().incrBy(machineName, incrBy, RedisDb.DBFIFTEEN);
 					if(StringUtils.isEmpty(idString)){
 				        try {
 				        	String updateSql = "UPDATE pai_common_id SET max_num=max_num+incr_num, update_time='"+DateConverter.toString(new Date())+"' WHERE id_=? AND name=?";

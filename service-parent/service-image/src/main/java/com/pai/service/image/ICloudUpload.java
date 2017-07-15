@@ -2,12 +2,6 @@ package com.pai.service.image;
 
 import java.util.Date;
 
-/**
- * 
- * @author 颜超敏
- *
- */
-
 public interface ICloudUpload {
 	/**
 	 * 上传图片

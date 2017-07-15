@@ -119,7 +119,7 @@
 	<!-- 针对服务的对接文件,web系统和服务模块 -->
 	<serviceFiles>
 		<file refTemplate="serviceImpl" filename="{class}ServiceImpl.java" dir="src\main\java\com\{sys}\biz\{module}\api\impl" sub="true" override="true"/>
-		<!-- <file refTemplate="apiTest" filename="{class}ServiceTest.java" dir="src\test\java\com\{sys}\biz\{module}\api" sub="true" override="true"/> -->
+		<file refTemplate="apiTest" filename="{class}ServiceTest.java" dir="src\test\java\com\{sys}\biz\{module}\test" sub="true" override="true"/>
 	</serviceFiles>
 	
 	<serviceDirs>

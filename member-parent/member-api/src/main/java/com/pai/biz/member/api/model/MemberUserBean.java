@@ -1,9 +1,7 @@
 package com.pai.biz.member.api.model;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.pai.base.api.doc.annotation.AutoDocField;
-import com.pai.base.api.entity.Bean;
+import com.pai.base.api.annotion.AutoDocField;
+import com.pai.base.api.model.Bean;
 
 /**
  * 对象功能:会员表 Tbl对象
@@ -303,29 +301,17 @@ public class MemberUserBean extends Bean{
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() 
-	{
-		return new ToStringBuilder(this)
-		.append("id", this.id) 
-		.append("name", this.name) 
-		.append("phone", this.phone) 
-		.append("password", this.password) 
-		.append("mail", this.mail) 
-		.append("profile", this.profile) 
-		.append("vocation", this.vocation) 
-		.append("school", this.school) 
-		.append("profession", this.profession) 
-		.append("status", this.status) 
-		.append("gender", this.gender) 
-		.append("suffix", this.suffix) 
-		.append("description", this.description) 
-		.append("nameStatus", this.nameStatus) 
-		.append("nameUpdateTime", this.nameUpdateTime) 
-		.append("fameId", this.fameId) 
-		.append("createBy", this.createBy) 
-		.append("createTime", this.createTime) 
-		.append("updateBy", this.updateBy) 
-		.append("updateTime", this.updateTime) 
-		.toString();
+	@Override
+	public String toString() {
+		return "MemberUserBean [id=" + id + ", name=" + name + ", phone="
+				+ phone + ", password=" + password + ", mail=" + mail
+				+ ", profile=" + profile + ", vocation=" + vocation
+				+ ", school=" + school + ", profession=" + profession
+				+ ", status=" + status + ", gender=" + gender + ", suffix="
+				+ suffix + ", description=" + description + ", nameStatus="
+				+ nameStatus + ", nameUpdateTime=" + nameUpdateTime
+				+ ", fameId=" + fameId + ", createBy=" + createBy
+				+ ", createTime=" + createTime + ", updateBy=" + updateBy
+				+ ", updateTime=" + updateTime + "]";
 	}
 }

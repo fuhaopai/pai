@@ -1,7 +1,6 @@
 package com.pai.biz.auth.domain;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -10,9 +9,10 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.pai.base.api.session.OnlineUserIdHolder;
 import com.pai.base.core.helper.SpringHelper;
+import com.pai.base.core.util.string.StringCollections;
 import com.pai.base.core.util.string.StringUtils;
+import com.pai.base.db.session.OnlineUserIdHolder;
 import com.pai.biz.auth.persistence.dao.AuthRoleDao;
 import com.pai.biz.auth.persistence.entity.AuthRolePo;
 import com.pai.biz.auth.persistence.entity.AuthRoleResourcesPo;
@@ -41,7 +41,7 @@ public class AuthRole extends AbstractDomain<String, AuthRolePo>{
 	}
 
 	public void save(AuthRolePo authRolePo, String resourcesId) {
-		ArrayList<String> resourcesIds = new ArrayList<String>(Arrays.asList(resourcesId.split(";")));
+		ArrayList<String> resourcesIds = new ArrayList<String>(StringCollections.toList(resourcesId, ";"));
 		if(StringUtils.isEmpty(authRolePo.getId())){
 			super.setData(authRolePo);
 			super.save();

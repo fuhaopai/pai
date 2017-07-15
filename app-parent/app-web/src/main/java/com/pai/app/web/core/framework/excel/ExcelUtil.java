@@ -38,8 +38,6 @@ import org.slf4j.LoggerFactory;
 /** 
  * @ClassName ExportExcel  
  * @Description TODO 
- * @author xieweipeng  
- * @date 2015年5月6日  
  *   
  */
 

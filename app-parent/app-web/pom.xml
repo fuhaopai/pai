@@ -41,39 +41,10 @@
 		<groupId>com.pai.biz</groupId>
 		<artifactId>biz-common</artifactId>				
 	</dependency>	
- 	<dependency>
-		<groupId>com.mangofactory</groupId>
-		<artifactId>swagger-springmvc</artifactId>
-	</dependency>		
-	<dependency>
-		<groupId>log4j</groupId>
-		<artifactId>log4j</artifactId>
-	</dependency>			
-	<dependency>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-api</artifactId>
-	</dependency>		
-	<dependency>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-log4j12</artifactId>
-		<scope>runtime</scope>
-	</dependency>								
-  	<dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>servlet-api</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>javax.servlet.jsp</groupId>
-		<artifactId>jsp-api</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>jstl</artifactId>
-	</dependency>
 	<dependency>
 		<groupId>commons-fileupload</groupId>
 		<artifactId>commons-fileupload</artifactId>
-	</dependency>									
+	</dependency>
   	<dependency>
   		<groupId>org.springframework</groupId>
   		<artifactId>spring-webmvc</artifactId>
@@ -95,14 +66,6 @@
 		<artifactId>spring-security-web</artifactId>
 	</dependency>						
 	<dependency>
-		<groupId>org.apache.xbean</groupId>
-		<artifactId>xbean-spring</artifactId>
-	</dependency>				
-	<dependency>
-		<groupId>net.sf.ehcache</groupId>
-		<artifactId>ehcache</artifactId>
-	</dependency>
-	<dependency>
 		<groupId>org.freemarker</groupId>
 		<artifactId>freemarker</artifactId>
 	</dependency>	
@@ -111,20 +74,8 @@
 		<artifactId>sitemesh</artifactId>
 	</dependency>		
 	<dependency>
-		<groupId>org.directwebremoting</groupId>
-		<artifactId>dwr</artifactId>
-	</dependency>					
-	<dependency>
-		<groupId>cn.songxinqiang</groupId>
-		<artifactId>com.baidu.ueditor</artifactId>
-	</dependency>	
-	<dependency>
 	    <groupId>com.google.zxing</groupId>
 	    <artifactId>core</artifactId>
-	</dependency>
-	<dependency>
-	    <groupId>org.apache.poi</groupId>
-	    <artifactId>poi</artifactId>
 	</dependency>
 	<dependency>
 		<groupId>org.apache.poi</groupId>
@@ -133,22 +84,6 @@
 	<dependency>
 		<groupId>org.apache.poi</groupId>
 		<artifactId>poi-ooxml-schemas</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.apache.xmlbeans</groupId>
-		<artifactId>xmlbeans</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.javassist</groupId>
-		<artifactId>javassist</artifactId>
-	</dependency>  
-	<dependency>
-		<groupId>org.apache.httpcomponents</groupId>
-		<artifactId>httpcore</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.apache.httpcomponents</groupId>
-		<artifactId>httpclient</artifactId>
 	</dependency>
 	<dependency>
 		<groupId>org.apache.httpcomponents</groupId>

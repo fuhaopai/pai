@@ -6,13 +6,11 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.Date;
 
 import com.pai.app.web.core.framework.constants.AopExecOrder;
 
 /**
  * 类的方法描述注解,用于aop拦截以获取正确方法其对应的描述
- * @author 颜超敏
  *
  */
 @Target({ElementType.METHOD,ElementType.TYPE})

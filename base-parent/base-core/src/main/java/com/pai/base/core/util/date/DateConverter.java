@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
 import com.pai.base.core.util.string.StringUtils;
@@ -50,7 +49,6 @@ public class DateConverter {
 	 * 
 	 * @param aDate
 	 * @return
-	 * @author 颜超敏
 	 */
 	public static final String toString(Date aDate) {
 		return dateTimeFormatter.format(aDate);

@@ -13,10 +13,11 @@ import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import com.${sys}.base.api.doc.annotation.AutoDocMethod;
-import com.${sys}.base.api.doc.annotation.AutoDocParam;
-import com.${sys}.base.api.doc.constants.DeveloperType;
-import com.${sys}.base.api.doc.constants.ModuleType;
+import com.${sys}.base.api.annotion.AutoDocMethod;
+import com.${sys}.base.api.annotion.AutoDocParam;
+import com.${sys}.base.api.constants.DeveloperType;
+import com.${sys}.base.api.constants.ModuleType;
+import com.${sys}.base.api.constants.VersionType;
 import com.${sys}.base.api.model.Page;
 import com.${sys}.base.api.response.BaseResponse;
 import com.${sys}.base.api.response.ResPage;
@@ -24,11 +25,11 @@ import com.${sys}.base.core.util.string.StringUtils;
 import com.${sys}.base.core.util.Mapper;
 import com.${sys}.base.db.mybatis.impl.domain.PageResult;
 import com.${sys}.base.db.mybatis.impl.domain.PageList;
+import com.${sys}.biz.${module}.api.model.${class}Bean;
 import com.${sys}.biz.${module}.api.service.${class}Service;
 import com.${sys}.biz.${module}.domain.${class};
 import com.${sys}.biz.${module}.repository.${class}Repository;
 import com.${sys}.biz.${module}.persistence.entity.${class}Po;
-import com.${sys}.biz.${module}.api.model.${class}Bean;
 
 /**
  * 对象功能:${model.tabComment} 控制类

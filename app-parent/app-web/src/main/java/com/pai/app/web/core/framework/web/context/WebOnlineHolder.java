@@ -6,8 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import com.pai.app.web.core.constants.WebConstants;
 import com.pai.base.api.constants.Constants;
-import com.pai.base.api.session.OnlineHolder;
-import com.pai.base.api.session.OnlineUserIdHolder;
+import com.pai.base.db.session.OnlineHolder;
+import com.pai.base.db.session.OnlineUserIdHolder;
 import com.pai.biz.auth.persistence.entity.AuthUserPo;
 
 /**

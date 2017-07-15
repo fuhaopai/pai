@@ -1,7 +1,6 @@
 package com.pai.biz.auth.domain;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -11,10 +10,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.pai.base.api.service.IdGenerator;
-import com.pai.base.api.session.OnlineUserIdHolder;
 import com.pai.base.core.helper.PasswordHelper;
 import com.pai.base.core.helper.SpringHelper;
+import com.pai.base.core.util.string.StringCollections;
 import com.pai.base.core.util.string.StringUtils;
+import com.pai.base.db.session.OnlineUserIdHolder;
 import com.pai.biz.auth.persistence.dao.AuthUserDao;
 import com.pai.biz.auth.persistence.entity.AuthRoleUserPo;
 import com.pai.biz.auth.persistence.entity.AuthUserPo;
@@ -54,7 +54,7 @@ public class AuthUser extends AbstractDomain<String, AuthUserPo>{
 		if(StringUtils.isNotEmpty(authUserPo.getPassword())){
 			authUserPo.setPassword(PasswordHelper.getEncryptPassword(authUserPo.getName()+authUserPo.getPassword()));
 		}
-		ArrayList<String> roleIds = new ArrayList<String>(Arrays.asList(authUserPo.getRoleIds().split(";")));
+		ArrayList<String> roleIds = new ArrayList<String>(StringCollections.toList(authUserPo.getRoleIds(), ";"));
 		if(StringUtils.isEmpty(authUserPo.getId())){
 			super.setData(authUserPo);
 			super.save();

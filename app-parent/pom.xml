@@ -28,7 +28,6 @@
 	<servlet-api.version>2.5</servlet-api.version>
 	<jsp-api.version>2.1</jsp-api.version>
 	<jstl.version>1.2</jstl.version>				
-	<!-- <com.mortennobel.imagescaling.version>0.8.6</com.mortennobel.imagescaling.version> -->
 	<java.xmlbuilder.version>0.6</java.xmlbuilder.version>			
 	<freemarker.version>2.3.20</freemarker.version>		
 	<sitemesh.version>2.3</sitemesh.version>
@@ -63,11 +62,6 @@
 			 <artifactId>biz-common</artifactId>
 			 <version>${pai.version}</version>
  	    </dependency>
-	 	<!-- <dependency>
-			<groupId>com.pai.base</groupId>
-			<artifactId>base-db</artifactId>	
-			<version>${pai.version}</version>			
-		</dependency> -->	
 		<dependency>
 			<groupId>com.pai.service</groupId>
 			<artifactId>service-mail</artifactId>			
@@ -240,16 +234,6 @@
 		    <artifactId>core</artifactId>
 		    <version>3.1.0</version>
 		</dependency>
-		<!-- <dependency>
-		    <groupId>com.xuanwu</groupId>
-		    <artifactId>postmsg-ump</artifactId>
-		    <version>2.4</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.xuanwu</groupId>
-		    <artifactId>protobuf-java</artifactId>
-		    <version>2.4.1</version>
-		</dependency> -->
 		<dependency>
 			<groupId>com.mangofactory</groupId>
 			<artifactId>swagger-springmvc</artifactId>

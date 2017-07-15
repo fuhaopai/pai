@@ -4,7 +4,6 @@ import com.pai.base.core.util.string.StringUtils;
 
 /**
  * 微信表情过滤
- * @author 蔡东渠
  *
  */
 public class EmojiFilterUtil {

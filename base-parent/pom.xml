@@ -15,7 +15,7 @@
     <service-redis.version>1.0.0-SNAPSHOT</service-redis.version>
    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
    	<junit.version>4.10</junit.version>
-   	<log4j.version>1.2.4</log4j.version>
+   	<log4j.version>1.2.12</log4j.version>
    	<slf4j.version>1.6.0</slf4j.version>
    	<json-lib.version>2.4</json-lib.version>
    	<fastjson.version>1.2.3</fastjson.version>
@@ -237,6 +237,7 @@
 	<dependency>
       	<groupId>junit</groupId>
       	<artifactId>junit</artifactId>
+      	<version>${junit.version}</version>
     </dependency>		
   </dependencies>
   

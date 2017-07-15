@@ -10,7 +10,7 @@
     <mvc:interceptors>  
         <mvc:interceptor>  
             <!-- 拦截的地址 -->  			 
-            <mvc:mapping path="/admin/pai/auth/**/*.do" />
+            <mvc:mapping path="/admin/pai/*/**/*.do" />
             <!-- 排除的地址 -->  
             <mvc:exclude-mapping path="/adminLogin.do"/>  
             <!-- <mvc:exclude-mapping path="/admin/pai/auth/main.do"/>   -->

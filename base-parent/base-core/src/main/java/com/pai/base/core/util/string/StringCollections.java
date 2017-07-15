@@ -12,8 +12,6 @@ import org.apache.commons.lang.StringUtils;
 /**
  * @功能描述：字符串的集合处理工具类
  * @开发公司：pai.com
- * @开发人员：颜超敏
- * @创建时间：2014-06-04 15:58:45
  */
 public class StringCollections {
 	public final static String DEFAULT_TOKEN = ",";
@@ -234,5 +232,9 @@ public class StringCollections {
 			String prefix) {
 		List<String> list = toList(str, splitToken);
 		return toString(list, splitToken, prefix);
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(toList("aa;bb;cc", ";"));
 	}
 }

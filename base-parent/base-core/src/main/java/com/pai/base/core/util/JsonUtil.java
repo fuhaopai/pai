@@ -13,26 +13,9 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.JSONUtils;
 
-import com.alibaba.fastjson.JSON;
-
 public class JsonUtil {      
      
-    /**页面传至后台时，json数据在request的参数名称*/     
-    public final static String JSON_ATTRIBUTE = "json";      
-    public final static String JSON_ATTRIBUTE1 = "json1";      
-    public final static String JSON_ATTRIBUTE2 = "json2";      
-    public final static String JSON_ATTRIBUTE3 = "json3";      
-    public final static String JSON_ATTRIBUTE4 = "json4";
     
-    
-   /* 
-    public final static SerializeConfig S_CONFIG  =  new SerializeConfig();
-    public final static ParserConfig P_CONFIG = new ParserConfig();
-    static {
-    	S_CONFIG.put(Date.class, new SimpleDateFormatSerializer("yyyy-MM-dd HH:mm:ss"));
-    }
-    */
-          
     /**    
      * 从一个JSON 对象字符格式中得到一个java对象，形如：    
      * {"id" : idValue, "name" : nameValue, "aBean" : {"aBeanId" : aBeanIdValue, ...}}    
@@ -41,21 +24,14 @@ public class JsonUtil {
      * @return    
      */     
     public static Object getDTO(String jsonString, Class clazz){      
-        /*JSONObject jsonObject = null;      
+        JSONObject jsonObject = null;      
         try{      
             setDataFormat2JAVA();       
             jsonObject = JSONObject.fromObject(jsonString);      
         }catch(Exception e){      
             e.printStackTrace();      
         }      
-        return JSONObject.toBean(jsonObject, clazz);*/
-    	
-    	try {
-			return JSON.parseObject(jsonString, clazz);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-    	return null;
+        return JSONObject.toBean(jsonObject, clazz);
     }      
           
     /**    
@@ -68,21 +44,14 @@ public class JsonUtil {
      * @return    
      */     
     public static Object getDTO(String jsonString, Class clazz, Map map){      
-        /*JSONObject jsonObject = null;      
+        JSONObject jsonObject = null;      
         try{      
             setDataFormat2JAVA();       
             jsonObject = JSONObject.fromObject(jsonString);      
         }catch(Exception e){      
             e.printStackTrace();      
         }      
-        return JSONObject.toBean(jsonObject, clazz, map);*/
-    	
-    	try {
-			return JSON.parseObject(jsonString, clazz);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-    	return null;
+        return JSONObject.toBean(jsonObject, clazz, map);
     }      
           
     /**    

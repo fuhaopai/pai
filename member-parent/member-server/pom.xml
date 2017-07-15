@@ -14,13 +14,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
-  
-    <dependency>
-      	<groupId>junit</groupId>
-      	<artifactId>junit</artifactId>
-      	<version>4.10</version>
-    </dependency>
-    
     <dependency>
     	<groupId>com.pai.biz</groupId>
     	<artifactId>biz-frame</artifactId>
@@ -35,6 +28,43 @@
     <dependency>
     	<groupId>com.pai.biz</groupId>
     	<artifactId>member-api</artifactId>
+    </dependency>
+    
+    <dependency>
+		<groupId>org.jboss.netty</groupId>
+		<artifactId>netty</artifactId>
+		<version>3.2.5.Final</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.zookeeper</groupId>
+		<artifactId>zookeeper</artifactId>
+		<exclusions>
+      		<exclusion>
+      			<groupId>org.slf4j</groupId>
+         		<artifactId>slf4j-log4j12</artifactId>
+      		</exclusion>
+      	</exclusions>
+	</dependency>
+	<dependency>
+		<groupId>com.101tec</groupId>
+		<artifactId>zkclient</artifactId>
+		<version>0.3</version>
+	</dependency>
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>dubbo</artifactId>
+		<exclusions>
+			<exclusion>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+	<dependency>
+      	<groupId>junit</groupId>
+      	<artifactId>junit</artifactId>
+      	<version>4.10</version>
+      	<scope>runtime</scope>
     </dependency>
   </dependencies>
 </project>

@@ -5,9 +5,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 	
-	<!-- 额度管理接口  -->
-	<!-- <dubbo:service interface="com.ddjf.credit.remoter.api.ICreditManagerService" ref="creditManagerService" version="1.0.0"/> -->
-	<bean id="creditManagerService" class="com.ddjf.credit.remoter.api.CreditManagerService" />
+	<!-- 用户管理接口  -->
+	<dubbo:service interface="com.pai.biz.member.api.service.MemberUserService" ref="memberUserService" version="1.0.0"/>
 
 
 </beans>

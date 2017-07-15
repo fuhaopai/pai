@@ -11,10 +11,4 @@
   
   <artifactId>base-api</artifactId>
   <name>base-api</name>
-  <dependencies> 
-	<dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>servlet-api</artifactId>
-	</dependency>
-  </dependencies>
 </project>

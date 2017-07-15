@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.pai.base.api.service.IdGenerator;
-import com.pai.base.api.session.OnlineUserIdHolder;
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.string.StringUtils;
+import com.pai.base.db.session.OnlineUserIdHolder;
 import com.pai.biz.auth.persistence.dao.AuthResourcesDao;
 import com.pai.biz.auth.persistence.dao.AuthResourcesQueryDao;
 import com.pai.biz.auth.persistence.dao.AuthRoleResourcesDao;

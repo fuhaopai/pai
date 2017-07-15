@@ -26,10 +26,9 @@ import freemarker.template.TemplateException;
  * &lt;/bean>
  * </pre>
  * 
- * @author csx
  */
 public class FreemarkEngine {
-	// 配置来自app-resources.xml
+	
 	private Configuration configuration;
 		
 	private FreeMarkerConfigurer freeMarkerConfigurer;  

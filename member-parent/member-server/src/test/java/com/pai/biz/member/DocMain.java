@@ -1,8 +1,8 @@
 package com.pai.biz.member;
 
-import com.pai.base.api.doc.bean.ConfigBean;
-import com.pai.base.api.doc.constants.VersionType;
-import com.pai.base.api.doc.util.DocHelper;
+import com.pai.base.api.constants.VersionType;
+import com.pai.base.core.doc.bean.ConfigBean;
+import com.pai.base.core.doc.util.DocHelper;
 
 public class DocMain {
 

@@ -4,8 +4,7 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
 "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
 <configuration>
 	 
-	<properties resource="conf/base-db.properties"/>
-	
+	<!-- 禁止使用mybatis缓存 -->
 	<settings >
 		<setting name="cacheEnabled" value="false"/>
 	</settings> 
@@ -14,13 +13,12 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
     </typeHandlers> 
 	<plugins>
 		<plugin interceptor="com.pai.base.db.mybatis.impl.OffsetLimitInterceptor">
-			<property name="dbType" value="${jdbc.dbType}"/>
+			<property name="dbType" value="mysql"/>
 			<property name="Dialect.oracle" value="com.pai.base.db.mybatis.impl.dialect.OracleDialect"/>
 			<property name="Dialect.mssql" value="com.pai.base.db.mybatis.impl.dialect.SQLServer2005Dialect"/>
 			<property name="Dialect.mysql" value="com.pai.base.db.mybatis.impl.dialect.MySQLDialect"/>
 			<property name="Dialect.db2" value="com.pai.base.db.mybatis.impl.dialect.DB2Dialect"/>
 			<property name="Dialect.h2" value="com.pai.base.db.mybatis.impl.dialect.H2Dialect"/>
-			
 		</plugin>
 	</plugins>
 	 

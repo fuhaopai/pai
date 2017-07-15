@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSON;
 import com.pai.base.api.response.BaseResponse;
 import com.pai.base.api.response.ResPage;
 import com.pai.base.api.service.IdGenerator;
-import com.pai.biz.member.BasicTest;
+import com.pai.base.core.test.BaseTestCase;
 import com.pai.biz.member.api.model.MemberUserBean;
 import com.pai.biz.member.api.service.MemberUserService;
 /**
@@ -24,7 +24,7 @@ import com.pai.biz.member.api.service.MemberUserService;
  *
  */
 @ContextConfiguration(locations = "classpath:/conf/member-server.xml")
-public class MemberUserBaseTest extends BasicTest{
+public class MemberUserBaseTest extends BaseTestCase{
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	

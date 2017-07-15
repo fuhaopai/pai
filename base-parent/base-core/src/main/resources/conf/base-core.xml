@@ -40,5 +40,6 @@
 			</list>
 		</property>
 	</bean>    
-    
+    <bean class="com.pai.base.core.aspect.ExceptionAspect" />
+    <bean class="com.pai.base.core.aspect.ValidateParamAspect" />
 </beans>

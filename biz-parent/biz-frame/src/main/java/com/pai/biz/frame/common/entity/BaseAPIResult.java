@@ -7,7 +7,6 @@ import com.pai.base.core.util.string.StringUtils;
 
 /**
  * 状态编码
- * @author 颜超敏
  *
  */
 @SuppressWarnings("serial")

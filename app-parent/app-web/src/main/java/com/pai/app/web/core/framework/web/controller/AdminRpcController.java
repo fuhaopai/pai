@@ -11,7 +11,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.pai.base.api.entity.Bean;
+import com.pai.base.api.model.Bean;
 import com.pai.base.core.util.GenericsUtils;
 import com.pai.base.core.util.string.StringUtils;
 

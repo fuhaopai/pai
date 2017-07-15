@@ -13,10 +13,10 @@ import org.aspectj.lang.ProceedingJoinPoint;
 
 import com.pai.app.web.core.framework.engine.FreemarkEngine;
 import com.pai.base.api.annotion.PAICacheable;
+import com.pai.base.core.util.ConfigHelper;
 import com.pai.base.core.util.string.StringCollections;
 import com.pai.base.core.util.string.StringConverter;
 import com.pai.base.core.util.string.StringUtils;
-import com.pai.base.core.util.ConfigHelper;
 import com.pai.service.redis.JedisUtil;
 
 import freemarker.ext.beans.BeansWrapper;
@@ -107,7 +107,7 @@ public class PAICacheableAOPAspect {
 					if(returnVal!=null){
 						if(returnVal instanceof Serializable){
 							JedisUtil.getInstance().set(key, returnVal, paiCacheable.db());
-							//JedisUtil.set(key,JsonUtil.getJSONString(returnVal),paiCacheable.db());
+//							JedisUtil.getInstance().set(key,JsonUtil.getJSONString(returnVal),paiCacheable.db());
 							JedisUtil.getInstance().expire(key, seconds);
 						}else {
 							log.warn(returnVal.getClass().getName() + " must implements Serializable!!");

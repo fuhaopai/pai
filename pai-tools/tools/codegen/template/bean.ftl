@@ -10,10 +10,9 @@
 package com.${sys}.biz.${module}.api.model;
 import java.util.Date;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.${sys}.base.api.doc.annotation.AutoDocField;
-import com.${sys}.base.api.entity.Bean;
+import com.${sys}.base.api.annotion.AutoDocField;
+import com.${sys}.base.api.model.Bean;
 /**
  * 对象功能:${model.tabComment} Tbl对象
  <#if vars.company?exists>
@@ -63,16 +62,4 @@ public class ${class}Bean extends Bean{
 		return this.${colName};
 	}
 </#list>
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() 
-	{
-		return new ToStringBuilder(this)
-		<#list model.columnList as col>
-		<#assign colName=func.convertUnderLine(col.columnName)>
-		.append("${colName}", this.${colName}) 
-		</#list>
-		.toString();
-	}
 }

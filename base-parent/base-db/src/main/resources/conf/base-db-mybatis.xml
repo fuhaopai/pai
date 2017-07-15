@@ -11,8 +11,6 @@
        
 	<context:annotation-config />
 	
-	<!-- context:property-placeholder  location="classpath:conf/x5-base-db.properties" /-->
-
     <bean id="idGenerator" class="com.pai.base.db.service.IdGeneratorImpl" >
     	<property name="machineId" value="${machine.id}" />
 		<property name="machineName" value="${machine.name}" />    	
