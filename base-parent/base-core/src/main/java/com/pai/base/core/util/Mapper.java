@@ -37,6 +37,19 @@ public class Mapper {
 
         return mapper.map(source, targetClass);
     }
+    
+    /**
+     * 需要保留目前对象未覆盖的值用此方法
+     * @Title: copyProperties 
+     * @Description: TODO
+     * @param source
+     * @param target
+     * @return: void
+     */
+    public <S, T> void copyProperties(S source, T target) {
+    	
+    	mapper.map(source, target);
+    }
 
     /**
      * 复制Bean集合到目标Bean集合当中

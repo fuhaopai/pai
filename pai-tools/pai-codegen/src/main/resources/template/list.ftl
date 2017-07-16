@@ -28,7 +28,7 @@
 				<#assign colName=func.convertUnderLine(col.columnName)>                          
 				<#if (col.isPK) >				
 				<#else>
-					{ display: '${col.getComment()}:', name: 'Q__S__EQ__col.columnName', newline : <#if col_index%4 == 0>true<#else>false</#if>, align: 'left', width: 140 },
+					{ display: '${col.getComment()}:', name: 'Q__S__EQ__${col.columnName}', newline : <#if col_index%4 == 0>true<#else>false</#if>, align: 'left', width: 140 },
 				</#if>
 				</#list>			
 					{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	

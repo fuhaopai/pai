@@ -1,3 +1,4 @@
+
 <#assign class=model.variables.class>
 <#assign classVar=model.variables.classVar>
 <#assign module=model.variables.module>
@@ -11,8 +12,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.alibaba.fastjson.JSON;
@@ -20,24 +19,22 @@ import com.${sys}.base.api.response.BaseResponse;
 import com.${sys}.base.api.response.ResPage;
 import com.${sys}.base.api.service.IdGenerator;
 import com.${sys}.base.core.test.BaseTestCase;
-import com.${sys}.biz.${module}.api.model.${class}UserBean;
+import com.${sys}.biz.${module}.api.model.${class}Bean;
 import com.${sys}.biz.${module}.api.service.${class}Service;
-import com.${sys}.base.api.service.IdGenerator;
-import com.${sys}.base.core.test.BaseTestCase;
 
 /**
  * 测试类，。
  * @author ${vars.developer}
  *
  */
-@ContextConfiguration({"classpath:conf/application.xml"})
+@ContextConfiguration({"classpath:conf/${module}-server.xml"})
 public class ${baseClass}ServiceTest extends BaseTestCase{
 	
 	@Resource
     private IdGenerator idGenerator;
     
     @Resource
-    private ${class}Service ${classVar}service;
+    private ${class}Service ${classVar}Service;
     
     @Test
 	public void list${class}ServiceTest(){

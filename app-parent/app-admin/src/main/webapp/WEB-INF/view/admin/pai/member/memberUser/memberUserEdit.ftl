@@ -100,37 +100,9 @@
 		            <td align="left"></td>
 		        </tr> 
 		        <tr>
-		            <td align="right" class="l-table-edit-td">密码后缀:</td>
-		            <td align="left" class="l-table-edit-td">
-		            	<input name="suffix" type="text" id="suffix"  value="${memberUserPo.suffix}" ltype="text" />
-		            </td>
-		            <td align="left"></td>
-		        </tr> 
-		        <tr>
 		            <td align="right" class="l-table-edit-td">个人简介:</td>
 		            <td align="left" class="l-table-edit-td">
 		            	<input name="description" type="text" id="description"  value="${memberUserPo.description}" ltype="text" />
-		            </td>
-		            <td align="left"></td>
-		        </tr> 
-		        <tr>
-		            <td align="right" class="l-table-edit-td">昵称状态（1=可修改；2=不可修改）:</td>
-		            <td align="left" class="l-table-edit-td">
-		            	<input name="nameStatus" type="text" id="nameStatus"  value="${memberUserPo.nameStatus}" ltype="text" validate='{digits:true}'/>
-		            </td>
-		            <td align="left"></td>
-		        </tr> 
-		        <tr>
-		            <td align="right" class="l-table-edit-td">上次昵称修改时间:</td>
-		            <td align="left" class="l-table-edit-td">
-		            	<input name="nameUpdateTime" type="text" id="nameUpdateTime" class="wdateTime" onFocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="${memberUserPo.nameUpdateTime}" ltype="text" validate='{date:true}'/>
-		            </td>
-		            <td align="left"></td>
-		        </tr> 
-		        <tr>
-		            <td align="right" class="l-table-edit-td">匿名用户对应id:</td>
-		            <td align="left" class="l-table-edit-td">
-		            	<input name="fameId" type="text" id="fameId"  value="${memberUserPo.fameId}" ltype="text" />
 		            </td>
 		            <td align="left"></td>
 		        </tr> 

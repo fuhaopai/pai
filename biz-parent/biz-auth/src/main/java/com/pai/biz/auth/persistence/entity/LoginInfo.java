@@ -3,13 +3,17 @@ package com.pai.biz.auth.persistence.entity;
 import com.pai.base.api.constants.Bool;
 import com.pai.base.core.entity.CommonResult;
 import com.pai.base.core.helper.PasswordHelper;
+import com.pai.base.core.validate.annotation.NotBlank;
 
 public class LoginInfo {
 	//验证码
+	@NotBlank(fieldName="验证码")
 	private String captchaCode;
 	//用户名
+	@NotBlank(fieldName="用户名")
 	private String userName;
 	//密码
+	@NotBlank(fieldName="密码")
 	private String password;
 	//是否登录操作
 	private String isLogin;
@@ -62,7 +66,7 @@ public class LoginInfo {
 	}
 	
 	public String getEncryptPassword() {
-		return PasswordHelper.getEncryptPassword(userName+password);
+		return PasswordHelper.getEncryptPassword(userName+password).substring(1);
 	}
 	
 	public String getPassword() {

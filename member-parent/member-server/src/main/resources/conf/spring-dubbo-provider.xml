@@ -7,6 +7,6 @@
 	
 	<!-- 用户管理接口  -->
 	<dubbo:service interface="com.pai.biz.member.api.service.MemberUserService" ref="memberUserService" version="1.0.0"/>
-
+	<dubbo:service interface="com.pai.biz.member.api.service.MemberFameService" ref="memberFameService" version="1.0.0"/>
 
 </beans>
