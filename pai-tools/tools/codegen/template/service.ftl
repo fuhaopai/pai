@@ -6,6 +6,7 @@
 <#assign sub=model.sub>
 <#assign foreignKey=func.convertUnderLine(model.foreignKey)>
 package com.${sys}.biz.${module}.api.service;
+import java.util.Map;
 
 import com.${sys}.base.api.response.BaseResponse;
 import com.${sys}.base.api.response.ResPage;

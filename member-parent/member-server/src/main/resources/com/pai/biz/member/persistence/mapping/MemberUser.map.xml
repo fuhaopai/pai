@@ -13,22 +13,21 @@
 		<result property="profession" column="profession" jdbcType="VARCHAR"/>
 		<result property="status" column="status" jdbcType="NUMERIC"/>
 		<result property="gender" column="gender" jdbcType="VARCHAR"/>
-		<result property="suffix" column="suffix" jdbcType="VARCHAR"/>
 		<result property="description" column="description" jdbcType="VARCHAR"/>
-		<result property="nameStatus" column="name_status" jdbcType="NUMERIC"/>
-		<result property="nameUpdateTime" column="name_update_time" jdbcType="TIMESTAMP"/>
-		<result property="fameId" column="fame_id_" jdbcType="VARCHAR"/>
 		<result property="createBy" column="create_by" jdbcType="VARCHAR"/>
 		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
 		<result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
 		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+		
+		<result property="fameName" column="fame_name" jdbcType="VARCHAR"/>
+		<result property="dueTime" column="due_time" jdbcType="TIMESTAMP"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.pai.biz.member.persistence.entity.MemberUserPo">
 		INSERT INTO pai_member_user
-		(`id_`,`name`,`phone`,`password`,`mail`,`profile`,`vocation`,`school`,`profession`,`status`,`gender`,`suffix`,`description`,`name_status`,`name_update_time`,`fame_id_`,`create_by`,`create_time`,`update_by`,`update_time`)
+		(`id_`,`name`,`phone`,`password`,`mail`,`profile`,`vocation`,`school`,`profession`,`status`,`gender`,`description`,`create_by`,`create_time`,`update_by`,`update_time`)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, #{vocation,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC}, #{gender,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{nameStatus,jdbcType=NUMERIC}, #{nameUpdateTime,jdbcType=TIMESTAMP}, #{fameId,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, #{vocation,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC}, #{gender,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
 	</insert>
 	
 	<select id="get"   parameterType="java.lang.String" resultMap="MemberUserPo">
@@ -52,7 +51,16 @@
     </select>	
 	
 	<select id="find" parameterType="java.util.Map" resultMap="MemberUserPo">
-		SELECT * FROM pai_member_user
+		SELECT a.*,b.`name` fame_name,b.due_time FROM pai_member_user a 
+		LEFT JOIN 
+		 ( 
+		 	SELECT b.member_id_,a.`name`,b.due_time 
+		 	FROM pai_member_fame a 
+		 	INNER JOIN pai_member_user_fame b ON a.id_=b.fame_id_ 
+		 	WHERE b.`status`=1 
+		 	ORDER BY b.due_time DESC 
+		 	LIMIT 1
+		 )b ON a.id_=b.member_id_
 		<where>
 			<if test="whereSql!=null">
 				${whereSql}
@@ -87,11 +95,7 @@
 		`profession`=#{profession,jdbcType=VARCHAR},
 		`status`=#{status,jdbcType=NUMERIC},
 		`gender`=#{gender,jdbcType=VARCHAR},
-		`suffix`=#{suffix,jdbcType=VARCHAR},
 		`description`=#{description,jdbcType=VARCHAR},
-		`name_status`=#{nameStatus,jdbcType=NUMERIC},
-		`name_update_time`=#{nameUpdateTime,jdbcType=TIMESTAMP},
-		`fame_id_`=#{fameId,jdbcType=VARCHAR},
 		`create_by`=#{createBy,jdbcType=VARCHAR},
 		`create_time`=#{createTime,jdbcType=TIMESTAMP},
 		`update_by`=#{updateBy,jdbcType=VARCHAR},
@@ -111,61 +115,49 @@
 		UPDATE pai_member_user 
 		<set>
 			<if test="entity.name!=null">
-				name=#{name,jdbcType=VARCHAR},
+				`name`=#{name,jdbcType=VARCHAR},
 			</if>
 			<if test="entity.phone!=null">
-				phone=#{phone,jdbcType=VARCHAR},
+				`phone`=#{phone,jdbcType=VARCHAR},
 			</if>
 			<if test="entity.password!=null">
-				password=#{password,jdbcType=VARCHAR},
+				`password`=#{password,jdbcType=VARCHAR},
 			</if>
 			<if test="entity.mail!=null">
-				mail=#{mail,jdbcType=VARCHAR},
+				`mail`=#{mail,jdbcType=VARCHAR},
 			</if>
 			<if test="entity.profile!=null">
-				profile=#{profile,jdbcType=VARCHAR},
+				`profile`=#{profile,jdbcType=VARCHAR},
 			</if>
 			<if test="entity.vocation!=null">
-				vocation=#{vocation,jdbcType=VARCHAR},
+				`vocation`=#{vocation,jdbcType=VARCHAR},
 			</if>
 			<if test="entity.school!=null">
-				school=#{school,jdbcType=VARCHAR},
+				`school`=#{school,jdbcType=VARCHAR},
 			</if>
 			<if test="entity.profession!=null">
-				profession=#{profession,jdbcType=VARCHAR},
+				`profession`=#{profession,jdbcType=VARCHAR},
 			</if>
 			<if test="entity.status!=null">
-				status=#{status,jdbcType=NUMERIC},
+				`status`=#{status,jdbcType=NUMERIC},
 			</if>
 			<if test="entity.gender!=null">
-				gender=#{gender,jdbcType=VARCHAR},
-			</if>
-			<if test="entity.suffix!=null">
-				suffix=#{suffix,jdbcType=VARCHAR},
+				`gender`=#{gender,jdbcType=VARCHAR},
 			</if>
 			<if test="entity.description!=null">
-				description=#{description,jdbcType=VARCHAR},
-			</if>
-			<if test="entity.nameStatus!=null">
-				name_status=#{nameStatus,jdbcType=NUMERIC},
-			</if>
-			<if test="entity.nameUpdateTime!=null">
-				name_update_time=#{nameUpdateTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="entity.fameId!=null">
-				fame_id_=#{fameId,jdbcType=VARCHAR},
+				`description`=#{description,jdbcType=VARCHAR},
 			</if>
 			<if test="entity.createBy!=null">
-				create_by=#{createBy,jdbcType=VARCHAR},
+				`create_by`=#{createBy,jdbcType=VARCHAR},
 			</if>
 			<if test="entity.createTime!=null">
-				create_time=#{createTime,jdbcType=TIMESTAMP},
+				`create_time`=#{createTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="entity.updateBy!=null">
-				update_by=#{updateBy,jdbcType=VARCHAR},
+				`update_by`=#{updateBy,jdbcType=VARCHAR},
 			</if>
 			<if test="entity.updateTime!=null">
-				update_time=#{updateTime,jdbcType=TIMESTAMP}
+				`update_time`=#{updateTime,jdbcType=TIMESTAMP}
 			</if>
 		</set>
 		<where>
@@ -174,4 +166,5 @@
 			</if>
 		</where>
 	</update>
+	
 </mapper>

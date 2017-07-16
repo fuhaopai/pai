@@ -22,6 +22,7 @@ import com.${sys}.base.api.model.Page;
 import com.${sys}.base.api.response.BaseResponse;
 import com.${sys}.base.api.response.ResPage;
 import com.${sys}.base.core.util.string.StringUtils;
+import com.${sys}.base.db.mybatis.impl.domain.MyBatisPage;
 import com.${sys}.base.core.util.Mapper;
 import com.${sys}.base.db.mybatis.impl.domain.PageResult;
 import com.${sys}.base.db.mybatis.impl.domain.PageList;
@@ -41,7 +42,7 @@ import com.${sys}.biz.${module}.persistence.entity.${class}Po;
  </#if>
  * 创建时间:${date?string("yyyy-MM-dd HH:mm:ss")}
  */
-@Service
+@Service("${classVar}Service")
 public class ${class}ServiceImpl implements ${class}Service {
 	 
 	@Resource

@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>会员表管理</title>
+    <title>名人堂，为匿名用户服务管理</title>
 	<#include "/WEB-INF/view/common/jquery.ftl">
 	<#include "/WEB-INF/view/common/ligerUI.ftl">		 
 	<script type="text/javascript" src="${CtxPath}/scripts/admin/pai/common.js" ></script>					    					    
@@ -14,21 +14,11 @@
         	searchForm = $("#form1").ligerForm({
 				inputWidth : 180, labelWidth : 90, space : 50, rightToken :'',
 				fields : [
-					{ display: '昵称:', name: 'Q__S__LK__a__name', newline : true, align: 'left', width: 140 },
-					{ display: '手机号:', name: 'Q__S__LK__a__phone', newline : false, align: 'left', width: 140 },
-					{ display: '邮箱:', name: 'Q__S__LK__a__mail', newline : false, align: 'left', width: 140 },
-					{ display: '行业:', name: 'Q__S__LK__a__vocation', newline : false, align: 'left', width: 140 },
-					{ display: '学校:', name: 'Q__S__LK__a__school', newline : false, align: 'left', width: 140 },
-					{ display: '专业:', name: 'Q__S__LK__a__profession', newline : false, align: 'left', width: 140 },
-					{ display: '状态:', name: 'Q__S__EQ__a__status', newline : false, align: 'left', width: 140, type : "select",
-						options: {
-		                     valueField: 'id',
-		                     textField: 'name',
-		                     data:[{'id':'1','name':'正常'},{'id':'2','name':'冻结'}]
-		                 }
-					},
-					{ display: '创建时间:', name: 'Q__D__BW__a__create_time', newline : true, align: 'left', width: 140, type: 'date', options: {showTime: true,format:'yyyy-MM-dd'} },
-					{ display : "-----",name : "Q__D__BW__a__create_time", newline : false, align: 'left', width : 140, type: 'date', options: {showTime: true,format:'yyyy-MM-dd'} },
+					{ display: '名字:', name: 'Q__S__EQ__name', newline : true, align: 'left', width: 140 },
+					{ display: '帮派:', name: 'Q__S__EQ__organization', newline : false, align: 'left', width: 140 },
+					{ display: '职业:', name: 'Q__S__EQ__vocation', newline : false, align: 'left', width: 140 },
+					{ display: '故事来源:', name: 'Q__S__EQ__source', newline : false, align: 'left', width: 140 },
+					{ display: '创建时间:', name: 'Q__S__EQ__create_time', newline : false, align: 'left', width: 140 },
 					{ display: 'aliasSortName', name: 'aliasSortName',type:'hidden'},	
 		          	{ display: "<input type='button' value='查询' class='l-button' onClick='javascript:fnListSearch();' style='width:50px;'>", name: "searchButton", newline: false, width:0.01}
 				 ]
@@ -44,31 +34,21 @@
 	             } ,
 	             
                 columns: [
-					{ display: '昵称', name: 'name', align: 'left', width: 80, minWidth: 60 },
-					{ display: '手机号', name: 'phone', align: 'left', width: 80, minWidth: 60 },
-					{ display: '邮箱', name: 'mail', align: 'left', width: 80, minWidth: 60 },
-					{ display: '头像', name: 'profile', align: 'left', width: 80, minWidth: 60 },
-					{ display: '行业', name: 'vocation', align: 'left', width: 80, minWidth: 60 },
-					{ display: '学校', name: 'school', align: 'left', width: 80, minWidth: 60 },
-					{ display: '专业', name: 'profession', align: 'left', width: 80, minWidth: 60 },
-					{ display: '状态', name: 'status', align: 'left', width: 80, minWidth: 60, 
-						render:function(rowdata,index,value) {
-							if(value==1)
-								return "正常";
-							else if(value==2)
-								return "冻结";
-						}
-					},
+					{ display: '名字', name: 'name', align: 'left', width: 80, minWidth: 60 },
+					{ display: '帮派', name: 'organization', align: 'left', width: 80, minWidth: 60 },
+					{ display: '职业', name: 'vocation', align: 'left', width: 80, minWidth: 60 },
 					{ display: '性别', name: 'gender', align: 'left', width: 80, minWidth: 60 },
-					{ display: '个人简介', name: 'description', align: 'left', width: 80, minWidth: 60 },
-					{ display: '花名', name: 'fameName', align: 'left', width: 80, minWidth: 60 },
-					{ display: '花名到期时间', name: 'dueTime', align: 'left', width: 80,type:'date', options:{showTime: true,format:'yyyy-MM-dd hh:mm:ss'}, minWidth: 60 },
+					{ display: '传记', name: 'story', align: 'left', width: 80, minWidth: 60 },
+					{ display: '故事来源', name: 'source', align: 'left', width: 80, minWidth: 60 },
+					{ display: '主要成就，相当于xx县委书记', name: 'achievement', align: 'left', width: 80, minWidth: 60 },
+					{ display: '学历，相当于xx大学毕业 ', name: 'education', align: 'left', width: 80, minWidth: 60 },
+					{ display: '出身，官二代，贫农，富二代', name: 'background', align: 'left', width: 80, minWidth: 60 },
 					{ display: '创建人', name: 'createBy', align: 'left', width: 80, minWidth: 60 },
 					{ display: '创建时间', name: 'createTime', align: 'left', type:'date', options:{showTime: true,format:'yyyy-MM-dd hh:mm:ss'}, width: 140, minWidth: 60 },
 					{ display: '修改人', name: 'updateBy', align: 'left', width: 80, minWidth: 60 },
 					{ display: '修改时间', name: 'updateTime', align: 'left', type:'date', options:{showTime: true,format:'yyyy-MM-dd hh:mm:ss'}, width: 140, minWidth: 60 }
                 ], 
-                url:'${CtxPath}/admin/pai/member/memberUser/listData.do', 
+                url:'${CtxPath}/admin/pai/member/memberFame/listData.do', 
                 pageSize:30 ,
                 rownumbers:true,
                 pagesizeParmName:'pageSize',
@@ -113,7 +93,7 @@
 			}			
 		}
     </script>
-    <script type="text/javascript" src="${CtxPath}/scripts/admin/pai/member/memberUser.js" ></script>
+    <script type="text/javascript" src="${CtxPath}/scripts/admin/pai/member/memberFame.js" ></script>
 </head>
 <body style="overflow-x:hidden; padding:2px;">
 	<div class="l-loading" style="display:block" id="pageloading"></div>

@@ -21,6 +21,8 @@ import com.pai.app.web.core.framework.web.controller.LigerUIController;
 import com.pai.base.core.entity.CommonResult;
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.string.StringUtils;
+import com.pai.base.core.validate.AnnotationValidator;
+import com.pai.base.core.validate.parser.ValidateResult;
 import com.pai.biz.auth.event.LoginEvent;
 import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
 import com.pai.biz.auth.persistence.entity.AuthUserPo;
@@ -64,11 +66,19 @@ public class LoginController extends LigerUIController{
 	 */
 	@RequestMapping("adminLogin")
 	public ModelAndView login(final HttpServletRequest request,HttpServletResponse response,LoginInfo loginInfo){
-		ModelAndView modelAndView = new ModelAndView(UrlConstants.LOGIN_FTL);
+		 ModelAndView modelAndView = new ModelAndView(UrlConstants.LOGIN_FTL);
 		 if(loginInfo.isLogin()){	//是提交登录	
 			CommonResult commonResult = null;
-		 	//匹配验证码
-			if(isCaptchaCorrect(request.getSession().getId(),loginInfo.getCaptchaCode())){
+			//必填校验
+			 ValidateResult validateResult = AnnotationValidator.validate(loginInfo);
+	 		 if(!validateResult.isValid()){
+	 			commonResult = new CommonResult();
+				commonResult.setSuccess(false);
+				commonResult.setMsgCode(MsgCode.PARAMERROR.getCode());
+				commonResult.setMsg(validateResult.getMessage());
+	 		 }
+		 	 //匹配验证码
+	 		 else if(isCaptchaCorrect(request.getSession().getId(),loginInfo.getCaptchaCode())){
 				//查询用户
 				final AuthUserPo authUserPo = authUserRepository.getAccount(loginInfo.getUserName(), loginInfo.getEncryptPassword());
 				if(authUserPo != null){

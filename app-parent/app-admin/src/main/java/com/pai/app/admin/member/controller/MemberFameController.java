@@ -1,13 +1,4 @@
-<#import "function.ftl" as func>
-<#assign class=model.variables.class>
-<#assign classVar=model.variables.classVar>
-<#assign sys=model.variables.sys>
-<#assign module=model.variables.module>
-<#assign sub=model.sub>
-<#assign foreignKey=func.convertUnderLine(model.foreignKey)>
-package com.${sys}.app.admin.${module}.controller;
-
-import java.util.List;
+package com.pai.app.admin.member.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,44 +10,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pai.app.web.core.framework.util.PageUtil;
+import com.pai.app.web.core.framework.web.controller.AdminRpcController;
+import com.pai.app.web.core.framework.web.entity.QueryBuilder;
 import com.pai.base.api.model.Page;
 import com.pai.base.api.response.BaseResponse;
 import com.pai.base.api.response.ResPage;
 import com.pai.base.core.constants.ActionMsgCode;
 import com.pai.base.core.entity.CommonResult;
-import com.pai.app.web.core.framework.util.PageUtil;
-import com.pai.app.web.core.framework.web.controller.AdminRpcController;
-import com.pai.app.web.core.framework.web.entity.QueryBuilder;
 import com.pai.base.core.util.string.StringUtils;
-import com.pai.service.image.utils.RequestUtil;
-import com.pai.base.db.mybatis.impl.domain.PageList;
-import com.${sys}.biz.${module}.api.service.${class}Service;
-import com.${sys}.biz.${module}.api.model.${class}Bean;
+import com.pai.biz.member.api.model.MemberFameBean;
+import com.pai.biz.member.api.service.MemberFameService;
 
 /**
- * 对象功能:${model.tabComment} 控制类
- <#if vars.company?exists>
- * 开发公司:${vars.company}
- </#if>
- <#if vars.developer?exists>
- * 开发人员:${vars.developer}
- </#if>
- * 创建时间:${date?string("yyyy-MM-dd HH:mm:ss")}
+ * 对象功能:名人堂，为匿名用户服务 控制类
+ * 开发公司:π
+ * 开发人员:FU_HAO
+ * 创建时间:2017-07-15 16:45:43
  */
 @Controller
-@RequestMapping("/admin/${sys}/${module}/${classVar}")
-public class ${class}Controller extends AdminRpcController<${class}Bean>{
+@RequestMapping("/admin/pai/member/memberFame")
+public class MemberFameController extends AdminRpcController<MemberFameBean>{
 	 
 	@Resource
-	private ${class}Service ${classVar}Service;
+	private MemberFameService memberFameService;
 	
 	@Override
 	protected String getPoEntityComment() {		
-		return "${model.tabComment}";
+		return "名人堂，为匿名用户服务";
 	}
 
 	/**
-	 * 查询【${model.tabComment}】列表
+	 * 查询【名人堂，为匿名用户服务】列表
 	 * @param request
 	 * @param response
 	 * @return
@@ -71,8 +56,8 @@ public class ${class}Controller extends AdminRpcController<${class}Bean>{
 		//构造分页对象
 		QueryBuilder queryBuilder = new QueryBuilder(request);
 		Page page = PageUtil.buildPage(request);
-		//查询${model.tabComment}列表
-		BaseResponse<ResPage<${class}Bean>> baseResponse = ${classVar}Service.list${class}Service(queryBuilder.buildMap(), page.getPageNo(), page.getPageSize());
+		//查询名人堂，为匿名用户服务列表
+		BaseResponse<ResPage<MemberFameBean>> baseResponse = memberFameService.listMemberFameService(queryBuilder.buildMap(), page.getPageNo(), page.getPageSize());
 		//构造返回数据
 		String listData = buildListData(baseResponse.getData().getDataList(),baseResponse.getData().getTotal());
 		
@@ -80,7 +65,7 @@ public class ${class}Controller extends AdminRpcController<${class}Bean>{
 	}
 	
 	/**
-	 * 进入【${model.tabComment}】编辑页面
+	 * 进入【名人堂，为匿名用户服务】编辑页面
 	 * @param request
 	 * @param response
 	 * @return
@@ -95,27 +80,27 @@ public class ${class}Controller extends AdminRpcController<${class}Bean>{
 		//是否新增
 		boolean isNew =StringUtils.isEmpty(id)?true:false; 
 		
-		${class}Bean ${classVar}Bean = new ${class}Bean();
+		MemberFameBean memberFameBean = new MemberFameBean();
 		//根据新增或更新，进行若干业务处理
 		if(!isNew){
-			BaseResponse<${class}Bean> baseResponse = ${classVar}Service.get${class}ServiceById(id);
-			${classVar}Bean = baseResponse.getData();
+			BaseResponse<MemberFameBean> baseResponse = memberFameService.getMemberFameServiceById(id);
+			memberFameBean = baseResponse.getData();
 		}
 		
 		//构造返回对象和视图
 		ModelAndView modelAndView = buildAutoView(request);
 		modelAndView.addObject("isNew",isNew);
-		modelAndView.addObject(poEntityName, ${classVar}Bean);
+		modelAndView.addObject(poEntityName, memberFameBean);
 		
 		//返回
 		return modelAndView;		
 	}	
 	
 	/**
-	 * 保存【${model.tabComment}】
+	 * 保存【名人堂，为匿名用户服务】
 	 * @param request
 	 * @param response
-	 * @param ${classVar}Bean
+	 * @param memberFameBean
 	 * @throws Exception 
 	 * void
 	 * @exception 
@@ -123,18 +108,18 @@ public class ${class}Controller extends AdminRpcController<${class}Bean>{
 	 */	
 	@RequestMapping("save")
 	@ResponseBody
-	public CommonResult save(HttpServletRequest request,HttpServletResponse response,${class}Bean ${classVar}Bean) throws Exception{
+	public CommonResult save(HttpServletRequest request,HttpServletResponse response,MemberFameBean memberFameBean) throws Exception{
 		//是否新增
-		boolean isNew = StringUtils.isEmpty(${classVar}Bean.getId())?true:false;
+		boolean isNew = StringUtils.isEmpty(memberFameBean.getId())?true:false;
 		
-		BaseResponse baseResponse = ${classVar}Service.save${class}(${classVar}Bean);
+		BaseResponse baseResponse = memberFameService.saveMemberFame(memberFameBean);
 		
 		//返回
 		return new CommonResult(baseResponse.isSuccess(), isNew ? ActionMsgCode.CREATE.name() : ActionMsgCode.UPDATE.name(), baseResponse.getMsg());
 	}		
 	
 	/**
-	 * 删除【${model.tabComment}】
+	 * 删除【名人堂，为匿名用户服务】
 	 * @param request
 	 * @param response
 	 * @param id
@@ -148,7 +133,7 @@ public class ${class}Controller extends AdminRpcController<${class}Bean>{
 	@ResponseBody
 	public CommonResult delete(HttpServletRequest request,HttpServletResponse response, @RequestParam String id) throws Exception{
 		
-		BaseResponse baseResponse = ${classVar}Service.delete${class}ById(id);
+		BaseResponse baseResponse = memberFameService.deleteMemberFameById(id);
 		
 		//返回
 		return new CommonResult(baseResponse.isSuccess(), ActionMsgCode.DELETE.name(), baseResponse.getMsg());

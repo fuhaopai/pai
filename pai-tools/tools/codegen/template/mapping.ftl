@@ -114,7 +114,7 @@
 			<#list commonList as col>
 			<#assign colName=func.convertUnderLine(col.columnName)>
 			<if test="entity.${colName}!=null">
-				${col.columnName}=<#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>,</#if>
+				`${col.columnName}`=<#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>,</#if>
 			</if>
 			</#list>
 		</set>

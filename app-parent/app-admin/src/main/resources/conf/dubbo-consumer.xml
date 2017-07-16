@@ -13,5 +13,6 @@
 	
 	<!-- 用户服务接口 -->
 	<dubbo:reference interface="com.pai.biz.member.api.service.MemberUserService" id="memberUserService" check="false" version="1.0.0"/>
+	<dubbo:reference interface="com.pai.biz.member.api.service.MemberFameService" id="memberFameService" check="false" version="1.0.0"/>
 
 </beans>  

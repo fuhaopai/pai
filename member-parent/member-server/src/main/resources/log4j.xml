@@ -5,19 +5,19 @@
     	<param name="Target" value="System.out" />  
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                value="[CREDIT] %-d{yyyy-MM-dd HH:mm:ss} %p [%t] %c#%M(%L) | %m%n"/>
+                value="[MEMBER] %-d{yyyy-MM-dd HH:mm:ss} %p [%t] %c#%M(%L) | %m%n"/>
         </layout>
     </appender>  
  
     <!-- <appender name="APPLOGFILE" class="org.apache.log4j.TimeAndSizeRollingAppender">
     	<param name="encoding" value="UTF-8" />
-	    <param name="File" value="${catalina.base}/logs/bank-manager.log" />
+	    <param name="File" value="${catalina.base}/logs/member.log" />
 	    <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
 	    <param name="append" value="true"/>  
         <param name="MaxFileSize" value="100MB"/>  
         <param name="MaxBackupIndex" value="-1"/>
 	    <layout class="org.apache.log4j.PatternLayout">
-	      <param name="ConversionPattern" value="[CREDIT] %-d{yyyy-MM-dd HH:mm:ss} %-5p %-15c{1}: %m%n"/>
+	      <param name="ConversionPattern" value="[MEMBER] %-d{yyyy-MM-dd HH:mm:ss} %-5p %-15c{1}: %m%n"/>
 	    </layout>
      </appender>-->
 
@@ -51,10 +51,6 @@
 	
 	 -->
 	 
-	<logger name="org.apache.activemq">
-	  	<level value="ERROR"/>
-	</logger>
-
 	<logger name="com.pai.biz.member">
         <level value="DEBUG" />
     </logger>
@@ -68,7 +64,7 @@
     </logger>
     
     <root>
-        <level value="DEBUG"/>
+        <level value="INFO"/>
         
         <appender-ref ref="CONSOLE"/>
         

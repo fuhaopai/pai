@@ -12,7 +12,7 @@ import com.pai.base.db.persistence.entity.AbstractPo;
  * 对象功能:会员表 Tbl对象
  * 开发公司:π
  * 开发人员:FU_HAO
- * 创建时间:2017-07-02 18:04:24
+ * 创建时间:2017-07-15 20:45:31
  */
  @ITable(name="memberUser",code="pai_member_user")
 public class MemberUserTbl extends AbstractPo<String>{
@@ -38,17 +38,8 @@ public class MemberUserTbl extends AbstractPo<String>{
 	protected Integer  status; 		/*状态（1=正常；2=冻结）*/
 	@IField(name="gender",column="gender")
 	protected char  gender; 		/*性别（男，女）*/
-	@IField(name="suffix",column="suffix")
-	protected String  suffix; 		/*密码后缀*/
 	@IField(name="description",column="description")
 	protected String  description; 		/*个人简介*/
-	@IField(name="nameStatus",column="name_status")
-	protected Integer  nameStatus; 		/*昵称状态（1=可修改；2=不可修改）*/
-	@IField(name="nameUpdateTime",column="name_update_time")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-	protected java.util.Date  nameUpdateTime; 		/*上次昵称修改时间*/
-	@IField(name="fameId",column="fame_id_")
-	protected String  fameId; 		/*匿名用户对应id*/
 	@IField(name="createBy",column="create_by")
 	protected String  createBy; 		/*创建人*/
 	@IField(name="createTime",column="create_time")
@@ -193,18 +184,6 @@ public class MemberUserTbl extends AbstractPo<String>{
 	{
 		return this.gender;
 	}
-	public void setSuffix(String suffix) 
-	{
-		this.suffix = suffix;
-	}
-	/**
-	 * 返回 密码后缀
-	 * @return
-	 */
-	public String getSuffix() 
-	{
-		return this.suffix;
-	}
 	public void setDescription(String description) 
 	{
 		this.description = description;
@@ -216,42 +195,6 @@ public class MemberUserTbl extends AbstractPo<String>{
 	public String getDescription() 
 	{
 		return this.description;
-	}
-	public void setNameStatus(Integer nameStatus) 
-	{
-		this.nameStatus = nameStatus;
-	}
-	/**
-	 * 返回 昵称状态（1=可修改；2=不可修改）
-	 * @return
-	 */
-	public Integer getNameStatus() 
-	{
-		return this.nameStatus;
-	}
-	public void setNameUpdateTime(java.util.Date nameUpdateTime) 
-	{
-		this.nameUpdateTime = nameUpdateTime;
-	}
-	/**
-	 * 返回 上次昵称修改时间
-	 * @return
-	 */
-	public java.util.Date getNameUpdateTime() 
-	{
-		return this.nameUpdateTime;
-	}
-	public void setFameId(String fameId) 
-	{
-		this.fameId = fameId;
-	}
-	/**
-	 * 返回 匿名用户对应id
-	 * @return
-	 */
-	public String getFameId() 
-	{
-		return this.fameId;
 	}
 	public void setCreateBy(String createBy) 
 	{
@@ -318,11 +261,7 @@ public class MemberUserTbl extends AbstractPo<String>{
 		.append("profession", this.profession) 
 		.append("status", this.status) 
 		.append("gender", this.gender) 
-		.append("suffix", this.suffix) 
 		.append("description", this.description) 
-		.append("nameStatus", this.nameStatus) 
-		.append("nameUpdateTime", this.nameUpdateTime) 
-		.append("fameId", this.fameId) 
 		.append("createBy", this.createBy) 
 		.append("createTime", this.createTime) 
 		.append("updateBy", this.updateBy) 

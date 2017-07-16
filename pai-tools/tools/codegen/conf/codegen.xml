@@ -63,7 +63,7 @@
 		<file refTemplate="queryDao" filename="{class}QueryDao.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao" sub="true"  override="true"/>
 		<file refTemplate="queryDaoImpl" filename="{class}QueryDaoImpl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao\impl" sub="true"  override="true"/>		
 		<!-- <file refTemplate="daoTest" filename="{class}DaoTest.java" dir="src\test\java\com\{sys}\biz\{module}\test\persistence\dao" sub="true"  override="true"/> -->
-		<file refTemplate="baseTest" filename="{baseClass}Test.java" dir="src\test\java\com\{sys}\biz\{module}\test" sub="true" />						
+		<!-- <file refTemplate="baseTest" filename="{baseClass}Test.java" dir="src\test\java\com\{sys}\biz\{module}\test" sub="true" /> -->						
 	</daoFiles>
 
 	<daoDirs><!-- 对应table配置的module -->
@@ -72,6 +72,7 @@
 		<dir key="member" value="member-parent\member-server"/>
 	</daoDirs> 
 
+	<!-- 增删改查 -->
 	<domainFiles>											
 		<file refTemplate="domain" filename="{class}.java" dir="src\main\java\com\{sys}\biz\{module}\domain"  sub="true" override="true"/>			
 		<!-- <file refTemplate="domainTest" filename="{class}Test.java" dir="src\test\java\com\{sys}\biz\{module}\test\domain"  sub="true" override="true"/> -->
@@ -85,6 +86,7 @@
 		<dir key="member" value="member-parent\member-server"/>
 	</domainDirs>  
   
+  	<!-- 非dubbo服务专用后台controller -->
 	<controllerFiles>																					
 		<file refTemplate="controller" filename="{class}Controller.java" dir="src\main\java\com\{sys}\app\admin\{module}\controller" sub="false" override="true"/>
 		<!-- <file refTemplate="controllerTest" filename="{class}ControllerTest.java" dir="src\test\java\com\{sys}\app\admin\{module}\test\controller" sub="false" override="true"/> -->
@@ -95,6 +97,7 @@
 		<dir key="common" value="app-parent\app-admin"/>
 	</controllerDirs>
 	
+	<!-- dubbo服务专用后台controller -->
 	<rpccontrollerFiles>																					
 		<file refTemplate="rpccontroller" filename="{class}Controller.java" dir="src\main\java\com\{sys}\app\admin\{module}\controller" sub="false" override="true"/>
 	</rpccontrollerFiles>	
@@ -104,6 +107,7 @@
 		<dir key="topic" value="app-parent\app-admin"/>
 	</rpccontrollerDirs>
 	
+	<!-- web系统页面和脚本 -->
 	<viewFiles>																					
 		<file refTemplate="list" filename="{classVar}List.ftl" dir="src\main\webapp\WEB-INF\view\admin\{sys}\{module}\{classVar}" sub="true" override="true"/>
 		<file refTemplate="edit" filename="{classVar}Edit.ftl" dir="src\main\webapp\WEB-INF\view\admin\{sys}\{module}\{classVar}" sub="true" override="true"/>					
@@ -116,7 +120,7 @@
 		<dir key="member" value="app-parent\app-admin"/>
 	</viewDirs>
 	
-	<!-- 针对服务的对接文件,web系统和服务模块 -->
+	<!-- 针对服务的接口实现类 -->
 	<serviceFiles>
 		<file refTemplate="serviceImpl" filename="{class}ServiceImpl.java" dir="src\main\java\com\{sys}\biz\{module}\api\impl" sub="true" override="true"/>
 		<file refTemplate="apiTest" filename="{class}ServiceTest.java" dir="src\test\java\com\{sys}\biz\{module}\test" sub="true" override="true"/>
@@ -127,6 +131,7 @@
 		<dir key="topic" value="topic-parent\topic-server"/>
 	</serviceDirs>
 	
+	<!-- dubbo接口类 -->
 	<baseserviceFiles>
 		<file refTemplate="bean" filename="{class}Bean.java" dir="src\main\java\com\{sys}\biz\{module}\api\model"  sub="true" override="true"/>
 		<file refTemplate="service" filename="{class}Service.java" dir="src\main\java\com\{sys}\biz\{module}\api\service" sub="true" override="true"/>
@@ -150,6 +155,7 @@
 		<dir key="member" value="app-parent\app-web"/>
 	</apiBaseDirs>	
 	
+	<!-- rest接口API -->
 	<apiFiles>																					
 		<file refTemplate="apiController" filename="{class}APIController.java" dir="src\main\java\com\{sys}\app\api\{module}\web\controller" sub="true" override="true"/>
 		<file refTemplate="apiControllerTest" filename="{class}APIControllerTest.java" dir="src\test\java\com\{sys}\app\api\{module}\test\web\controller" sub="true" override="true"/>
@@ -170,15 +176,15 @@
 		<variable name="workspace" value="D:\github\pai\" />
 	</variables>
         <!--可以有多个<table>标签-->
-	<table tableName="pai_member_user" >
+	<table tableName="pai_member_fame" >
 		<variable name="sys" value="pai" />
 		<variable name="module" value="member" />
-		<variable name="class" value="MemberUser" />		
-		<variable name="baseClass" value="MemberUser" />
+		<variable name="class" value="MemberFame" />		
+		<variable name="baseClass" value="MemberFame" />
 		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
-		<variable name="doType" value="db,dao,domain,view,rpccontroller,service,baseservice,bean" />
+		<variable name="doType" value="view" />
 		 <!--
-		<subtable tablename="pai_auth_resources"  foreignKey="report_id_">
+		<subtable tablename="pai_auth_resources"  foreignKey="resource_id_">
 			<variable name="sys" value="pai" />
 			<variable name="module" value="auth" />
 			<variable name="class" value="AuthResources" />		

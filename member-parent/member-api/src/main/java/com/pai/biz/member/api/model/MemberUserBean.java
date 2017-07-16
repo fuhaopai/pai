@@ -2,61 +2,71 @@ package com.pai.biz.member.api.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pai.base.api.annotion.AutoDocField;
 import com.pai.base.api.model.Bean;
-
 /**
  * 对象功能:会员表 Tbl对象
  * 开发公司:π
  * 开发人员:FU_HAO
- * 创建时间:2017-07-02 18:04:25
+ * 创建时间:2017-07-15 20:45:31
  */
 public class MemberUserBean extends Bean{
 	
 	private static final long serialVersionUID = 2L;
 	
 	@AutoDocField("会员Id")
-	private String  id; 		/*会员Id*/
+	private String  id; 
+			
 	@AutoDocField("昵称")
-	private String  name; 		/*昵称*/
+	private String  name; 
+			
 	@AutoDocField("手机号")
-	private String  phone; 		/*手机号*/
+	private String  phone; 
+			
 	@AutoDocField("密码")
-	private String  password; 		/*密码*/
+	private String  password; 
+			
 	@AutoDocField("邮箱")
-	private String  mail; 		/*邮箱*/
+	private String  mail; 
+			
 	@AutoDocField("头像")
-	private String  profile; 		/*头像*/
+	private String  profile; 
+			
 	@AutoDocField("行业")
-	private String  vocation; 		/*行业*/
+	private String  vocation; 
+			
 	@AutoDocField("学校")
-	private String  school; 		/*学校*/
+	private String  school; 
+			
 	@AutoDocField("专业")
-	private String  profession; 		/*专业*/
+	private String  profession; 
+			
 	@AutoDocField("状态（1=正常；2=冻结）")
-	private Integer  status; 		/*状态（1=正常；2=冻结）*/
+	private Integer  status; 
+			
 	@AutoDocField("性别（男，女）")
-	private char  gender; 		/*性别（男，女）*/
-	@AutoDocField("密码后缀")
-	private String  suffix; 		/*密码后缀*/
+	private char  gender; 
+			
 	@AutoDocField("个人简介")
-	private String  description; 		/*个人简介*/
-	@AutoDocField("昵称状态（1=可修改；2=不可修改）")
-	private Integer  nameStatus; 		/*昵称状态（1=可修改；2=不可修改）*/
-	@AutoDocField("上次昵称修改时间")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-	private java.util.Date  nameUpdateTime; 		/*上次昵称修改时间*/
-	@AutoDocField("匿名用户对应id")
-	private String  fameId; 		/*匿名用户对应id*/
+	private String  description; 
+			
 	@AutoDocField("创建人")
-	private String  createBy; 		/*创建人*/
+	private String  createBy; 
+			
 	@AutoDocField("创建时间")
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-	private java.util.Date  createTime; 		/*创建时间*/
+	private java.util.Date  createTime; 
+			
 	@AutoDocField("修改人")
-	private String  updateBy; 		/*修改人*/
+	private String  updateBy; 
+			
 	@AutoDocField("修改时间")
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-	private java.util.Date  updateTime; 		/*修改时间*/
+	private java.util.Date  updateTime; 
 	
+	@AutoDocField("花名")
+	private String fameName; 
+	
+	@AutoDocField("花名到期时间")
+	private java.util.Date dueTime; 
 	
 	public void setId(String id) 
 	{
@@ -190,18 +200,6 @@ public class MemberUserBean extends Bean{
 	{
 		return this.gender;
 	}
-	public void setSuffix(String suffix) 
-	{
-		this.suffix = suffix;
-	}
-	/**
-	 * 返回 密码后缀
-	 * @return
-	 */
-	public String getSuffix() 
-	{
-		return this.suffix;
-	}
 	public void setDescription(String description) 
 	{
 		this.description = description;
@@ -213,42 +211,6 @@ public class MemberUserBean extends Bean{
 	public String getDescription() 
 	{
 		return this.description;
-	}
-	public void setNameStatus(Integer nameStatus) 
-	{
-		this.nameStatus = nameStatus;
-	}
-	/**
-	 * 返回 昵称状态（1=可修改；2=不可修改）
-	 * @return
-	 */
-	public Integer getNameStatus() 
-	{
-		return this.nameStatus;
-	}
-	public void setNameUpdateTime(java.util.Date nameUpdateTime) 
-	{
-		this.nameUpdateTime = nameUpdateTime;
-	}
-	/**
-	 * 返回 上次昵称修改时间
-	 * @return
-	 */
-	public java.util.Date getNameUpdateTime() 
-	{
-		return this.nameUpdateTime;
-	}
-	public void setFameId(String fameId) 
-	{
-		this.fameId = fameId;
-	}
-	/**
-	 * 返回 匿名用户对应id
-	 * @return
-	 */
-	public String getFameId() 
-	{
-		return this.fameId;
 	}
 	public void setCreateBy(String createBy) 
 	{
@@ -298,20 +260,17 @@ public class MemberUserBean extends Bean{
 	{
 		return this.updateTime;
 	}
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "MemberUserBean [id=" + id + ", name=" + name + ", phone="
-				+ phone + ", password=" + password + ", mail=" + mail
-				+ ", profile=" + profile + ", vocation=" + vocation
-				+ ", school=" + school + ", profession=" + profession
-				+ ", status=" + status + ", gender=" + gender + ", suffix="
-				+ suffix + ", description=" + description + ", nameStatus="
-				+ nameStatus + ", nameUpdateTime=" + nameUpdateTime
-				+ ", fameId=" + fameId + ", createBy=" + createBy
-				+ ", createTime=" + createTime + ", updateBy=" + updateBy
-				+ ", updateTime=" + updateTime + "]";
+	public String getFameName() {
+		return fameName;
 	}
+	public void setFameName(String fameName) {
+		this.fameName = fameName;
+	}
+	public java.util.Date getDueTime() {
+		return dueTime;
+	}
+	public void setDueTime(java.util.Date dueTime) {
+		this.dueTime = dueTime;
+	}
+	
 }
