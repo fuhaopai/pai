@@ -1,4 +1,4 @@
-package com.pai.service.redis;
+package com.pai.base.core.redis.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,8 +9,6 @@ import java.util.Random;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -23,10 +21,10 @@ public class JedisUtil {
 //	private static JedisUtil redis = null;
 	private Logger log = Logger.getLogger(JedisUtil.class);
 
-	private static ApplicationContext app;
-	private static JedisPool jedisPool = null;
+//	private static ApplicationContext app;
+	private static JedisPool jedisPool;
 	
-	private static ShardedJedisPool shardedJedisPool = null;
+	private static ShardedJedisPool shardedJedisPool;
 
 	/**
 	 * 缓存生存时间
@@ -34,19 +32,19 @@ public class JedisUtil {
 	private final int expire = 60000;
 	private final long TWO_SECONDS = 2000000000L;
 	
-	static {
-		init();
-	}
+//	static {
+//		init();
+//	}
 	
-	private JedisUtil(){}
+//	private JedisUtil(){}
 	
-	private static class LazyHolder {
-		private static final JedisUtil jedisUtil = new JedisUtil();  
-	}
-	
-	public static final JedisUtil getInstance() {
-		return LazyHolder.jedisUtil;
-	}
+//	private static class LazyHolder {
+//		private static final JedisUtil jedisUtil = new JedisUtil();  
+//	}
+//	
+//	public static final JedisUtil getInstance() {
+//		return LazyHolder.jedisUtil;
+//	}
 	
 	/**
 	 * 构建redis连接池
@@ -55,16 +53,24 @@ public class JedisUtil {
 	 * @param port
 	 * @return JedisPool
 	 */
-	public static void init() {
-		app = new ClassPathXmlApplicationContext(
-				"classpath:/conf/service-redis.xml");
-		//集群配置，日后改造
-		shardedJedisPool = (ShardedJedisPool) app.getBean("shardedJedisPool");
-		jedisPool = (JedisPool) app.getBean("jedisPool");
+//	public static void init() {
+//		app = new ClassPathXmlApplicationContext(
+//				"classpath:/conf/service-redis.xml");
+//		//集群配置，日后改造
+//		shardedJedisPool = (ShardedJedisPool) app.getBean("shardedJedisPool");
+//		jedisPool = (JedisPool) app.getBean("jedisPool");
+//	}
+
+	public static JedisPool getJedisPool() {
+		return jedisPool;
 	}
 
-	public JedisPool getPool() {
-		return jedisPool;
+	public static void setJedisPool(JedisPool jedisPool) {
+		JedisUtil.jedisPool = jedisPool;
+	}
+
+	public static void setShardedJedisPool(ShardedJedisPool shardedJedisPool) {
+		JedisUtil.shardedJedisPool = shardedJedisPool;
 	}
 
 	public ShardedJedisPool getShardedJedisPool() {

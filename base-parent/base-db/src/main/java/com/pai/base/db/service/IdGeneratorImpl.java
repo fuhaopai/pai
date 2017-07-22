@@ -11,10 +11,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.pai.base.api.service.IdGenerator;
+import com.pai.base.core.redis.constants.RedisDb;
+import com.pai.base.core.redis.util.JedisUtil;
 import com.pai.base.core.util.date.DateConverter;
 import com.pai.base.core.util.string.StringUtils;
-import com.pai.service.redis.JedisUtil;
-import com.pai.service.redis.RedisDb;
 
 /**
  * 主键生成策略：
@@ -27,6 +27,9 @@ public class IdGeneratorImpl implements IdGenerator,InitializingBean{
 		
 		@Resource
 		private JdbcTemplate jdbcTemplate;
+		
+		@Resource
+		JedisUtil jedisUtil;
 	    /**
 	     * 机器ID
 	     */
@@ -49,7 +52,7 @@ public class IdGeneratorImpl implements IdGenerator,InitializingBean{
 	    	String idString = null;
 			if(machineId!=null && StringUtils.isNotEmpty(machineName) && incrBy != null){
 				try {
-					idString = JedisUtil.getInstance().incrBy(machineName, incrBy, RedisDb.DBFIFTEEN);
+					idString = jedisUtil.incrBy(machineName, incrBy, RedisDb.DBFIFTEEN);
 					if(StringUtils.isEmpty(idString)){
 				        try {
 				        	String updateSql = "UPDATE pai_common_id SET max_num=max_num+incr_num, update_time='"+DateConverter.toString(new Date())+"' WHERE id_=? AND name=?";

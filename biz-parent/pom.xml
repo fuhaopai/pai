@@ -51,11 +51,11 @@
 			<artifactId>biz-frame</artifactId>
 			<version>${pai.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.pai.service</groupId>
 			<artifactId>service-redis</artifactId>
 			<version>${pai.version}</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
   			<groupId>com.pai.service</groupId>
   			<artifactId>service-quartz</artifactId>

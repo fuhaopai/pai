@@ -21,7 +21,7 @@ import com.pai.biz.member.api.service.MemberUserService;
  * @author FU_HAO
  *
  */
-@ContextConfiguration({"classpath:conf/application.xml"})
+@ContextConfiguration({"classpath:conf/member-server.xml"})
 public class MemberUserServiceTest extends BaseTestCase{
 	
 	@Resource

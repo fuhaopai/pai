@@ -1,30 +1,41 @@
-package com.pai.app.web.core.framework.aop;
+package com.pai.base.core.redis.aop;
 
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 
-import com.pai.app.web.core.framework.engine.FreemarkEngine;
 import com.pai.base.api.annotion.PAICacheEvict;
+import com.pai.base.core.redis.constants.RedisDb;
+import com.pai.base.core.redis.util.JedisUtil;
 import com.pai.base.core.util.string.StringCollections;
 import com.pai.base.core.util.string.StringUtils;
-import com.pai.service.redis.JedisUtil;
-import com.pai.service.redis.RedisDb;
 
+import freemarker.cache.StringTemplateLoader;
 import freemarker.ext.beans.BeansWrapper;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModelException;
 
 public class PAICacheEvictAOPAspect {
 	
-	@Resource
-	private FreemarkEngine freemarkEngine;
+//	@Resource
+//	private FreemarkEngine freemarkEngine;
 	
+	private JedisUtil jedisUtil;
+	
+	public JedisUtil getJedisUtil() {
+		return jedisUtil;
+	}
+
+	public void setJedisUtil(JedisUtil jedisUtil) {
+		this.jedisUtil = jedisUtil;
+	}
+
 	//添加FreeMarker可访问的类静态方法的字段
 	static Map<String,TemplateHashModel> STATIC_CLASSES = new HashMap<String, TemplateHashModel>();
 	static{
@@ -79,16 +90,16 @@ public class PAICacheEvictAOPAspect {
 				String type=paiCacheEvict.type();
 				int db=paiCacheEvict.db();
 				if(type.equals(RedisDb.EVICT_ALL_TYPE)){//清空当前数据库
-					JedisUtil.getInstance().flushDB(db);
+					jedisUtil.flushDB(db);
 				}else if(type.equals(RedisDb.EVICT_KEY_TYPE)) {//根据key删除缓存
 					if(paiCacheEvict.key()!=null&&!paiCacheEvict.key().equals("")){
-						String key=freemarkEngine.parseByStringTemplate(paiCacheEvict.key(), map);
-						JedisUtil.getInstance().delByKey(key,db);
+						String key = parseByStringTemplate(paiCacheEvict.key(), map);
+						jedisUtil.delByKey(key,db);
 					}
 					
 				}else if(type.equals(RedisDb.EVICT_PREFIX_TYPE)){//根据前缀匹配删除
 					String key = paiCacheEvict.key();
-					JedisUtil.getInstance().delByPrefix(key,db);
+					jedisUtil.delByPrefix(key,db);
 				}
 				
 			} catch (Exception e) {
@@ -100,5 +111,16 @@ public class PAICacheEvictAOPAspect {
 		return point.proceed();
 	}
 	
-	
+	private String parseByStringTemplate(String templateSource, Object model)
+			throws Exception {
+		Configuration cfg = new Configuration();
+		StringTemplateLoader loader = new StringTemplateLoader();
+		cfg.setTemplateLoader(loader);
+		cfg.setClassicCompatible(true);
+		loader.putTemplate("freemaker", templateSource);
+		Template template = cfg.getTemplate("freemaker");
+		StringWriter writer = new StringWriter();
+		template.process(model, writer);
+		return writer.toString();
+	}
 }

@@ -12,7 +12,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <service-redis.version>1.0.0-SNAPSHOT</service-redis.version>
+    <!-- <service-redis.version>1.0.0-SNAPSHOT</service-redis.version> -->
    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
    	<junit.version>4.10</junit.version>
    	<log4j.version>1.2.12</log4j.version>
@@ -62,11 +62,11 @@
 			<artifactId>base-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.pai.service</groupId>
 			<artifactId>service-redis</artifactId>
 			<version>${project.version}</version>			
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>

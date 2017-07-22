@@ -1,34 +1,45 @@
-package com.pai.app.web.core.framework.aop;
+package com.pai.base.core.redis.aop;
 
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 
-import com.pai.app.web.core.framework.engine.FreemarkEngine;
 import com.pai.base.api.annotion.PAICacheable;
+import com.pai.base.core.redis.util.JedisUtil;
 import com.pai.base.core.util.ConfigHelper;
 import com.pai.base.core.util.string.StringCollections;
 import com.pai.base.core.util.string.StringConverter;
 import com.pai.base.core.util.string.StringUtils;
-import com.pai.service.redis.JedisUtil;
 
+import freemarker.cache.StringTemplateLoader;
 import freemarker.ext.beans.BeansWrapper;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModelException;
 
 public class PAICacheableAOPAspect {
 	private static Logger log = Logger.getLogger(PAICacheableAOPAspect.class);
 	
-	@Resource
-	private FreemarkEngine freemarkEngine;
+	private JedisUtil jedisUtil;
 	
+//	@Resource
+//	private FreemarkEngine freemarkEngine;
+	
+	public JedisUtil getJedisUtil() {
+		return jedisUtil;
+	}
+
+	public void setJedisUtil(JedisUtil jedisUtil) {
+		this.jedisUtil = jedisUtil;
+	}
+
 	//添加FreeMarker可访问的类静态方法的字段
 	static Map<String,TemplateHashModel> STATIC_CLASSES = new HashMap<String, TemplateHashModel>();
 	static{
@@ -97,18 +108,18 @@ public class PAICacheableAOPAspect {
 				String key="";
 				String annotationKey=paiCacheable.key();
 				if(annotationKey!=null&&!annotationKey.equals("")){
-					key=targetClass.getName() + "_" + freemarkEngine.parseByStringTemplate(annotationKey, map);					
+					key=targetClass.getName() + "_" + parseByStringTemplate(annotationKey, map);					
 				}
 				  
-				Object objcet=JedisUtil.getInstance().getObject(key,paiCacheable.db());
+				Object objcet=jedisUtil.getObject(key,paiCacheable.db());
 				if(isEmpty(objcet)){
 					returnVal= point.proceed();
 					
 					if(returnVal!=null){
 						if(returnVal instanceof Serializable){
-							JedisUtil.getInstance().set(key, returnVal, paiCacheable.db());
+							jedisUtil.set(key, returnVal, paiCacheable.db());
 //							JedisUtil.getInstance().set(key,JsonUtil.getJSONString(returnVal),paiCacheable.db());
-							JedisUtil.getInstance().expire(key, seconds);
+							jedisUtil.expire(key, seconds);
 						}else {
 							log.warn(returnVal.getClass().getName() + " must implements Serializable!!");
 						}
@@ -120,7 +131,6 @@ public class PAICacheableAOPAspect {
 				}
 				
 			} catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}		
 		}else {
@@ -141,5 +151,18 @@ public class PAICacheableAOPAspect {
 			}			
 		}
 		return false;
+	}
+	
+	private String parseByStringTemplate(String templateSource, Object model)
+			throws Exception {
+		Configuration cfg = new Configuration();
+		StringTemplateLoader loader = new StringTemplateLoader();
+		cfg.setTemplateLoader(loader);
+		cfg.setClassicCompatible(true);
+		loader.putTemplate("freemaker", templateSource);
+		Template template = cfg.getTemplate("freemaker");
+		StringWriter writer = new StringWriter();
+		template.process(model, writer);
+		return writer.toString();
 	}
 }

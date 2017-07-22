@@ -68,9 +68,6 @@ public class ${class}ServiceImpl implements ${class}Service {
 	@Override
     @AutoDocMethod(author = DeveloperType.${vars.developer}, createTime = "${date?string("yyyy-MM-dd HH:mm:ss")}", cver = VersionType.V100, module = ModuleType.MEMBER, name = "保存${model.tabComment}", description = "保存${model.tabComment}", sort = 3)
 	public BaseResponse save${class}(${class}Bean ${classVar}Bean){
-		//是否新增
-		boolean isNew = StringUtils.isEmpty(${classVar}Bean.getId())?true:false;
-		
 		//构造领域对象和保存数据
 		${class} ${classVar} = ${classVar}Repository.newInstance();
 		${classVar}.setData(Mapper.getInstance().copyProperties(${classVar}Bean, ${class}Po.class));

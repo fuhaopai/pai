@@ -58,27 +58,6 @@
 		</tx:attributes>
 	</tx:advice>
 	
-	<bean id="paiCacheEvictAOPAspect" class="com.pai.app.web.core.framework.aop.PAICacheEvictAOPAspect"/>  		    
-		    
-    <aop:config proxy-target-class="true">
-		<aop:aspect ref="paiCacheEvictAOPAspect">
-			<aop:pointcut expression="(execution(* com.pai.*.*.repository.impl.*.*(..)) 
-					or execution(* com.pai.biz.*.api.impl.*(..)))"  id="paiCacheEvictAopPointcut"/>
-			<aop:around pointcut-ref="paiCacheEvictAopPointcut" method="doCacheEvict"/>
-		</aop:aspect>		
-	</aop:config>
-	
-	
-	<bean id="paiCacheableAOPAspect" class="com.pai.app.web.core.framework.aop.PAICacheableAOPAspect"/>	    
-		    
-    <aop:config proxy-target-class="true">
-		<aop:aspect ref="paiCacheableAOPAspect">
-			<aop:pointcut expression="(execution(* com.pai.*.*.repository.impl.*.*(..))
-					or execution(* com.pai.biz.*.api.impl.*(..)))"  id="paiCacheableAopPointcut"/>
-			<aop:around pointcut-ref="paiCacheableAopPointcut" method="doCacheable"/>
-		</aop:aspect>		
-	</aop:config>
-	
 	<bean id="searchInfoHelper" class="com.pai.base.core.helper.SearchInfoHelper">
 		<property name="basePackage" >
 			<list>

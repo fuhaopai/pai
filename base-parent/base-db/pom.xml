@@ -17,10 +17,10 @@
 		<groupId>com.pai.base</groupId>
 		<artifactId>base-core</artifactId>
 	</dependency>
-	<dependency>
+	<!-- <dependency>
 	 	<groupId>com.pai.service</groupId>
 	  	<artifactId>service-redis</artifactId>
-	</dependency>
+	</dependency> -->
 	<dependency>
 		<groupId>org.mybatis</groupId>
 		<artifactId>mybatis</artifactId>
