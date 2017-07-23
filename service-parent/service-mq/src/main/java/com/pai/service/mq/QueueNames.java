@@ -1,4 +1,4 @@
-package com.pai.service.image.constants;
+package com.pai.service.mq;
 
 public class QueueNames {
 	

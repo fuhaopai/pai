@@ -15,9 +15,6 @@ import org.apache.log4j.PropertyConfigurator;
 
 import com.pai.app.web.core.constants.WebConstants;
 
-/**
- * @author Winston
- */
 public final class Log4jConfig {
 	private static boolean	initialized	= false;
 	private final static String LOG4J_CONFIG_LOCATION="/WEB-INF/classes/conf/log4j.properties";

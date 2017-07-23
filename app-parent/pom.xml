@@ -87,6 +87,11 @@
 			<artifactId>service-image</artifactId>
 			<version>${pai.version}</version>
 		</dependency>
+		<dependency>
+	    	<groupId>com.pai.biz</groupId>
+	    	<artifactId>member-api</artifactId>
+	    	<version>${pai.version}</version>
+	    </dependency>
 	  	<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>

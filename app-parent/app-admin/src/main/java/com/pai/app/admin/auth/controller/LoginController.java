@@ -140,7 +140,7 @@ public class LoginController extends LigerUIController{
 			try{
 				isCorrect = imageCaptchaService.validateResponseForID(captchaId, postCaptchaCode.toLowerCase()).booleanValue();
 			}catch(Exception e){
-				e.printStackTrace();
+				logger.error(e.getMessage());
 			}
 		}else{
 			isCorrect = false;		

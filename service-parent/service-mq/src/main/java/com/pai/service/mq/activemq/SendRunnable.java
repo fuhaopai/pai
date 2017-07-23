@@ -7,12 +7,15 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 
 import com.pai.base.api.model.IMsgVo;
 
 public class SendRunnable  implements Runnable{
+	Log logger = LogFactory.getLog(this.getClass());
 	private int queueLength = 9999;
 	
 	private AtomicBoolean stopSending = new AtomicBoolean();
@@ -54,14 +57,14 @@ public class SendRunnable  implements Runnable{
 						final IMsgVo msgVo = (IMsgVo)message;
 						producerTemplate.send(QUEUE, new MessageCreator() {
 							public Message createMessage(Session session) throws JMSException {
-								System.out.println(Thread.currentThread() + " 发出消息：" + message);								
+								logger.info(Thread.currentThread() + " 发出消息：" + message);								
 								return session.createObjectMessage(msgVo);
 							}
 						});
 					}else{
 						producerTemplate.send(QUEUE, new MessageCreator() {
 							public Message createMessage(Session session) throws JMSException {
-								System.out.println(Thread.currentThread() + " 发出String消息：" + message);
+								logger.info(Thread.currentThread() + " 发出String消息：" + message);
 								return session.createTextMessage(message.toString());
 							}
 						});

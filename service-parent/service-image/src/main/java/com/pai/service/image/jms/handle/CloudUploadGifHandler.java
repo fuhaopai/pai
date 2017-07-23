@@ -20,7 +20,7 @@ public class CloudUploadGifHandler  implements JmsHandler<CloudUploadGif>{
 		CloudUploadGif msg = (CloudUploadGif)vo;
 		//调用云存储接口
 		
-		ICloudUploadGif  iCloudUploadGif = SpringHelper.getBean(ICloudUploadGif.class);
+		ICloudUploadGif iCloudUploadGif = SpringHelper.getBean(ICloudUploadGif.class);
 		if(iCloudUploadGif!=null){
 			iCloudUploadGif.uploadGif(msg.getData(), msg.getFileName(), msg.getSize(), msg.getContentType());				
 		}			

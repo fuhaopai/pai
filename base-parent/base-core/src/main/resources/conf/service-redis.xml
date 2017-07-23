@@ -40,7 +40,7 @@
 	
 	<bean id="paiCacheableAOPAspect" class="com.pai.base.core.redis.aop.PAICacheableAOPAspect">
 		<property name="jedisUtil" ref="jedisUtil" />
-	</bean>	    
+	</bean>
 		    
     <aop:config proxy-target-class="true">
 		<aop:aspect ref="paiCacheableAOPAspect">
@@ -49,7 +49,9 @@
 		</aop:aspect>		
 	</aop:config>
 	
-	<bean id="paiCacheEvictAOPAspect" class="com.pai.base.core.redis.aop.PAICacheEvictAOPAspect"/>  		    
+	<bean id="paiCacheEvictAOPAspect" class="com.pai.base.core.redis.aop.PAICacheEvictAOPAspect">
+		<property name="jedisUtil" ref="jedisUtil" />
+	</bean>  		    
 		    
     <aop:config proxy-target-class="true">
 		<aop:aspect ref="paiCacheEvictAOPAspect">

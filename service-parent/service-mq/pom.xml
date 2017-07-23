@@ -33,9 +33,9 @@
 	    <groupId>com.pai.base</groupId>
    		<artifactId>base-core</artifactId>
 	</dependency>
-	<dependency>
+	<!-- <dependency>
 	    <groupId>com.pai.base</groupId>
    		<artifactId>base-db</artifactId>
-	</dependency>
+	</dependency> -->
   </dependencies>
 </project>

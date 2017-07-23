@@ -1,4 +1,4 @@
-package com.pai.service.image.jms;
+package com.pai.service.mq;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,15 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.pai.base.api.helper.IConfigHelper;
 import com.pai.base.core.helper.SpringHelper;
-import com.pai.service.image.constants.QueueNames;
 import com.pai.service.mq.activemq.ReceiveRunnable;
 import com.pai.service.mq.activemq.SendRunnable;
 import com.pai.service.mq.jms.JmsConsumer;
-
-/**
- *     JMS消息服务启动线程
- *     @author Suoron
- */
 
 @Service
 public class JmsService {

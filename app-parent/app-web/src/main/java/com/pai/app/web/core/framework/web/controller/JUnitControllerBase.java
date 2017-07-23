@@ -27,10 +27,9 @@ import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pai.app.web.core.framework.web.context.ServletContextHelper;
 import com.pai.base.api.service.IdGenerator;
 import com.pai.base.core.entity.CommonResult;
-import com.pai.base.core.helper.SpringHelper;
+import com.pai.base.core.util.ServletContextHelper;
 
 /**
  * 

@@ -26,6 +26,10 @@ public class SpringHelper implements ApplicationContextAware {
 		}
 	}
 
+	public static ApplicationContext getContext() {
+		return context;
+	}
+
 	/**
 	 * 根据beanId获取配置在系统中的对象实例。
 	 * 

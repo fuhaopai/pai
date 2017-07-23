@@ -17,7 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.pai.app.web.core.constants.WebConstants;
-import com.pai.app.web.core.framework.web.context.ServletContextHelper;
+import com.pai.base.core.util.ServletContextHelper;
 
 @SuppressWarnings("serial")
 public class CoreMediaServlet extends HttpServlet implements Servlet {

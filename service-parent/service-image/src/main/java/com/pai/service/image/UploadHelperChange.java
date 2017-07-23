@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.pai.base.api.image.ImageWatermarkService;
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.image.ImageScaleHelper;
+import com.pai.base.core.util.ConfigHelper;
 import com.pai.base.core.util.FileUtils;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.service.image.constants.ContentTypeConstants;
@@ -22,10 +23,9 @@ import com.pai.service.image.constants.UploadType;
 import com.pai.service.image.entity.CloudUploadMsg;
 import com.pai.service.image.entity.UploadPath;
 import com.pai.service.image.entity.UploadResult;
-import com.pai.service.image.jms.JmsService;
-import com.pai.base.core.util.ConfigHelper;
 import com.pai.service.image.utils.ImageUtil;
 import com.pai.service.image.utils.RequestUtil;
+import com.pai.service.mq.JmsService;
 /**
  * 文件上传帮助类
  * @author winston

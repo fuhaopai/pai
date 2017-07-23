@@ -15,6 +15,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.ShardedJedisPool;
 import redis.clients.jedis.exceptions.JedisException;
 
+import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.SerializeUtil;
 
 public class JedisUtil {
@@ -41,10 +42,10 @@ public class JedisUtil {
 //	private static class LazyHolder {
 //		private static final JedisUtil jedisUtil = new JedisUtil();  
 //	}
-//	
-//	public static final JedisUtil getInstance() {
-//		return LazyHolder.jedisUtil;
-//	}
+//	如果想弄成工具方法就这样玩
+	public static final JedisUtil getInstance() {
+		return SpringHelper.getBean(JedisUtil.class);
+	}
 	
 	/**
 	 * 构建redis连接池

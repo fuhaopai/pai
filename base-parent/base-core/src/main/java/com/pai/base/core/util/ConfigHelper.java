@@ -12,7 +12,7 @@ import com.pai.base.core.util.string.StringUtils;
 
 public class ConfigHelper implements IConfigHelper{
 	//private Properties properties = new Properties();
-	private Properties properties = null;   //modify by suoron on 2015-08-12
+	private Properties properties = null;   
 
 	public static ConfigHelper getInstance() {
 		ConfigHelper configHelper = SpringHelper.getBean(ConfigHelper.class);
@@ -20,11 +20,11 @@ public class ConfigHelper implements IConfigHelper{
 	}
 	
 	public void init(){
-		/*properties = new Properties();
+		properties = new Properties();
 		String path = ServletContextHelper.getRealPath() + "/WEB-INF/classes/conf";
 		List<String> filePaths = FileUtils.getFilePaths(path, "properties", true);
 		if(filePaths.isEmpty()){
-			path = ServletContextHelper.getRealPath() + "/conf";
+			path = this.getClass().getResource("/conf").getPath();
 			filePaths = FileUtils.getFilePaths(path, "properties", true);
 		}
 		if(filePaths.size()>0){
@@ -37,16 +37,7 @@ public class ConfigHelper implements IConfigHelper{
 					PropertiesUtil.mergeTo(temp, properties);
 				}
 			}		
-		}else {
-	    	try {
-	    		properties.load(ConfigHelper.class.getClassLoader().getResourceAsStream("conf/app-web.properties"));
-	    		Properties baseDbProperties = new Properties();
-	    		baseDbProperties.load(ConfigHelper.class.getClassLoader().getResourceAsStream("conf/base-db.properties"));
-	    		PropertiesUtil.mergeTo(baseDbProperties,properties);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}*/
+		}
 	}
 	
 	public String getParamValue(String paramName){
