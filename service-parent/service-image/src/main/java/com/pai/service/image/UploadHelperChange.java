@@ -113,7 +113,7 @@ public class UploadHelperChange {
 		cloudUploadMsg.setUpLoadType(UploadType.IMAGE);
 		
 		JmsService jmsService = SpringHelper.getBean(JmsService.class);
-		jmsService.getSendRunnable().send(cloudUploadMsg);		
+		jmsService.send(cloudUploadMsg);		
 		
 		return cloudUploadResult;
 	}

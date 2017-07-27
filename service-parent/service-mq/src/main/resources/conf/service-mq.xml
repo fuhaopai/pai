@@ -2,70 +2,52 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:amq="http://activemq.apache.org/schema/core"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms"
   xsi:schemaLocation="http://www.springframework.org/schema/beans 
   http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/jms
+  http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
   http://activemq.apache.org/schema/core 
   http://activemq.apache.org/schema/core/activemq-core.xsd">
 
 	<!--(嵌入配置)activeMq消息容器-->          
- 	<bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory"
-        destroy-method="stop">
-        <property name="connectionFactory">
-            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
-                <property name="brokerURL">
-                    <value>tcp://${jms.ip}:${jms.port}</value>
-                </property>
-                <property name="useAsyncSend" value="true"/> 
-            </bean>
-        </property>
-        <property name="maxConnections" value="100"></property>
-    </bean>          
+ 	<amq:connectionFactory id="amqConnectionFactory"
+		brokerURL="${broker.url}" userName="${mq.username}" password="${mq.password}" />          
   	   
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-		<property name="connectionFactory" ref="jmsFactory"/> 
-		<!-- 支持订阅/发布模式的ActiveMQTopic -->
-		<property name="defaultDestinationName" value="subject" />  
-        <!-- 区别它采用的模式为false是p2p为true是订阅 -->  
-        <property name="pubSubDomain" value="true" />		 
-    </bean>    
-    
-	<!-- 发送消息的目的地（一个主题） -->  
-    <bean id="destination" class="org.apache.activemq.command.ActiveMQTopic">  
-        <!-- 设置消息队列的名字 -->  
-        <constructor-arg index="0" value="subject" />  
-    </bean>    
-    
-    <!-- 消息生产者  -->
-    <bean id="jmsProducer" class="com.pai.service.mq.jms.DefaultJmsProducer">
-    	<property name="jmsTemplate" ref="jmsTemplate"></property>
-    	<property name="destination" ref="destination"></property>    	
-    </bean>
-    
-    <!--消息监听容器 --> 
-	<bean id="jmsContainer"
-		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-		<property name="concurrentConsumers" value="10" />
-		<!-- 从哪里监听 -->
-		<property name="connectionFactory" ref="jmsFactory" />
-		<!-- 监听什么 -->
-		<property name="destinationName" value="subject" />  
-		<!-- 接收到消息以后进行消息处理 -->
-		<property name="messageListener" ref="jmsListener" />
-		<property name="pubSubNoLocal" value="false"></property>  
+    <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+  		<property name="targetConnectionFactory" ref="amqConnectionFactory"></property>
+		<!-- Session缓存数量 -->
+		<property name="sessionCacheSize" value="100" />
 	</bean>
-    
-    <!-- 消息消费监听器  --> 
-	<bean id="jmsListener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
-		<constructor-arg>
-			<ref bean="jmsConsumer"/>		
-		</constructor-arg>
-		<!-- 默认方法handleMessage -->
-		<property name="defaultListenerMethod" value="execute" />
+	
+	<!-- 定义JmsTemplate的Queue类型 -->
+	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<constructor-arg ref="connectionFactory" />
+		<!-- 非pub/sub模型（发布/订阅），即队列模式 -->
+		<property name="pubSubDomain" value="false" />
+	</bean>
+	
+	<!-- 定义JmsTemplate的Topic类型 -->
+	<bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<constructor-arg ref="connectionFactory" />
+		<!-- pub/sub模型（发布/订阅） -->
+		<property name="pubSubDomain" value="true" />
 	</bean>
 
-    <!-- 消息消费者 --> 
-    <bean name="jmsConsumer" class="com.pai.service.mq.jms.JmsConsumer">     
-    </bean>
+	<bean name="jmsConsumer" class="com.pai.service.mq.jms.JmsConsumer"></bean>
+	<bean name="jmsService" class="com.pai.service.mq.JmsService">
+		<property name="queue" value="${mq.queue}"></property>
+		<property name="jmsTemplate" ref="jmsQueueTemplate" />
+	</bean> 
 
+	<!-- 定义Queue监听器 -->
+	<jms:listener-container destination-type="queue" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+		<jms:listener destination="${mq.queue}" ref="jmsConsumer"/>
+	</jms:listener-container>
+	
+	<!-- 定义Topic监听器 -->
+	<!-- <jms:listener-container destination-type="topic" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+		<jms:listener destination="pai.test.topic" ref="topicReceiver1"/>
+		<jms:listener destination="pai.test.topic" ref="topicReceiver2"/>
+	</jms:listener-container> -->
 </beans>	

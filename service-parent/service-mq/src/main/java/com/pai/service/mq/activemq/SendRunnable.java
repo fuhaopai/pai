@@ -14,6 +14,7 @@ import org.springframework.jms.core.MessageCreator;
 
 import com.pai.base.api.model.IMsgVo;
 
+
 public class SendRunnable  implements Runnable{
 	Log logger = LogFactory.getLog(this.getClass());
 	private int queueLength = 9999;

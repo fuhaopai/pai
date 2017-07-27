@@ -5,7 +5,7 @@
     	<param name="Target" value="System.out" />  
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                value="[CREDIT] %-d{yyyy-MM-dd HH:mm:ss} %p [%t] %c#%M(%L) | %m%n"/>
+                value="[PAI] %-d{yyyy-MM-dd HH:mm:ss} %p [%t] %c#%M(%L) | %m%n"/>
         </layout>
     </appender>  
  

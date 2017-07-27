@@ -1,98 +1,64 @@
 package com.pai.service.mq;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.jms.core.MessageCreator;
 
-import com.pai.base.api.helper.IConfigHelper;
-import com.pai.base.core.helper.SpringHelper;
-import com.pai.service.mq.activemq.ReceiveRunnable;
-import com.pai.service.mq.activemq.SendRunnable;
-import com.pai.service.mq.jms.JmsConsumer;
+import com.pai.base.api.model.IMsgVo;
 
-@Service
 public class JmsService {
 	
-	private Map<String,ReceiveRunnable> receiveRunnables = null;
-	private Map<String,SendRunnable> sendRunnables = null;
+	private JmsTemplate jmsTemplate;
+
+	private String queue;
 	
-	IConfigHelper configHelper =SpringHelper.getBean(IConfigHelper.class);
-		
-	private void putRecvList(ReceiveRunnable receiveRunnable){
-		 if(receiveRunnables == null){
-			 receiveRunnables = new HashMap<String, ReceiveRunnable>();
-		 }
-		 receiveRunnables.put(receiveRunnable.getQUEUE(), receiveRunnable);		 
-	}	
-	private void putSendList(SendRunnable sendRunnable){
-		 if(sendRunnables == null){
-			 sendRunnables = new HashMap<String, SendRunnable>();
-		 }
-		 sendRunnables.put(sendRunnable.getQUEUE(), sendRunnable);		 
+	public String getQueue() {
+		return queue;
 	}
+
+	public void setQueue(String queue) {
+		this.queue = queue;
+	}
+
+	public JmsTemplate getJmsTemplate() {
+		return jmsTemplate;
+	}
+
+	public void setJmsTemplate(JmsTemplate jmsTemplate) {
+		this.jmsTemplate = jmsTemplate;
+	}
+	
 	/**
-	 *    启动所有生成者队列 
+	 * 发送一条消息到指定的队列（目标）
+	 * @param queueName 队列名称
+	 * @param message 消息内容
 	 */
-    private void startAllProductors(List<String> toQueues,ExecutorService executorService){
-    	JmsTemplate producerTemplate = (JmsTemplate)SpringHelper.getBean("producerTemplate");
-    	
-    	for(int i=0;i<toQueues.size();i++){
-    		if(toQueues.get(i) == null || toQueues.get(i).trim().length() == 0)
-    			 continue;
-    		SendRunnable sendRunnable = new SendRunnable(producerTemplate,toQueues.get(i));
-    		this.putSendList(sendRunnable);
-    		executorService.execute(sendRunnable);
-    	}  	
-    }
-	/**
-	 *    启动所有消费者队列 
-	 */
-    private void startAllConsumers(List<String> fromQueues,ExecutorService executorService){
-    	JmsTemplate consumerTemplate = (JmsTemplate)SpringHelper.getBean("consumerTemplate");
-    	JmsConsumer jmsConsumer = (JmsConsumer)SpringHelper.getBean("jmsConsumer");
-    	
-    	for(int i=0;i<fromQueues.size();i++){
-    		if(fromQueues.get(i) == null || fromQueues.get(i).trim().length() == 0)
-    			 continue;
-    		
-    		ReceiveRunnable receiveRunnable = new ReceiveRunnable(consumerTemplate,jmsConsumer,fromQueues.get(i));
-    		this.putRecvList(receiveRunnable);
-    		executorService.execute(receiveRunnable);
-    	}  	
-    }    
-	public void startService(){
-		int pool_size = 2;
-    	List<String> toQueues = configHelper.getLikeToList("mq.to_");
-    	List<String> fromQueues = configHelper.getLikeToList("mq.from_");
-    	
-    	//添加默认队列
-    	toQueues.add(configHelper.getParamValue(QueueNames.DEFAULT_QUEUE));
-    	fromQueues.add(configHelper.getParamValue(QueueNames.DEFAULT_QUEUE));
-    	
-    	pool_size += toQueues.size();
-    	pool_size += fromQueues.size();
-    	ExecutorService executorService = Executors.newFixedThreadPool(pool_size);
-    	
-    	startAllProductors(toQueues,executorService);       //启动所有生成者队列
-    	startAllConsumers(fromQueues,executorService);  //启动所有消费者队列
+	public void send(IMsgVo msgVo) {
+		sendObj(queue, msgVo);
 	}
 	
-	public ReceiveRunnable getReceiveRunnableByQueue(String queue){ 	    
-		return receiveRunnables ==null?null:receiveRunnables.get(queue);
-	}	
-	public SendRunnable getSendRunnableByQueue(String queue){
-		return sendRunnables ==null?null:sendRunnables.get(queue);
-	}	
-	public ReceiveRunnable getReceiveRunnable(){
-		return getReceiveRunnableByQueue(configHelper.getParamValue(QueueNames.DEFAULT_QUEUE));		
-	}
-	public SendRunnable getSendRunnable(){
-		return getSendRunnableByQueue(configHelper.getParamValue(QueueNames.DEFAULT_QUEUE));
+	public void send(String message) {
+		sendText(queue, message);
 	}
 	
+	private void sendObj(String queueName, final IMsgVo msgVo){
+		jmsTemplate.send(queueName, new MessageCreator() {
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				return session.createObjectMessage(msgVo);
+			}
+		});
+	}
+	
+	public void sendText(String queueName,final String message){
+		jmsTemplate.send(queueName, new MessageCreator() {
+		@Override
+		public Message createMessage(Session session) throws JMSException {
+			return session.createTextMessage(message);
+		}
+	});
+}
 }

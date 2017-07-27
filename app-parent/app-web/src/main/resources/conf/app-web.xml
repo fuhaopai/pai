@@ -14,7 +14,7 @@
 	<import resource="classpath:conf/biz-auth.xml"/>
 	<import resource="classpath:conf/biz-common.xml"/>
 	<import resource="classpath:conf/app-freemarker.xml"/>
-		
+	<import resource="classpath:conf/service-mq.xml"/>	
 	<context:annotation-config />
 	<context:component-scan base-package="com.pai.app.web.core" />	
 	<context:component-scan base-package="com.pai.service" />	

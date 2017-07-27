@@ -15,7 +15,6 @@ import com.pai.app.web.core.framework.web.context.Log4jConfig;
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.util.ConfigHelper;
 import com.pai.base.core.util.ServletContextHelper;
-import com.pai.service.mq.JmsService;
 
 public class StartupListener extends ContextLoaderListener implements
 		ServletContextListener {
@@ -57,8 +56,5 @@ public class StartupListener extends ContextLoaderListener implements
 		// 初始化Log4J
 		Log4jConfig.initLogging(servletContext);
 		Log4jWebConfigurer.initLogging(event.getServletContext());
-		
-		JmsService jmsService = SpringHelper.getBean(JmsService.class);
-		jmsService.startService();
 	}
 }

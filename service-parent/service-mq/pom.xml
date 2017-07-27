@@ -17,25 +17,24 @@
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-jms</artifactId>
 	</dependency>
-	<!-- <dependency>
-		<groupId>javax.jms</groupId>
-		<artifactId>jms</artifactId>
-	</dependency> -->
 	<dependency>
 	    <groupId>org.apache.activemq</groupId>
 		<artifactId>activemq-all</artifactId>
+		<exclusions>
+			<exclusion>
+				<groupId>*</groupId>
+				<artifactId>*</artifactId>
+			</exclusion>
+		</exclusions>
 	</dependency>
 	<dependency>
-	    <groupId>org.apache.activemq</groupId>
-		<artifactId>activemq-web</artifactId>
+        <groupId>org.apache.xbean</groupId>
+        <artifactId>xbean-spring</artifactId>
+        <version>3.6</version>
 	</dependency>
 	<dependency>
 	    <groupId>com.pai.base</groupId>
    		<artifactId>base-core</artifactId>
 	</dependency>
-	<!-- <dependency>
-	    <groupId>com.pai.base</groupId>
-   		<artifactId>base-db</artifactId>
-	</dependency> -->
   </dependencies>
 </project>
