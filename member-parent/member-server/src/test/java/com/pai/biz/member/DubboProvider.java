@@ -19,6 +19,7 @@ public class DubboProvider {
 		try {
 			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:/conf/member-server.xml");
 			context.start();
+			log.info("=======dubbo 启动成功=======");
 		} catch (Exception e) {
 			log.error("== DubboProvider context start error:",e);
 		}

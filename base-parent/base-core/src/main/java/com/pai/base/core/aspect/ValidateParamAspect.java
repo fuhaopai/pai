@@ -28,10 +28,12 @@ public class ValidateParamAspect {
     	Object[] objects = pjp.getArgs();
     	LOGGER.info("参数拦截开始====="+JSON.toJSONString(objects));
     	for(Object o : objects) {
-    		ValidateResult validateResult = AnnotationValidator.validate(o);
-    		if(!validateResult.isValid()) {
-    			LOGGER.error("参数拦截信息"+JSON.toJSONString(validateResult.getMessage()));
-    			return new BaseResponse<>(ResponseCode.BUSINESS_PARAMETER_EXCEPTION.getCode(), validateResult.getMessage());
+    		if(o != null) {
+    			ValidateResult validateResult = AnnotationValidator.validate(o);
+        		if(!validateResult.isValid()) {
+        			LOGGER.error("参数拦截信息"+JSON.toJSONString(validateResult.getMessage()));
+        			return new BaseResponse<>(ResponseCode.BUSINESS_PARAMETER_EXCEPTION.getCode(), validateResult.getMessage());
+        		}
     		}
     	}
     	LOGGER.info("======参数拦截结束=====");

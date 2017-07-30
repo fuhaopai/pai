@@ -69,14 +69,14 @@
 		<groupId>org.freemarker</groupId>
 		<artifactId>freemarker</artifactId>
 	</dependency>	
-	<dependency>
+	<!-- <dependency>
 		<groupId>opensymphony</groupId>
 		<artifactId>sitemesh</artifactId>
-	</dependency>		
-	<dependency>
+	</dependency> -->		
+	<!-- <dependency>
 	    <groupId>com.google.zxing</groupId>
 	    <artifactId>core</artifactId>
-	</dependency>
+	</dependency> -->
 	<dependency>
 		<groupId>org.apache.poi</groupId>
 		<artifactId>poi-ooxml</artifactId>
@@ -92,7 +92,6 @@
 	<dependency>
     	<groupId>com.pai.biz</groupId>
     	<artifactId>member-api</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
