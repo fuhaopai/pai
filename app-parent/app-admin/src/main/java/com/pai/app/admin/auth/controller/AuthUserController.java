@@ -18,6 +18,7 @@ import com.pai.app.web.core.framework.web.entity.QueryBuilder;
 import com.pai.base.api.model.Page;
 import com.pai.base.core.constants.ActionMsgCode;
 import com.pai.base.core.entity.CommonResult;
+import com.pai.base.core.util.RequestUtil;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.base.db.session.OnlineUserIdHolder;
 import com.pai.biz.auth.domain.AuthUser;
@@ -26,7 +27,6 @@ import com.pai.biz.auth.persistence.entity.AuthUserPo;
 import com.pai.biz.auth.repository.AuthRoleRepository;
 import com.pai.biz.auth.repository.AuthUserRepository;
 import com.pai.biz.frame.repository.IRepository;
-import com.pai.service.image.utils.RequestUtil;
 
 /**
  * 对象功能:用户 控制类

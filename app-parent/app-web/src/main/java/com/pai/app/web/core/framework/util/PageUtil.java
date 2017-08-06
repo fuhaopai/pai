@@ -3,8 +3,8 @@ package com.pai.app.web.core.framework.util;
 import javax.servlet.http.HttpServletRequest;
 
 import com.pai.base.api.model.Page;
+import com.pai.base.core.util.RequestUtil;
 import com.pai.base.db.mybatis.impl.domain.MyBatisPage;
-import com.pai.service.image.utils.RequestUtil;
 
 public class PageUtil {
 	//分页参数名称

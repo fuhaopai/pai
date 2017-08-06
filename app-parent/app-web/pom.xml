@@ -29,10 +29,10 @@
 		<groupId>com.pai.service</groupId>
 		<artifactId>service-quartz</artifactId>
 	</dependency>	
-	<dependency>
+	<!-- <dependency>
 		<groupId>com.pai.service</groupId>
 		<artifactId>service-image</artifactId>
-	</dependency>
+	</dependency> -->
 	<dependency>
 		<groupId>com.pai.biz</groupId>
 		<artifactId>biz-auth</artifactId>				

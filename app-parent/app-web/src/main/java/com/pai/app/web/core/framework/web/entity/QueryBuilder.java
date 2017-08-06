@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import com.pai.base.api.model.FieldInfo;
 import com.pai.base.api.model.TableInfo;
 import com.pai.base.core.helper.SearchInfoHelper;
+import com.pai.base.core.util.RequestUtil;
 import com.pai.base.core.util.string.StringCollections;
 import com.pai.base.core.util.string.StringUtils;
-import com.pai.service.image.utils.RequestUtil;
 
 /**
  * 查询构造类

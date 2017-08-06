@@ -21,13 +21,13 @@ import com.pai.app.web.core.framework.web.entity.QueryBuilder;
 import com.pai.base.api.model.Page;
 import com.pai.base.core.constants.ActionMsgCode;
 import com.pai.base.core.entity.CommonResult;
+import com.pai.base.core.util.RequestUtil;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.biz.auth.domain.AuthResources;
 import com.pai.biz.auth.persistence.entity.AuthResourcesPo;
 import com.pai.biz.auth.persistence.entity.AuthUserPo;
 import com.pai.biz.auth.repository.AuthResourcesRepository;
 import com.pai.biz.frame.repository.IRepository;
-import com.pai.service.image.utils.RequestUtil;
 
 /**
  * 对象功能:资源 控制类

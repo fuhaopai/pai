@@ -1,4 +1,4 @@
-package com.pai.service.image.utils;
+package com.pai.base.core.util;
 
 import java.math.BigDecimal;
 import java.net.URLDecoder;

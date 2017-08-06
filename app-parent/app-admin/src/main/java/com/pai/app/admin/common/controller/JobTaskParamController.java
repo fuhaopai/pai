@@ -1,7 +1,5 @@
 package com.pai.app.admin.common.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,19 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pai.base.api.model.Page;
-import com.pai.biz.frame.repository.IRepository;
-import com.pai.base.core.constants.ActionMsgCode;
-import com.pai.base.core.entity.CommonResult;
 import com.pai.app.web.core.framework.util.PageUtil;
 import com.pai.app.web.core.framework.web.controller.AdminController;
 import com.pai.app.web.core.framework.web.entity.QueryBuilder;
+import com.pai.base.api.model.Page;
+import com.pai.base.core.constants.ActionMsgCode;
+import com.pai.base.core.entity.CommonResult;
+import com.pai.base.core.util.RequestUtil;
 import com.pai.base.core.util.string.StringUtils;
-import com.pai.service.image.utils.RequestUtil;
 import com.pai.base.db.mybatis.impl.domain.PageList;
 import com.pai.biz.common.domain.JobTaskParam;
-import com.pai.biz.common.repository.JobTaskParamRepository;
 import com.pai.biz.common.persistence.entity.JobTaskParamPo;
+import com.pai.biz.common.repository.JobTaskParamRepository;
+import com.pai.biz.frame.repository.IRepository;
 
 /**
  * 对象功能:任务调度参数表，同一个定时器不同时间段跑不同的任务就需要传参 控制类

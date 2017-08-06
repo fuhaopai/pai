@@ -21,11 +21,11 @@ import com.pai.app.web.core.framework.web.entity.DWZResultInfo;
 import com.pai.base.api.constants.Bool;
 import com.pai.base.core.exception.GeneralException;
 import com.pai.base.core.util.GenericsUtils;
+import com.pai.base.core.util.RequestUtil;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.base.db.persistence.entity.PO;
 import com.pai.biz.frame.domain.Domain;
 import com.pai.biz.frame.repository.IRepository;
-import com.pai.service.image.utils.RequestUtil;
 
 public abstract class AdminController<PK extends Serializable,P extends PO<PK>,D extends Domain<PK, P>> extends LigerUIController{			
 	
@@ -95,13 +95,13 @@ public abstract class AdminController<PK extends Serializable,P extends PO<PK>,D
 		}	
 	}			
 
-	protected void afterListUpdate(HttpServletRequest request,HttpServletResponse response,String message){
+	/*protected void afterListUpdate(HttpServletRequest request,HttpServletResponse response,String message){
 		DWZResultInfo info = DWZResultInfo.newInstance(DWZResultInfo.STATUS.OK);
 		info.setMessage(message);
 		info.setNavTabId(poListTabId);
 		String result = convertToJson(info);
 		this.printResult(response, result);
-	}
+	}*/
 	
 	@Override
 	protected void initController() {

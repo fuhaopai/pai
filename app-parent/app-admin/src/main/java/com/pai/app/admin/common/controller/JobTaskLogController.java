@@ -1,7 +1,5 @@
 package com.pai.app.admin.common.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,19 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pai.base.api.model.Page;
-import com.pai.biz.frame.repository.IRepository;
-import com.pai.base.core.constants.ActionMsgCode;
-import com.pai.base.core.entity.CommonResult;
 import com.pai.app.web.core.framework.util.PageUtil;
 import com.pai.app.web.core.framework.web.controller.AdminController;
 import com.pai.app.web.core.framework.web.entity.QueryBuilder;
+import com.pai.base.api.model.Page;
+import com.pai.base.core.constants.ActionMsgCode;
+import com.pai.base.core.entity.CommonResult;
+import com.pai.base.core.util.RequestUtil;
 import com.pai.base.core.util.string.StringUtils;
-import com.pai.service.image.utils.RequestUtil;
 import com.pai.base.db.mybatis.impl.domain.PageList;
 import com.pai.biz.common.domain.JobTaskLog;
-import com.pai.biz.common.repository.JobTaskLogRepository;
 import com.pai.biz.common.persistence.entity.JobTaskLogPo;
+import com.pai.biz.common.repository.JobTaskLogRepository;
+import com.pai.biz.frame.repository.IRepository;
 
 /**
  * 对象功能:任务调度日志 控制类

@@ -15,6 +15,7 @@ import com.pai.base.api.constants.ModuleType;
 import com.pai.base.api.constants.VersionType;
 import com.pai.base.api.response.BaseResponse;
 import com.pai.base.api.response.ResPage;
+import com.pai.base.core.redis.constants.RedisDb;
 import com.pai.base.core.util.Mapper;
 import com.pai.base.db.mybatis.impl.domain.MyBatisPage;
 import com.pai.base.db.mybatis.impl.domain.PageList;
@@ -23,7 +24,6 @@ import com.pai.biz.member.api.service.MemberUserService;
 import com.pai.biz.member.domain.MemberUser;
 import com.pai.biz.member.persistence.entity.MemberUserPo;
 import com.pai.biz.member.repository.MemberUserRepository;
-import com.pai.service.redis.RedisDb;
 
 /**
  * 对象功能:会员表 控制类

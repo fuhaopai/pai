@@ -1,8 +1,8 @@
-package com.pai.service.image;
+package com.pai.app.admin.upload;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +16,9 @@ import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.image.ImageScaleHelper;
 import com.pai.base.core.util.ConfigHelper;
 import com.pai.base.core.util.FileUtils;
+import com.pai.base.core.util.RequestUtil;
 import com.pai.base.core.util.string.StringUtils;
+import com.pai.service.image.CloudUploadResult;
 import com.pai.service.image.constants.ContentTypeConstants;
 import com.pai.service.image.constants.PropertiesConstants;
 import com.pai.service.image.constants.UploadType;
@@ -24,22 +26,16 @@ import com.pai.service.image.entity.CloudUploadMsg;
 import com.pai.service.image.entity.UploadPath;
 import com.pai.service.image.entity.UploadResult;
 import com.pai.service.image.utils.ImageUtil;
-import com.pai.service.image.utils.RequestUtil;
 import com.pai.service.mq.JmsService;
 /**
  * 文件上传帮助类
- * @author winston
- *
  */
-public class UploadHelperChange {		
+public class UploadHelper {		
 	private static final String OVERLENGTH = "overlength";
 	private static final String SUCCESS = "Success";
-/*
- * 此方法被改造。适用于前台input multiple="multiple" 时的多文件上传
- * 
- */
-	public static List<UploadResult> upload(HttpServletRequest request,MultipartFile[] files) throws Exception{
-		List<UploadResult>  uploadResultlist = new ArrayList<UploadResult>();
+
+	public static UploadResult upload(HttpServletRequest request) throws Exception{
+		UploadResult uploadResult = new UploadResult();
 						
 		if (!(request instanceof MultipartHttpServletRequest)) {
 			throw new Exception("Request is not a MultipartHttpServletRequest");
@@ -50,13 +46,17 @@ public class UploadHelperChange {
 		Boolean isRename =RequestUtil.getBooleanParameter(request, "isRename");
         // 获得目录路径				
 		categoryDir = StringUtils.isEmpty(categoryDir)?"temp":categoryDir;		
+		
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest)request;		
+		
 		//自定义图片大小。全局是10m以下。本参数以 KB 为单位。
 		Integer customKb = RequestUtil.getIntegerParameter(request, "customKb");
 		boolean isCustomSizeOver= false;
+		
 	    //获得文件：   
-		for (int i=0;i<files.length;i++) { 
-			UploadResult uploadResult = new UploadResult();
-	        MultipartFile multipartFile = files[i];  
+		for (Iterator<String> it = multipartRequest.getFileNames(); it.hasNext();) {  
+	        String key = it.next();  
+	        MultipartFile multipartFile = multipartRequest.getFile(key);  
 	        if(customKb!=null){
 	        	long size = multipartFile.getSize();
 	        	double sizeKb = (double) (size / 1024);
@@ -80,19 +80,17 @@ public class UploadHelperChange {
 	        //将上传的文件写入到新文件中
 	        multipartFile.transferTo(saveTo);	
 	        
-	        upload(saveTo,uploadResult,uploadPath,request.getContextPath(),categoryDir);
-	        if(isCustomSizeOver){
-	    		uploadResult.setFlag(false);
-	    		uploadResult.setMsg(OVERLENGTH);
-			}else {
-			    uploadResult.setFlag(true);
-			    uploadResult.setMsg(SUCCESS);	
-			}
-	        uploadResultlist.add(uploadResult);
+	        upload(saveTo,uploadResult,uploadPath,request.getContextPath(),categoryDir);			
 	    }   	
 	    		
-		   
-	    return uploadResultlist;
+		if(isCustomSizeOver){
+    		uploadResult.setFlag(false);
+    		uploadResult.setMsg(OVERLENGTH);
+		}else {
+		    uploadResult.setFlag(true);
+		    uploadResult.setMsg(SUCCESS);	
+		}	    
+	    return uploadResult;
 	}
 	
 	/**
@@ -132,7 +130,7 @@ public class UploadHelperChange {
 		return uploadToCloud(uploadPath);
 	}
 	
-	public static void upload(File saveTo,UploadResult uploadResult,UploadPath uploadPath,String contextPath,String categoryDir) throws Exception{
+	private static void upload(File saveTo,UploadResult uploadResult,UploadPath uploadPath,String contextPath,String categoryDir) throws Exception{
 		//水印
         water(uploadPath);
 		//收窄

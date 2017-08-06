@@ -66,6 +66,7 @@ public class MemberUserBean extends Bean{
 	private String fameName; 
 	
 	@AutoDocField("花名到期时间")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	private java.util.Date dueTime; 
 	
 	public void setId(String id) 

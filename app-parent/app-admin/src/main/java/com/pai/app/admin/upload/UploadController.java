@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pai.app.web.core.constants.WebConstants;
 import com.pai.app.web.core.framework.web.controller.GenericController;
 import com.pai.app.web.core.framework.web.util.ViewUtil;
-import com.pai.service.image.UploadHelper;
 import com.pai.service.image.entity.UploadResult;
 
 @Controller

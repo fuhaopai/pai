@@ -21,13 +21,13 @@ import com.pai.app.web.core.framework.web.controller.GenericController;
 import com.pai.base.api.helper.IConfigHelper;
 import com.pai.base.core.constants.ImageType;
 import com.pai.base.core.util.DirUtils;
+import com.pai.base.core.util.RequestUtil;
 import com.pai.base.core.util.ServletContextHelper;
 import com.pai.service.image.comparator.NameComparator;
 import com.pai.service.image.comparator.SizeComparator;
 import com.pai.service.image.comparator.TypeComparator;
 import com.pai.service.image.constants.CompareType;
 import com.pai.service.image.entity.FileManagerEntity;
-import com.pai.service.image.utils.RequestUtil;
 
 @Controller
 public class FileManagerController extends GenericController {

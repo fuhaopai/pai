@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pai.base.api.model.Page;
-import com.pai.biz.frame.repository.IRepository;
-import com.pai.base.core.constants.ActionMsgCode;
-import com.pai.base.core.entity.CommonResult;
 import com.pai.app.web.core.framework.util.PageUtil;
 import com.pai.app.web.core.framework.web.controller.AdminController;
 import com.pai.app.web.core.framework.web.entity.QueryBuilder;
+import com.pai.base.api.model.Page;
+import com.pai.base.core.constants.ActionMsgCode;
+import com.pai.base.core.entity.CommonResult;
+import com.pai.base.core.util.RequestUtil;
 import com.pai.base.core.util.string.StringUtils;
-import com.pai.service.image.utils.RequestUtil;
 import com.pai.biz.auth.domain.AuthRoleUser;
-import com.pai.biz.auth.repository.AuthRoleUserRepository;
 import com.pai.biz.auth.persistence.entity.AuthRoleUserPo;
+import com.pai.biz.auth.repository.AuthRoleUserRepository;
+import com.pai.biz.frame.repository.IRepository;
 
 /**
  * 对象功能:角色-用户 控制类

@@ -1,4 +1,6 @@
 package com.pai.biz.member.persistence.entity;
+
+
 /**
  * 对象功能:会员表 entity对象
  * 开发公司:π

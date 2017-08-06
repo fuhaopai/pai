@@ -91,7 +91,5 @@
 		</exclusions>
 	</dependency>
   </dependencies>
-  <build>
-    <finalName>app-api</finalName>
-  </build>
+  
 </project>

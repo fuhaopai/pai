@@ -31,9 +31,6 @@ import com.pai.base.db.persistence.entity.AbstractPo;
 public class ${class}Tbl extends AbstractPo<String>{
 	<#list model.columnList as col>
 	@IField(name="${func.convertUnderLine(col.columnName)}",column="${col.columnName}")
-	<#if col.colType == "java.util.Date">
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-	</#if>
 	protected ${col.colType}  ${func.convertUnderLine(col.columnName)}; 		/*${col.comment}*/
 	</#list>
 	

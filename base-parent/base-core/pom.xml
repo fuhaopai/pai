@@ -66,6 +66,15 @@
 		<groupId>com.mortennobel</groupId>
 		<artifactId>java-image-scaling</artifactId>
 	</dependency>
+	<!-- 下三行格式化时间 -->
+	<dependency>
+     	 <groupId>com.fasterxml.jackson.core</groupId>
+	  	 <artifactId>jackson-annotations</artifactId>
+     </dependency>
+     <dependency>
+		 <groupId>com.fasterxml.jackson.core</groupId>
+		 <artifactId>jackson-core</artifactId>
+	</dependency>
 	<dependency>
 		<groupId>com.fasterxml.jackson.core</groupId>
 		<artifactId>jackson-databind</artifactId>

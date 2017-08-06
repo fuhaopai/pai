@@ -10,7 +10,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 import com.pai.app.web.core.constants.WebConstants;
 import com.pai.app.web.core.framework.web.util.ViewUtil;
-import com.pai.service.image.utils.RequestUtil;
+import com.pai.base.core.util.RequestUtil;
 
 /**
  * 重写Spring Mvc Servlet，处理输入URL没有requestMapping处理的情况。<br>

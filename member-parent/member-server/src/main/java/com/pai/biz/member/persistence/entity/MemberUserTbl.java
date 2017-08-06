@@ -1,9 +1,6 @@
 package com.pai.biz.member.persistence.entity;
-import java.util.Date;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pai.base.api.annotion.IField;
 import com.pai.base.api.annotion.ITable;
 import com.pai.base.db.persistence.entity.AbstractPo;
@@ -43,12 +40,10 @@ public class MemberUserTbl extends AbstractPo<String>{
 	@IField(name="createBy",column="create_by")
 	protected String  createBy; 		/*创建人*/
 	@IField(name="createTime",column="create_time")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	protected java.util.Date  createTime; 		/*创建时间*/
 	@IField(name="updateBy",column="update_by")
 	protected String  updateBy; 		/*修改人*/
 	@IField(name="updateTime",column="update_time")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	protected java.util.Date  updateTime; 		/*修改时间*/
 	
 	
