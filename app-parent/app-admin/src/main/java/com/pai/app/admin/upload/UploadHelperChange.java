@@ -11,6 +11,8 @@ import org.fusesource.hawtbuf.ByteArrayInputStream;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.pai.app.web.core.framework.constants.PropertiesConstants;
+import com.pai.app.web.core.framework.web.util.ImageUtil;
 import com.pai.base.api.image.ImageWatermarkService;
 import com.pai.base.core.helper.SpringHelper;
 import com.pai.base.core.image.ImageScaleHelper;
@@ -20,12 +22,10 @@ import com.pai.base.core.util.RequestUtil;
 import com.pai.base.core.util.string.StringUtils;
 import com.pai.service.image.CloudUploadResult;
 import com.pai.service.image.constants.ContentTypeConstants;
-import com.pai.service.image.constants.PropertiesConstants;
 import com.pai.service.image.constants.UploadType;
 import com.pai.service.image.entity.CloudUploadMsg;
 import com.pai.service.image.entity.UploadPath;
 import com.pai.service.image.entity.UploadResult;
-import com.pai.service.image.utils.ImageUtil;
 import com.pai.service.mq.JmsService;
 /**
  * 文件上传帮助类

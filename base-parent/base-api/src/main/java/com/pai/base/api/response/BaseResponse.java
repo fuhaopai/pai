@@ -2,7 +2,7 @@ package com.pai.base.api.response;
 
 import java.io.Serializable;
 
-import com.pai.base.api.annotion.AutoDocField;
+import com.pai.base.api.annotion.doc.AutoDocField;
 import com.pai.base.api.constants.ResponseCode;
 
 /**

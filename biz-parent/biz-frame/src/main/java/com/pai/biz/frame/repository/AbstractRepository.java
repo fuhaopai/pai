@@ -25,12 +25,16 @@ public abstract class AbstractRepository<PK extends Serializable,P  extends PO<P
 	}
 	
 	public D load(PK id) {
-		P po =  getQueryDao().get(id);
+		P po = get(id);
 		if(po!=null){
 			D d = newInstance(po);
 			return d;	
 		}
 		return null;
+	}
+	
+	public P get(PK id) {
+		return getQueryDao().get(id);
 	}
 	
 	public D getLast() {

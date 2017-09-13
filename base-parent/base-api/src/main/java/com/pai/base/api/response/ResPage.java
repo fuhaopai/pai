@@ -3,7 +3,7 @@ package com.pai.base.api.response;
 import java.io.Serializable;
 import java.util.List;
 
-import com.pai.base.api.annotion.AutoDocField;
+import com.pai.base.api.annotion.doc.AutoDocField;
 
 /**
  * 响应分页信息

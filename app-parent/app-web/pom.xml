@@ -29,10 +29,10 @@
 		<groupId>com.pai.service</groupId>
 		<artifactId>service-quartz</artifactId>
 	</dependency>	
-	<!-- <dependency>
+	<dependency>
 		<groupId>com.pai.service</groupId>
 		<artifactId>service-image</artifactId>
-	</dependency> -->
+	</dependency>
 	<dependency>
 		<groupId>com.pai.biz</groupId>
 		<artifactId>biz-auth</artifactId>				
@@ -85,13 +85,17 @@
 		<groupId>org.apache.poi</groupId>
 		<artifactId>poi-ooxml-schemas</artifactId>
 	</dependency>
-	<dependency>
+	<!-- <dependency>
 		<groupId>org.apache.httpcomponents</groupId>
 		<artifactId>httpmime</artifactId>
-	</dependency>
+	</dependency> -->
 	<dependency>
     	<groupId>com.pai.biz</groupId>
     	<artifactId>member-api</artifactId>
+    </dependency>
+	<dependency>
+    	<groupId>com.pai.biz</groupId>
+    	<artifactId>message-api</artifactId>
     </dependency>
   </dependencies>
 </project>

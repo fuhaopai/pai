@@ -2,7 +2,7 @@ package com.pai.base.core.validate.parser;
 
 import java.lang.reflect.Field;
 
-import com.pai.base.core.validate.annotation.NotBlank;
+import com.pai.base.api.annotion.validate.NotBlank;
 
 /**
  * 不能为空白校验器
@@ -19,7 +19,7 @@ public class NotBlankParser implements IAnnotationParser {
 		ValidateResult result = new ValidateResult();
 		if(f.isAnnotationPresent(NotBlank.class)){
 			NotBlank notBlank = f.getAnnotation(NotBlank.class);
-			if(value == null || value.toString().length() == 0){
+			if(value == null || value.toString().length() == 0 || "null".equals(value)){
 				result.setMessage(notBlank.fieldName() + "不能为空");
 			}
 		}

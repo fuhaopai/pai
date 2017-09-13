@@ -36,12 +36,12 @@
 	<select id="get"   parameterType="java.lang.String" resultMap="${po}">
 		SELECT * FROM ${tableName} 
 		WHERE 
-		${pk}=<#noparse>#{</#noparse>${func.convertUnderLine(pk)}}
+		`${pk}`=<#noparse>#{</#noparse>${func.convertUnderLine(pk)}}
 		LIMIT 1
 	</select>
 	
 	<select id="getLast" resultMap="${po}">
-    	select * from ${tableName} where ${pk} = (select max(${pk}) from ${tableName})
+    	select * from ${tableName} where `${pk}` = (select max(`${pk}`) from ${tableName})
     </select>
 	
 	<select id="countAll" resultType="int">
@@ -64,17 +64,17 @@
 			ORDER BY <#noparse>${</#noparse>orderBySql}
 		</if>
 		<if test="orderBySql==null">
-			ORDER BY ${pk} DESC
+			ORDER BY `${pk}` DESC
 		</if>
 	</select>
 	
 	<select id="findByIds"   resultMap="${po}">
 		SELECT * FROM ${tableName}
-			WHERE ${pk} in 
+			WHERE `${pk}` in 
 			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">  
   				<#noparse>#{id}  </#noparse>
  			</foreach>  		
-			ORDER BY ${pk} 				
+			ORDER BY `${pk}` 				
 	</select>	
 	
 	<update id="update" parameterType="${type}">
@@ -84,13 +84,13 @@
 		`${col.columnName}`=<#noparse>#{</#noparse>${colName},jdbcType=${func.getJdbcType(col.colDbType)}<#noparse>}</#noparse><#if col_has_next>,</#if>
 		</#list>
 		WHERE
-		${pk}=<#noparse>#{</#noparse>${func.convertUnderLine(pk)}}
+		`${pk}`=<#noparse>#{</#noparse>${func.convertUnderLine(pk)}}
 	</update>
 	
 	<delete id="delete" parameterType="java.lang.String">
 		DELETE FROM ${tableName} 
 		WHERE
-		${pk}=<#noparse>#{</#noparse>${func.convertUnderLine(pk)}}
+		`${pk}`=<#noparse>#{</#noparse>${func.convertUnderLine(pk)}}
 	</delete>
 	
 	<#if sub?exists && sub==true>

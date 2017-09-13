@@ -1,11 +1,15 @@
 package com.pai.biz.member.test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Resource;
 
 import org.junit.Test;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.alibaba.fastjson.JSON;
@@ -30,10 +34,34 @@ public class MemberUserServiceTest extends BaseTestCase{
     @Resource
     private MemberUserService memberUserService;
     
+    @Resource
+    private ThreadPoolTaskExecutor taskExecutor;
+    
     @Test
 	public void listMemberUserServiceTest(){
 		Map<String, Object> map = new HashMap<String, Object>();
 		BaseResponse<ResPage<MemberUserBean>> baseResponse = memberUserService.listMemberUserService(map, 1, 10);
 		System.out.println(JSON.toJSONString(baseResponse, true));
 	}
+    
+    @Test
+    public void testThread(){
+    	final ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<String, Integer>();
+//    	Lock lock = new ReentrantLock();
+    	List<String> list = new ArrayList<String>();
+    	for (int i = 0; i < 1000; i++){
+    		list.add("a"+i);
+    	}
+//    	System.out.println(list);
+    	for (final String str : list) {
+			taskExecutor.execute(new Runnable() {
+				@Override
+				public void run() {
+					if(taskExecutor.getActiveCount() < taskExecutor.getMaxPoolSize()) {
+						System.out.println(Thread.currentThread().getName()+"--->"+str);
+					}
+				}
+			});
+		}
+    }
 }

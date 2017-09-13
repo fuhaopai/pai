@@ -42,6 +42,7 @@
 	<jackson-databind.version>2.7.4</jackson-databind.version>
 	<servlet-api.version>2.5</servlet-api.version>
 	<dozer.version>5.5.1</dozer.version>
+	<org.apache.httpcomponents.version>4.3.3</org.apache.httpcomponents.version>
   </properties>
 
   <modules>
@@ -223,6 +224,21 @@
 	        <artifactId>dozer</artifactId>
 	        <version>${dozer.version}</version>
 	    </dependency>
+	    <dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>${org.apache.httpcomponents.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${org.apache.httpcomponents.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>${org.apache.httpcomponents.version}</version>
+		</dependency>
      </dependencies>
   </dependencyManagement>
   

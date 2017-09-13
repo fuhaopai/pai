@@ -31,7 +31,7 @@ import com.pai.base.db.persistence.entity.AbstractPo;
 public class ${class}Tbl extends AbstractPo<String>{
 	<#list model.columnList as col>
 	@IField(name="${func.convertUnderLine(col.columnName)}",column="${col.columnName}")
-	protected ${col.colType}  ${func.convertUnderLine(col.columnName)}; 		/*${col.comment}*/
+	protected ${col.colType} ${func.convertUnderLine(col.columnName)}; 		/*${col.comment}*/
 	</#list>
 	
 	

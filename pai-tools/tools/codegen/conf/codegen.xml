@@ -54,6 +54,7 @@
 		<dir key="auth" value="biz-parent\biz-auth"/>
 		<dir key="common" value="biz-parent\biz-common"/>
 		<dir key="member" value="member-parent\member-server"/>
+		<dir key="message" value="message-parent\message-server"/>
 	</dbDirs> 
 
 	<daoFiles>											
@@ -70,6 +71,7 @@
 		<dir key="auth" value="biz-parent\biz-auth"/>
 		<dir key="common" value="biz-parent\biz-common"/>
 		<dir key="member" value="member-parent\member-server"/>
+		<dir key="message" value="message-parent\message-server"/>
 	</daoDirs> 
 
 	<!-- 增删改查 -->
@@ -84,6 +86,7 @@
 		<dir key="auth" value="biz-parent\biz-auth"/>
 		<dir key="common" value="biz-parent\biz-common"/>
 		<dir key="member" value="member-parent\member-server"/>
+		<dir key="message" value="message-parent\message-server"/>
 	</domainDirs>  
   
   	<!-- 非dubbo服务专用后台controller -->
@@ -99,12 +102,13 @@
 	
 	<!-- dubbo服务专用后台controller -->
 	<rpccontrollerFiles>																					
-		<file refTemplate="rpccontroller" filename="{class}Controller.java" dir="src\main\java\com\{sys}\app\admin\{module}\controller" sub="false" override="true"/>
+		<file refTemplate="rpccontroller" filename="{class}Controller.java" dir="src\main\java\com\{sys}\app\admin\{module}\controller" sub="true" override="true"/>
 	</rpccontrollerFiles>	
 	
 	<rpccontrollerDirs>
 		<dir key="member" value="app-parent\app-admin"/>
 		<dir key="topic" value="app-parent\app-admin"/>
+		<dir key="message" value="app-parent\app-admin"/>
 	</rpccontrollerDirs>
 	
 	<!-- web系统页面和脚本 -->
@@ -118,6 +122,7 @@
 		<dir key="auth" value="app-parent\app-admin"/>
 		<dir key="common" value="app-parent\app-admin"/>
 		<dir key="member" value="app-parent\app-admin"/>
+		<dir key="message" value="app-parent\app-admin"/>
 	</viewDirs>
 	
 	<!-- 针对服务的接口实现类 -->
@@ -129,6 +134,7 @@
 	<serviceDirs>
 		<dir key="member" value="member-parent\member-server"/>
 		<dir key="topic" value="topic-parent\topic-server"/>
+		<dir key="message" value="message-parent\message-server"/>
 	</serviceDirs>
 	
 	<!-- dubbo接口类 -->
@@ -141,6 +147,7 @@
 	<baseserviceDirs>
 		<dir key="member" value="member-parent\member-api"/>
 		<dir key="topic" value="topic-parent\topic-api"/>
+		<dir key="message" value="message-parent\message-api"/>
 	</baseserviceDirs>
 	
 	<apiBaseFiles>																							
@@ -153,6 +160,7 @@
 		<dir key="auth" value="app-parent\app-web"/>
 		<dir key="common" value="app-parent\app-web"/>
 		<dir key="member" value="app-parent\app-web"/>
+		<dir key="message" value="app-parent\app-web"/>
 	</apiBaseDirs>	
 	
 	<!-- rest接口API -->
@@ -166,6 +174,7 @@
 		<dir key="auth" value="app-parent\app-api"/>
 		<dir key="common" value="app-parent\app-api"/>
 		<dir key="member" value="app-parent\app-api"/>
+		<dir key="message" value="app-parent\app-api"/>
 	</apiDirs>
 
 	<variables>
@@ -176,20 +185,20 @@
 		<variable name="workspace" value="D:\github\pai\" />
 	</variables>
         <!--可以有多个<table>标签-->
-	<table tableName="pai_member_fame" >
+	<table tableName="pai_message_record" >
 		<variable name="sys" value="pai" />
-		<variable name="module" value="member" />
-		<variable name="class" value="MemberFame" />		
-		<variable name="baseClass" value="MemberFame" />
+		<variable name="module" value="message" />
+		<variable name="class" value="MessageRecord" />		
+		<variable name="baseClass" value="MessageRecord" />
 		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
-		<variable name="doType" value="view" />
+		<variable name="doType" value="rpccontroller" />
 		 <!--
 		<subtable tablename="pai_auth_resources"  foreignKey="resource_id_">
 			<variable name="sys" value="pai" />
 			<variable name="module" value="auth" />
 			<variable name="class" value="AuthResources" />		
 			<variable name="baseClass" value="AuthResources" /> 			
-			<variable name="doType" value="db,dao,domain,controller" />
+			<variable name="doType" value="rpccontroller,service,baseservice" />
 		</subtable>
 		-->
 	</table>	

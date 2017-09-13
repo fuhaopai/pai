@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import com.pai.base.core.validate.annotation.DateFormat;
+import com.pai.base.api.annotion.validate.DateFormat;
 
 /**
  * 日期格式注解解析器

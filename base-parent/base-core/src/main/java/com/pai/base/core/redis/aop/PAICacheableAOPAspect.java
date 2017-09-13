@@ -53,7 +53,7 @@ public class PAICacheableAOPAspect {
 			STATIC_CLASSES.put(Boolean.class.getSimpleName(), (TemplateHashModel) staticModel.get(java.lang.Boolean.class.getName()));
 			STATIC_CLASSES.put(StringUtils.class.getSimpleName(),(TemplateHashModel) staticModel.get(StringUtils.class.getName()));
 		} catch (TemplateModelException e) {
-			e.printStackTrace();
+			log.error("PAICacheableAOPAspect-->", e);
 		} 
 	}	
 	
@@ -131,7 +131,7 @@ public class PAICacheableAOPAspect {
 				}
 				
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error("PAICacheableAOPAspect-->"+methodName, e);
 			}		
 		}else {
 			//如果方法上没有注解@PAICacheable，返回

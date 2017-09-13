@@ -1,7 +1,7 @@
 package com.pai.base.api.request;
 import java.io.Serializable;
 
-import com.pai.base.api.annotion.AutoDocField;
+import com.pai.base.api.annotion.doc.AutoDocField;
 
 public class BaseRequest implements Serializable{
 

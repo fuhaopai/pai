@@ -13,7 +13,6 @@ import org.springframework.web.util.Log4jWebConfigurer;
 import com.pai.app.web.core.framework.web.context.ContextParamHelper;
 import com.pai.app.web.core.framework.web.context.Log4jConfig;
 import com.pai.base.core.helper.SpringHelper;
-import com.pai.base.core.util.ConfigHelper;
 import com.pai.base.core.util.ServletContextHelper;
 
 public class StartupListener extends ContextLoaderListener implements
@@ -46,10 +45,6 @@ public class StartupListener extends ContextLoaderListener implements
 		ServletContext servletContext = event.getServletContext();
 		ServletContextHelper.init(servletContext);
 		
-		//对ConfigHelper获取资源文件再初始化一遍，spring容器配置了init方法初始化(非tomcat启动)时获取不到servletContext
-		ConfigHelper configHelper = SpringHelper.getBean(ConfigHelper.class);
-		configHelper.init();
-
 		// 进行框架的初始化工作
 		// 将web.xml中的context-param值放在ContextParamHelper对象中
 		ContextParamHelper.getInstance().init(servletContext);

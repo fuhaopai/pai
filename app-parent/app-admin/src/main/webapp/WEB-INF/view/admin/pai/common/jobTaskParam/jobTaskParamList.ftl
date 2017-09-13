@@ -31,6 +31,8 @@
 	             } ,
 	             
                 columns: [
+					{ display: '所属job', name: 'name', align: 'left', width: 140, minWidth: 60 },
+					{ display: '所属类名', name: 'bean', align: 'left', width: 140, minWidth: 60 },
 					{ display: '参数键', name: 'paramKey', align: 'left', width: 140, minWidth: 60 },
 					{ display: '参数值', name: 'paramValue', align: 'left', width: 140, minWidth: 60 },
 					{ display: '参数值类型', name: 'valueType', align: 'left', width: 140, minWidth: 60, 

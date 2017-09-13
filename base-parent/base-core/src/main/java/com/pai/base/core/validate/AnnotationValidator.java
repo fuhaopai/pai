@@ -37,6 +37,7 @@ public class AnnotationValidator {
 	 */
 	public static <T> ValidateResult validate(T t){
 		ValidateResult result = null;
+		String msg = "";
 		for (Field f : t.getClass().getDeclaredFields()) {
 			f.setAccessible(true);
 			Object value = null;
@@ -51,9 +52,14 @@ public class AnnotationValidator {
 			for (IAnnotationParser va : vList) {
 				result = va.validate(f, value);
 				if(!result.isValid()){
-					return result;
+					msg += "," + result.getMessage();
+//					return result;
 				}
 			}
+		}
+		if(msg.length() >= 1){
+			msg = msg.substring(1);
+			result.setMessage(msg);
 		}
 		return result;
 	}

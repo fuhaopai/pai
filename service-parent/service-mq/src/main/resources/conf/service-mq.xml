@@ -35,6 +35,7 @@
 	</bean>
 
 	<bean name="jmsConsumer" class="com.pai.service.mq.jms.JmsConsumer"></bean>
+	
 	<bean name="jmsService" class="com.pai.service.mq.JmsService">
 		<property name="queue" value="${mq.queue}"></property>
 		<property name="jmsTemplate" ref="jmsQueueTemplate" />
@@ -42,7 +43,7 @@
 
 	<!-- 定义Queue监听器 -->
 	<jms:listener-container destination-type="queue" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-		<jms:listener destination="${mq.queue}" ref="jmsConsumer"/>
+		<jms:listener destination="${mq.queue}" ref="jmsConsumer" method="execute" />
 	</jms:listener-container>
 	
 	<!-- 定义Topic监听器 -->

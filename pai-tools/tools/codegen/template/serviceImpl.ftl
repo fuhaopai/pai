@@ -10,11 +10,13 @@ package com.${sys}.biz.${module}.api.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import com.${sys}.base.api.annotion.AutoDocMethod;
-import com.${sys}.base.api.annotion.AutoDocParam;
+import com.${sys}.base.api.annotion.doc.AutoDocMethod;
+import com.${sys}.base.api.annotion.doc.AutoDocParam;
 import com.${sys}.base.api.constants.DeveloperType;
 import com.${sys}.base.api.constants.ModuleType;
 import com.${sys}.base.api.constants.VersionType;
@@ -44,6 +46,8 @@ import com.${sys}.biz.${module}.persistence.entity.${class}Po;
  */
 @Service("${classVar}Service")
 public class ${class}ServiceImpl implements ${class}Service {
+	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	 
 	@Resource
 	private ${class}Repository ${classVar}Repository;
@@ -62,7 +66,7 @@ public class ${class}ServiceImpl implements ${class}Service {
 	@Override
     @AutoDocMethod(author = DeveloperType.${vars.developer}, createTime = "${date?string("yyyy-MM-dd HH:mm:ss")}", cver = VersionType.V100, module = ModuleType.MEMBER, name = "${model.tabComment}单条查询", description = "查询返回${model.tabComment}单条记录", sort = 2)
 	public BaseResponse<${class}Bean> get${class}ServiceById(String id){
-		return BaseResponse.buildSuccess(Mapper.getInstance().copyProperties(${classVar}Repository.load(id).getData(), ${class}Bean.class));		
+		return BaseResponse.buildSuccess(Mapper.getInstance().copyProperties(${classVar}Repository.get(id), ${class}Bean.class));		
 	}	
 	
 	@Override

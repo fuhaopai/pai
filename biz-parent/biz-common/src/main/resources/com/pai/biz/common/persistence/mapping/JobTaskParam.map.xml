@@ -7,6 +7,9 @@
 		<result property="paramKey" column="param_key" jdbcType="VARCHAR"/>
 		<result property="paramValue" column="param_value" jdbcType="VARCHAR"/>
 		<result property="valueType" column="value_type" jdbcType="VARCHAR"/>
+		
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="bean" column="bean" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.pai.biz.common.persistence.entity.JobTaskParamPo">
@@ -37,7 +40,7 @@
     </select>	
 	
 	<select id="find" parameterType="java.util.Map" resultMap="JobTaskParamPo">
-		SELECT * FROM pai_job_task_param
+		SELECT a.*,b.`name`,b.`bean` FROM pai_job_task_param a INNER JOIN pai_job_task b ON a.job_id_=b.id_
 		<where>
 			<if test="whereSql!=null">
 				${whereSql}

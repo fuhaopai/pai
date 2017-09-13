@@ -42,7 +42,6 @@
   	<module>app-web</module>
   	<module>app-admin</module>
     <module>app-api</module>
-    <module>app-front</module>
   </modules>
   
   <dependencyManagement>
@@ -91,6 +90,17 @@
 	    	<groupId>com.pai.biz</groupId>
 	    	<artifactId>member-api</artifactId>
 	    	<version>${pai.version}</version>
+	    </dependency>
+		<dependency>
+	    	<groupId>com.pai.biz</groupId>
+	    	<artifactId>message-api</artifactId>
+	    	<version>${pai.version}</version>
+	    	<exclusions>
+	    		<exclusion>
+	    			<groupId>*</groupId>
+	    			<artifactId>*</artifactId>
+	    		</exclusion>
+	    	</exclusions>
 	    </dependency>
 	  	<dependency>
 			<groupId>log4j</groupId>
@@ -249,7 +259,7 @@
 		    <artifactId>com.baidu.ueditor</artifactId>
 		    <version>${baidu.editor.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
 			<version>${org.apache.httpcomponents.version}</version>
@@ -263,7 +273,7 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
 			<version>${org.apache.httpcomponents.version}</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

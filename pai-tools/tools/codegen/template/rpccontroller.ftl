@@ -28,7 +28,6 @@ import com.pai.app.web.core.framework.util.PageUtil;
 import com.pai.app.web.core.framework.web.controller.AdminRpcController;
 import com.pai.app.web.core.framework.web.entity.QueryBuilder;
 import com.pai.base.core.util.string.StringUtils;
-import com.pai.service.image.utils.RequestUtil;
 import com.pai.base.db.mybatis.impl.domain.PageList;
 import com.${sys}.biz.${module}.api.service.${class}Service;
 import com.${sys}.biz.${module}.api.model.${class}Bean;

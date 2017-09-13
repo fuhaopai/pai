@@ -21,7 +21,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 @Api(value = "/api/member", basePath = "/api/member", description = "会员")
 public class MemberUserAPIController {
 	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Resource
 	private MemberUserService memberUserService;

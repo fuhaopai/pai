@@ -9,5 +9,25 @@ import com.pai.service.quartz.entity.IJobTaskParamPo;
  * 创建时间:2017-02-10 14:05:12
  */
 public class JobTaskParamPo extends JobTaskParamTbl implements IJobTaskParamPo{
+	
+	private String name; //job名称
+	
+	private String bean; //job类名
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getBean() {
+		return bean;
+	}
+
+	public void setBean(String bean) {
+		this.bean = bean;
+	}
+	
 }

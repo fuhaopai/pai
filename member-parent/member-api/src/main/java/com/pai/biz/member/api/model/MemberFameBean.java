@@ -1,8 +1,6 @@
 package com.pai.biz.member.api.model;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.pai.base.api.annotion.AutoDocField;
+import com.pai.base.api.annotion.doc.AutoDocField;
 import com.pai.base.api.model.Bean;
 /**
  * 对象功能:名人堂，为匿名用户服务 Tbl对象

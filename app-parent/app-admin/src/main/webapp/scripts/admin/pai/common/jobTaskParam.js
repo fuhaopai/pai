@@ -68,7 +68,7 @@ function deleteResponse(responseText){
 function valueTypeSelect(id,value,status){
 	$("#"+id).ligerComboBox({
 		data: [
-			{ text: '字符串', id: 'string'},
+			{ text: '字符串', id: 'String'},
 			{ text: '整形', id: 'int'},
 			{ text: '长整型', id: 'long'},
 			{ text: '浮点', id: 'double'}

@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.pai.base.api.annotion.AutoDocMethod;
-import com.pai.base.api.annotion.AutoDocParam;
+import com.pai.base.api.annotion.doc.AutoDocMethod;
+import com.pai.base.api.annotion.doc.AutoDocParam;
 import com.pai.base.api.constants.DeveloperType;
 import com.pai.base.api.constants.ModuleType;
 import com.pai.base.api.constants.VersionType;

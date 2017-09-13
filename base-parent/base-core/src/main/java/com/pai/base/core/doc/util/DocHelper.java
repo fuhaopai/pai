@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.pai.base.api.annotion.AutoDocField;
-import com.pai.base.api.annotion.AutoDocMethod;
-import com.pai.base.api.annotion.AutoDocParam;
+import com.pai.base.api.annotion.doc.AutoDocField;
+import com.pai.base.api.annotion.doc.AutoDocMethod;
+import com.pai.base.api.annotion.doc.AutoDocParam;
 import com.pai.base.core.doc.bean.ConfigBean;
 import com.pai.base.core.doc.bean.DocBean;
 import com.pai.base.core.doc.bean.ParamBean;

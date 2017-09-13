@@ -7,9 +7,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.pai.base.api.annotion.AutoDocMethod;
-import com.pai.base.api.annotion.AutoDocParam;
 import com.pai.base.api.annotion.PAICacheable;
+import com.pai.base.api.annotion.doc.AutoDocMethod;
+import com.pai.base.api.annotion.doc.AutoDocParam;
 import com.pai.base.api.constants.DeveloperType;
 import com.pai.base.api.constants.ModuleType;
 import com.pai.base.api.constants.VersionType;
@@ -52,7 +52,7 @@ public class MemberUserServiceImpl implements MemberUserService {
 	@Override
     @AutoDocMethod(author = DeveloperType.FU_HAO, createTime = "2017-07-15 20:45:31", cver = VersionType.V100, module = ModuleType.MEMBER, name = "会员表单条查询", description = "查询返回会员表单条记录", sort = 2)
 	public BaseResponse<MemberUserBean> getMemberUserServiceById(String id){
-		return BaseResponse.buildSuccess(Mapper.getInstance().copyProperties(memberUserRepository.load(id).getData(), MemberUserBean.class));		
+		return BaseResponse.buildSuccess(Mapper.getInstance().copyProperties(memberUserRepository.get(id), MemberUserBean.class));		
 	}	
 	
 	@Override

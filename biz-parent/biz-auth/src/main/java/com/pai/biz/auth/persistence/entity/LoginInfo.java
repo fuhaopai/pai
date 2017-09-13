@@ -1,9 +1,9 @@
 package com.pai.biz.auth.persistence.entity;
 
+import com.pai.base.api.annotion.validate.NotBlank;
 import com.pai.base.api.constants.Bool;
 import com.pai.base.core.entity.CommonResult;
 import com.pai.base.core.helper.PasswordHelper;
-import com.pai.base.core.validate.annotation.NotBlank;
 
 public class LoginInfo {
 	//验证码

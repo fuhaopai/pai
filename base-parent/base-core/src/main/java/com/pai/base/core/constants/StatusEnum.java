@@ -1,8 +1,8 @@
 package com.pai.base.core.constants;
 
 public enum StatusEnum {
-	VALID(1),
-	INVALID(2);
+	SUCCESS(1),
+	FAILURE(2);
 	private int status;
 
 	public int getStatus() {

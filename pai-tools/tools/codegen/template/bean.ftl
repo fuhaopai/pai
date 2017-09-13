@@ -11,7 +11,7 @@ package com.${sys}.biz.${module}.api.model;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.${sys}.base.api.annotion.AutoDocField;
+import com.${sys}.base.api.annotion.doc.AutoDocField;
 import com.${sys}.base.api.model.Bean;
 /**
  * 对象功能:${model.tabComment} Tbl对象
@@ -33,9 +33,7 @@ public class ${class}Bean extends Bean{
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	</#if>
 	private ${col.colType}  ${func.convertUnderLine(col.columnName)}; 
-			
 	</#list>
-	
 	
 <#if (pkVar!="id")>
 	@Override

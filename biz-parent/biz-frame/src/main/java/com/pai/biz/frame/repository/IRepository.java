@@ -17,6 +17,7 @@ public interface IRepository<PK,P,D> {
 	public D getLast();
 	public Integer countAll();
 	public Integer count(Map<String, Object> params);
+	public P get(PK id);
 	public List<P> findAll();
 	public List<P> findPaged(Page page);
 	public List<P> findPaged(Map<String, Object> params,Page page);

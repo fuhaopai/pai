@@ -3,8 +3,9 @@ package com.pai.base.api.constants;
 
 public enum ModuleType {
 
-    MEMBER("额度"),
-    TOPIC("产品");
+    MEMBER("会员"),
+    TOPIC("主题"),
+    ARTICLE("文章");
 
     private final String name;
 

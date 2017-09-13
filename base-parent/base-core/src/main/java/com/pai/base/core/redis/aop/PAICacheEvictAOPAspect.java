@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.pai.base.api.annotion.PAICacheEvict;
 import com.pai.base.core.redis.constants.RedisDb;
@@ -23,8 +25,7 @@ import freemarker.template.TemplateModelException;
 
 public class PAICacheEvictAOPAspect {
 	
-//	@Resource
-//	private FreemarkEngine freemarkEngine;
+	private static final Logger log = LoggerFactory.getLogger(PAICacheEvictAOPAspect.class);
 	
 	private JedisUtil jedisUtil;
 	
@@ -49,7 +50,7 @@ public class PAICacheEvictAOPAspect {
 			STATIC_CLASSES.put(Boolean.class.getSimpleName(), (TemplateHashModel) staticModel.get(java.lang.Boolean.class.getName()));
 			STATIC_CLASSES.put(StringUtils.class.getSimpleName(),(TemplateHashModel) staticModel.get(StringUtils.class.getName()));
 		} catch (TemplateModelException e) {
-			e.printStackTrace();
+			log.error("PAICacheEvictAOPAspect-->", e);
 		} 
 	}	
 	
@@ -103,8 +104,7 @@ public class PAICacheEvictAOPAspect {
 				}
 				
 			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
+				log.error("PAICacheEvictAOPAspect-->" + methodName, e);
 			}		
 		}
 		
