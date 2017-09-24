@@ -1,4 +1,9 @@
-#系统主要使用spring,springmvc,mybatis等搭建，maven结构，项目原型图位置fork后找到doc/pai/index.html
+#系统实例主要使用spring,springmvc,mybatis等搭建，maven结构，使用dubbo和zookeeper提供分布式服务。
+[代码生成器](https://github.com/fuhaopai/pai/blob/master/CODEGEN.md)
+[文档生成器](https://github.com/fuhaopai/pai/blob/master/DOCGEN.md)
+[接口校验组件](https://github.com/fuhaopai/pai/blob/master/INTFCHECK.md)
+[分布式事务解决方案-最终一致性](https://github.com/fuhaopai/pai/blob/master/TRANSACTION.md)
+[分布式主键ID获取方案](https://github.com/fuhaopai/pai/blob/master/GETID.md)
 #项目模块分层图
 ![image](https://github.com/fuhaopai/pai/blob/master/doc/image/module.png)
 #系统结构设计图
@@ -52,9 +57,9 @@ public boolean lock(Jedis jedis, String key){
 
 #service-parent这部分是平时工作中的一些积累，融合到本系统中，按需选择依赖
 
--service-mq:目前集成active-mq
+-service-mq:异步消息
 
--service-redis:缓存
+-service-redis:缓存（因base-db使用，已移到base-core）
 
 -service-quartz:定时器
 
@@ -62,7 +67,7 @@ public boolean lock(Jedis jedis, String key){
 
 -service-getui:个推推送
 
--service-image:阿里云图片上传
+-service-image:图片上传
 
 -service-mail:邮件
 
@@ -75,17 +80,11 @@ public boolean lock(Jedis jedis, String key){
 
 -biz-member:会员模块
 
--biz-article:（待开发，具体的文章相关模块）
-
--biz-func:(待开发，原型图发现-具体的每一个功能应该都会抽出一个业务模块出来)
+-biz-A/B/C:（待开发）
 
 #app-parent应用层
 -app-web:提供基础的web层公共接口、抽象类和相关服务、支持（比如filter、context、Interceptor等）
 
 -app-admin:后台web项目
 
--app-api:（待开发，为web,wap,app提供RESTful规范的接口）
-
--app-front:(待开发，为web提供controller对接api)
-
--app-wap:(待开发，同上)
+-app-api:（待开发，为web,wap,app提供RESTful规范的接口,替换为dubbo rest）

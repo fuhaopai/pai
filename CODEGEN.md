@@ -36,7 +36,7 @@
 -原理同上，只是做的操作是文件删除。
 
 #效果展示
--在codegen.xml中填入要生成的表信息，代码所属模块，db,dao,domain,controller,view,api 6个层次指定哪几个会生成相应的代码
+-在codegen.xml中填入要生成的表信息，代码所属模块，db,dao,domain,controller,view,api,service,serviceImpl 6个层次指定哪几个会生成相应的代码
 
 ![image](https://github.com/fuhaopai/pai/blob/master/doc/image/codegen/3.png)
 
@@ -52,6 +52,10 @@
 
 ![image](https://github.com/fuhaopai/pai/blob/master/doc/image/codegen/2.png)
 
+-dubbo配置服务端和消费端
+
+![image](https://github.com/fuhaopai/pai/blob/master/doc/image/codegen/10.png)
+
 -界面展示效果，先登录
 
 ![image](https://github.com/fuhaopai/pai/blob/master/doc/image/codegen/4.png)
@@ -59,6 +63,7 @@
 -给刚生成的功能配置路劲
 
 ![image](https://github.com/fuhaopai/pai/blob/master/doc/image/codegen/5.png)
+![image](https://github.com/fuhaopai/pai/blob/master/doc/image/codegen/9.png)
 
 -查看效果
 
