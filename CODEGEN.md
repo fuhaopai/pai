@@ -1,5 +1,4 @@
 #代码生成器详解
--之前公司中有生成po的案例，引发我做一个可以生成所有业务代码的生成器pai-tools。源码位于pai-tools/pai-codegen中，操作代码生成器需要修改配置文件codegen.xml。
 
 -代码生成器是基于数据表结构、代码模板和模板解析引擎生成标准代码文件。用于减少重复工作量
 
@@ -35,6 +34,8 @@
 
 -原理同上，只是做的操作是文件删除。
 
+![image](https://github.com/fuhaopai/pai/blob/master/doc/image/codegen.png)
+
 #效果展示
 -在codegen.xml中填入要生成的表信息，代码所属模块，db,dao,domain,controller,view,api,service,serviceImpl 6个层次指定哪几个会生成相应的代码
 
@@ -52,9 +53,11 @@
 
 ![image](https://github.com/fuhaopai/pai/blob/master/doc/image/codegen/2.png)
 
--dubbo配置服务端和消费端
+-dubbo配置服务端和消费端，启动admin-tomcat和相关service服务
 
 ![image](https://github.com/fuhaopai/pai/blob/master/doc/image/codegen/10.png)
+
+![image](https://github.com/fuhaopai/pai/blob/master/doc/image/codegen/11.png)
 
 -界面展示效果，先登录
 

@@ -1,4 +1,4 @@
-#前期先更基于mq最终一致性解决方案，和最大通知数方案。后期将补上分布式事务TCC方案，TCC主要参考开源github项目https://github.com/changmingxie/tcc-transaction/tree/master-1.2.x
+#前期先更基于mq最终一致性解决方案，和最大通知数方案。后期将补上分布式事务TCC方案的详细分析，TCC主要参考开源github项目https://github.com/changmingxie/tcc-transaction/tree/master-1.2.x
 
 1、基于mq最终一致性，主要适用场景为异步保存，并且不需要返回B模块数据
 
@@ -13,7 +13,11 @@ URL回调地址: 用于确认A模块的本地事务是否执行成功（A模块�
 messageBody: B模块的操作数据
 msgType: 限定JMS-Server使用的java类
 
+![image](https://github.com/fuhaopai/pai/blob/master/doc/image/transaction/message1.png)
+
 ![image](https://github.com/fuhaopai/pai/blob/master/doc/image/transaction/message.png)
+
+--A模块调用完后，在B模块实现幂等性操作，防止重读调用，然后删除消息id
 
 --缺点
 不能满足时效性，可补偿性，有一些场景也不适用，比如：A模块执行本地事务，然后把数据给B模块调用，调用B模块后，A模块要用B模块返回数据继续后面的事务，这些带数据返回和有先后顺序的场景是不适用的。
