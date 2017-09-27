@@ -15,12 +15,14 @@
 [session-redis共享方案](https://github.com/fuhaopai/pai/blob/master/session.md)
 
 #项目模块分层图
+
 ![image](https://github.com/fuhaopai/pai/blob/master/doc/image/module.png)
 
 #系统结构设计图
+
 ![image](https://github.com/fuhaopai/pai/blob/master/doc/image/code.png)
 
-#base-paren基础接口、工具和数据存储
+#base-paren：基础接口、工具和数据存储
 
 -base-api:
  提供最为基础的常量,注解和接口。服务模块的API依赖它。
@@ -64,7 +66,7 @@ public boolean lock(Jedis jedis, String key){
   
 	}
 
-#service-parent这部分是平时工作中的一些积累，融合到本系统中，按需选择依赖
+#service-parent：本地按需选择依赖
 
 -service-mq:异步消息
 
@@ -80,7 +82,7 @@ public boolean lock(Jedis jedis, String key){
 
 -service-mail:邮件
 
-#biz-parent具体的业务模块
+#biz-parent：具体的业务模块
 -biz-frame:提供基础业务的接口定义和一些常量。
 
 -biz-auth:用户权限相关模块
