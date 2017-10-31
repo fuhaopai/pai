@@ -54,9 +54,13 @@
     	<groupId>com.belerweb</groupId>
 		<artifactId>pinyin4j</artifactId>
     </dependency>
-    <dependency>
+    <!-- <dependency>
         <groupId>org.wltea</groupId>
 		<artifactId>IKAnalyzer</artifactId>
+	</dependency> -->
+	<dependency>
+	    <groupId>com.janeluo</groupId>
+	    <artifactId>ikanalyzer</artifactId>
 	</dependency>
 	<dependency>
 	    <groupId>com.pai.base</groupId>
