@@ -3,6 +3,7 @@ package com.pai.biz.message.api.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -109,7 +110,9 @@ public class MessageServiceImpl implements MessageService {
 				public void run() {
 					try {
 						if(taskExecutor.getActiveCount() < taskExecutor.getMaxPoolSize()) {
-							String result = HttpClientUtil.httpJsonPost(messageRecordPo.getUrl(), JSON.toJSONString(MapBuilder.getInstance().a("messageId", messageRecordPo.getId())));
+							Map<String, String> map = new HashMap<>();
+							map.put("messageId", messageRecordPo.getId());
+							String result = HttpClientUtil.httpJsonPost(messageRecordPo.getUrl(), JSON.toJSONString(map));
 							log.info(messageRecordPo.getUrl()+"-->"+messageRecordPo.getId()+"-->"+result);
 							if(StringUtils.isNotBlank(result)) {
 								//判断值是否成功

@@ -21,8 +21,4 @@
 	<context:component-scan base-package="com.pai.service" />	
 	
 	<bean id="baseWebFilter" class="com.pai.app.web.core.framework.web.filter.BaseWebFilter" autowire="byName"/>
-	<bean id="connManager" class="org.apache.http.impl.conn.PoolingClientConnectionManager">
-    	 <property name="maxTotal" value="10"/>
-     	<property name="defaultMaxPerRoute" value="10"/>
-  	</bean>
 </beans>	

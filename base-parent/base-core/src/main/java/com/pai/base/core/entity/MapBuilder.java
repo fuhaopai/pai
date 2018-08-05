@@ -16,14 +16,6 @@ public class MapBuilder{
 	public MapBuilder(){    		
 	}
 	
-	private static class SingletonHolder {
-		public final static MapBuilder instance = new MapBuilder();
-	}
-
-	public static MapBuilder getInstance() {
-		return SingletonHolder.instance;
-	}
-	
 	public MapBuilder addParam(String paramKey,Object paramValue){
 		map.put(paramKey, paramValue);
 		return this;
