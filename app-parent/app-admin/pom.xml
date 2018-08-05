@@ -8,6 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>app-admin</artifactId>
+  <packaging>war</packaging>
   <name>app-admin</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
