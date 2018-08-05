@@ -49,7 +49,7 @@ public class MemberFameServiceImpl implements MemberFameService {
 	
 	@Override
     @AutoDocMethod(author = DeveloperType.FU_HAO, createTime = "2017-07-15 16:45:43", cver = VersionType.V100, module = ModuleType.MEMBER, name = "名人堂，为匿名用户服务单条查询", description = "查询返回名人堂，为匿名用户服务单条记录", sort = 2)
-	public BaseResponse<MemberFameBean> getMemberFameServiceById(String id){
+	public BaseResponse<MemberFameBean> getMemberFameServiceById(@AutoDocParam("主键id") String id){
 		return BaseResponse.buildSuccess(Mapper.getInstance().copyProperties(memberFameRepository.load(id).getData(), MemberFameBean.class));		
 	}	
 	
@@ -70,7 +70,7 @@ public class MemberFameServiceImpl implements MemberFameService {
 	
 	@Override
     @AutoDocMethod(author = DeveloperType.FU_HAO, createTime = "2017-07-15 16:45:43", cver = VersionType.V100, module = ModuleType.MEMBER, name = "删除名人堂，为匿名用户服务单条记录", description = "删除名人堂，为匿名用户服务单条记录", sort = 4)
-	public BaseResponse deleteMemberFameById(String id){
+	public BaseResponse deleteMemberFameById(@AutoDocParam("主键id") String id){
 		
 		//构造领域对象和进行删除操作
 		MemberFame memberFame = memberFameRepository.newInstance();				

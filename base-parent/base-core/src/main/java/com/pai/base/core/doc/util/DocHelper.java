@@ -1,9 +1,9 @@
 package com.pai.base.core.doc.util;
 
 import java.io.File;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -12,8 +12,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pai.base.api.annotion.doc.AutoDocField;
@@ -138,20 +141,20 @@ public class DocHelper {
 
 		ParamBean requestParam = null;
 		// 请求参数
-		Class<?>[] paramTypes = method.getParameterTypes();
+		Parameter[] parameters = method.getParameters();
 		List<ParamField> paramFields = new ArrayList<>();
-		if (paramTypes != null && paramTypes.length > 0) {
-			for (Class<?> paramType : paramTypes) {
-				//说明是一个类对象带来的参数
+		int i = 0;
+		if (parameters != null && parameters.length > 0) {
+
+			for (Parameter parameter : parameters) {
+				Class<?> paramType = parameter.getType();
 				if (paramType.getName().startsWith("com.")) {
 					Field[] fields = paramType.getDeclaredFields();
-					if (isRpcServer) {
+					boolean flag = isRpcServer;
+					if (flag) {
 						if (requestParam == null) {
 							requestParam = new ParamBean();
 							requestParam.setBeanName("");
-						}
-						if (!isRpcServer) {
-							bean.setReqType("application/json");
 						}
 						loadParamField(paramType, requestParam, null);
 					} else {
@@ -159,42 +162,31 @@ public class DocHelper {
 					}
 
 				} else {
-					//说明是方法内部的非对象参数
-					if (!paramType.getSimpleName().contains("Servlet")) {
+					if (!parameter.getType().getSimpleName().contains("Servlet")) {
 						ParamField paramField = new ParamField();
-						paramField.setType(paramType.getSimpleName());
+						AutoDocParam docParam = parameter.getAnnotation(AutoDocParam.class);
+						LocalVariableTableParameterNameDiscoverer u =
+								new LocalVariableTableParameterNameDiscoverer();
+						String[] paramNames = u.getParameterNames(method);
+						String paramName = paramNames[i];
+
+						if (docParam != null) {
+							if(StringUtils.isNotBlank(docParam.name())) {
+								paramName = docParam.name();
+							}
+							paramField.setName(paramName);
+							paramField.setNote(docParam.value());
+						} 
+
+						paramField.setType(parameter.getType().getSimpleName());
 						paramFields.add(paramField);
 					}
 
 				}
-
+				i ++;
 			}
 		}
-		
-		Annotation[][] parameterAnnotations = method.getParameterAnnotations();  
-		int i = 0;
-		for (Annotation[] parameterAnnotation : parameterAnnotations) {  
-            for (Annotation annotation : parameterAnnotation) {  
-                if (annotation instanceof AutoDocParam) {  
-                	AutoDocParam param = (AutoDocParam) annotation;  
-                	ParamField paramField = paramFields.get(i++);
-                	paramField.setName(param.name());
-                	paramField.setNote(param.value());
-                }  
-            }  
-        }  
-		
-		if (!isRpcServer && method.getAnnotation(RequestMapping.class).params().length > 0) {
-			ParamField paramField = new ParamField();
-			paramField.setName(Arrays.toString(method.getAnnotation(RequestMapping.class).params()));
-			paramField.setType("String");
-			paramField.setNote("");
-			paramFields.add(paramField);
-		}
 
-		if (!isRpcServer && StringUtils.isBlank(bean.getReqType())) {
-			bean.setReqType("application/x-www-form-urlencoded");
-		}
 		bean.setRequest(requestParam);
 		bean.setParams(paramFields);
 	}
