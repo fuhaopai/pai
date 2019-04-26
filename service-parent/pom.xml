@@ -12,7 +12,7 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <springframework.core.version>3.2.5.RELEASE</springframework.core.version>
+    <springframework.core.version>4.2.2.RELEASE</springframework.core.version>
     <javax.jms.version>1.1</javax.jms.version>
     <activemq-all.version>5.8.0</activemq-all.version>
 	<activemq-web.version>5.8.0</activemq-web.version>
@@ -45,7 +45,7 @@
     <module>service-mail</module>
     <module>service-redis</module>
     <module>service-ftp</module>
-    <module>service-getui</module>
+    <!--<module>service-getui</module>-->
     <module>service-image</module>
   </modules>
   
@@ -280,7 +280,7 @@
 			<artifactId>commons-pool</artifactId>
 			<version>${commons-pool}</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>com.gexin.platform</groupId>
 			<artifactId>gexin-rp-sdk-base</artifactId>
 			<version>${gexin-rp}</version>
@@ -294,7 +294,7 @@
 			<groupId>com.gexin.platform</groupId>
 			<artifactId>gexin-rp-sdk-template</artifactId>
 			<version>${gexin-rp}</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 		  <groupId>com.google.protobuf</groupId>
 		  <artifactId>protobuf-java</artifactId>
@@ -333,8 +333,8 @@
 		   <artifactId>maven-compiler-plugin</artifactId>
 		   <version>3.6.0</version>
 		   <configuration>
-		     <source>1.7</source>
-			 <target>1.7</target>
+		     <source>1.8</source>
+			 <target>1.8</target>
 			 <encoding>UTF-8</encoding>
 		   </configuration>
 		 </plugin>

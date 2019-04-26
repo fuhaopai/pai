@@ -21,10 +21,10 @@
 		<groupId>com.pai.service</groupId>
 		<artifactId>service-mq</artifactId>				
 	</dependency>	
-	<dependency>
+	<!--<dependency>
 		<groupId>com.pai.service</groupId>
 		<artifactId>service-getui</artifactId>
-	</dependency>
+	</dependency>-->
 	<dependency>
 		<groupId>com.pai.service</groupId>
 		<artifactId>service-quartz</artifactId>
@@ -52,7 +52,11 @@
   	<dependency>
   		<groupId>org.springframework</groupId>
   		<artifactId>spring-web</artifactId>
-  	</dependency>  	
+  	</dependency>
+	  <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-context-support</artifactId>
+	  </dependency>
 	<dependency>
 		<groupId>org.springframework.security</groupId>
 		<artifactId>spring-security-core</artifactId>
