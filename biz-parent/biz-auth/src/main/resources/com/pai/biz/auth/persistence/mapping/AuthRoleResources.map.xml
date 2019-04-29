@@ -135,14 +135,14 @@
 	</select>
 	
 	<select id="findRoleByResourceId" parameterType="java.util.Map" resultMap="AuthRoleResourcesPo">
-		SELECT a.*,c.name AS resource_name FROM pai_auth_role_resources b 
+		SELECT a.name,a.descript,b.*,c.name AS resource_name FROM pai_auth_role_resources b
 		INNER JOIN pai_auth_role a ON a.id_=b.role_id_ 
 		INNER JOIN pai_auth_resources c ON b.resource_id_=c.id_
-		<where>
-			<if test="whereSql!=null">
+		<if test="whereSql!=null">
+			<where>
 				${whereSql}
-			</if>
-		</where>
+			</where>
+		</if>
 		<!-- WHERE 1=1
 		<if test="resourceId!=null">
 			AND b.resource_id_=#{resourceId}
